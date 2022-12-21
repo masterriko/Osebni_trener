@@ -9,19 +9,24 @@ conn.execute("PRAGMA foreign_keys = ON")
 naredi_bazo.pripravi_bazo(conn)
 
 class Uporabnik:
-    def __init__(self, uid, email, polno_ime):
-        self.uid = uid
-        self.email = email
-        self.polno_ime = polno_ime
-        
+    def __init__(self, id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
+        self.id_uporabnika = id_uporabnika
+        self.ime = ime
+        self.priimek = priimek
+        self.datum_rojstva = datum_rojstva
+        self.teza = teza
+        self.uporabnisko_ime= uporabnisko_ime
+        self.geslo = geslo
+        self.mail = mail
+        self.spol = spol
+
     def shrani_v_bazo(self):
-        if self.uid is not None:
+        if self.mail is not None:
             with conn:
                 conn.execute("""
-                UPDATE uporabnik 
-                SET email=?, polno_ime=?
-                WHERE uid=?                 
-            """, [self.email, self.polno_ime, self.uid])
+                UPDATE Uporabnik 
+                SET id_uporabnika=?, ime=?, priimek=?, datum_rojstva=?, teza=?, uporabnisko_ime=?, visina=?, geslo=?, mail=?, spol=?           
+            """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
             with conn:
                 cursor = conn.execute("""

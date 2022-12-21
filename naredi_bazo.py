@@ -7,7 +7,7 @@ def pripravi_bazo():
         # Uporabnik (#1)
         cursor.execute(""" CREATE TABLE IF NOT EXISTS Uporabnik
             (
-                id_uporabnika INTEGER PRIMARY KEY,
+                id_uporabnika INTEGER PRIMARY KEY AUTOINCREMENT,
                 ime TEXT,
                 priimek TEXT,
                 datum_rojstva DATE NOT NULL,
