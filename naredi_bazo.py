@@ -137,5 +137,14 @@ def pripravi_bazo():
             );
         """)
 
+def napolni_nujne_podatke(conn):
+    with conn:
+        conn.execute("""
+        INSERT INTO uporabnik (username, name)
+        ("email@email.com", "Neko ime)
+                    """)
+
+def pripravi_vse(conn):
+    pass
 
 pripravi_bazo()
