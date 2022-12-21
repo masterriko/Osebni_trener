@@ -1,0 +1,37 @@
+% rebase("osnova.html")
+
+<h1 class="title">
+  Urejanje
+</h1>
+
+<form method="POST">
+    <label>
+        Email:
+        <input type="email" name="email" value="{{ uporabnik.email }}">
+    </label>
+    <label>
+        Polno ime:
+        <input type="text" name="polno_ime" value="{{ uporabnik.polno_ime }}">
+    </label>
+    <input type="submit" >
+</form>
+
+<h1 class="title">
+    Moje tarče:
+</h1>
+<div>
+    % for u in uporabnik.dobi_moje_tarce():
+        <p>{{ u.email }}</p>
+    % end
+</div>
+
+<ul>
+    % for up in vsi_uporabniki:
+    <li>Začni s sledenjem:
+        <a href="/sledi/{{ uporabnik.uid }}/{{ up.uid }}">
+            {{up.email}}</a></li>
+    % end
+</ul>
+
+{{ uporabnik.dobi_sledilce() }}
+

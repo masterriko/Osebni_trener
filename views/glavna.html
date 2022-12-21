@@ -1,0 +1,25 @@
+% rebase("osnova.html")
+
+<h1 class="title">
+  Hello World
+</h1>
+<ol>
+  % for uporabnik in uporabniki:
+      <li><a href="/uporabniki/{{ uporabnik.uid }}">{{ uporabnik.polno_ime }}: 
+          {{ uporabnik.email }}</a></li>
+  % end
+</ol>
+
+<h2 class="title">Filtri</h2>
+
+<form method="GET">
+  <label>
+    Od: <input type="number" name="od" value="{{od}}">
+  </label>
+  <label>
+    Do: <input type="number" name="do" value="{{do}}">
+  </label>
+  <input type="submit" value="Išči">
+</form>
+
+
