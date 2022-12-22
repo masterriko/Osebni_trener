@@ -126,18 +126,6 @@ class Uporabnik:
     #            for pod in podatki
     #        ]
 
-
-class Uporabnik:
-    def __init__(self, id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
-        self.id_uporabnika = id_uporabnika
-        self.ime = ime
-        self.priimek = priimek
-        self.datum_rojstva = datum_rojstva
-        self.teza = teza
-        self.uporabnisko_ime= uporabnisko_ime
-        self.geslo = geslo
-        self.mail = mail
-        self.spol = spol
     
 class Dnevni_vnos:
     def __init__(self, id_dnevnika, datum, uporabnik):
