@@ -125,3 +125,63 @@ class Uporabnik:
     #            Uporabnik(pod[0], pod[1], pod[2])
     #            for pod in podatki
     #        ]
+
+
+class Uporabnik:
+    def __init__(self, id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
+        self.id_uporabnika = id_uporabnika
+        self.ime = ime
+        self.priimek = priimek
+        self.datum_rojstva = datum_rojstva
+        self.teza = teza
+        self.uporabnisko_ime= uporabnisko_ime
+        self.geslo = geslo
+        self.mail = mail
+        self.spol = spol
+    
+class Dnevni_vnos:
+    def __init__(self, id_dnevnika, datum, uporabnik):
+        self.id_dnevnika = id_dnevnika
+        self.datum = datum
+        self.uporabnik = uporabnik.id_uporabnika
+class Pocutje:
+    def __init__(self, id_pocutja):
+        self.id_pocutja = id_pocutja
+class Rekreacija:
+    def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min):
+        self.id_rekreacije = id_rekreacije
+        self.srcni_utrip = srcni_utrip
+        self.stevilo_korakov = stevilo_korakov
+        self.cas_izvedbe = cas_izvedbe
+        self.cas_vadbe_min = cas_vadbe_min
+class Aktivnost:
+    def __init__(self, id_aktivnosti, tip, poraba_kalorij):
+        self.id_aktivnosti = id_aktivnosti
+        self.tip = tip
+class Obrok:
+    def __init__(self, id_obroka, cas_obroka):
+        self.cas_obroka = cas_obroka
+class Zivilo:
+    def __init__(self, id_zivila, je_tekocina, ogljikovi_hidrati, ime, vlaknine_mg, kalorije_kcal, beljakovine):
+        self.id_zivila = id_zivila
+        self.je_tekocina = je_tekocina
+        self.ogljikovi_hidrati = ogljikovi_hidrati
+        self.ime = ime
+        self.vlaknine_mg = vlaknine_mg
+        self.kalorije_kcal = kalorije_kcal
+        self.beljakovine = beljakovine
+class Minerali:
+    def __init__(self, id_minerali, pdv, ime_minerali):
+        self.id_minerali = id_minerali
+        self.pdv = pdv
+        self.ime_minerali = ime_minerali
+class Vitamini:
+    def __init__(self, id_vitamini, pdv, ime_vitamini):
+        self.id_vitamini = id_vitamini
+        self.pdv = pdv
+        self.ime_vitamini = ime_vitamini
+class Mascobe:
+    def __init__(self, id_mascobe, pdv, ime_mascobe):
+        self.id_mascobe = id_mascobe
+        self.pdv = pdv
+        self.ime_mascobe = ime_mascobe
