@@ -30,7 +30,7 @@ class Uporabnik:
         else:
             with conn:
                 cursor = conn.execute("""
-                INSERT INTO uporabnik (email, polno_ime)
+                INSERT INTO uporabnik (ime, priimek, datum_rojstva)
                 VALUES (?, ?)                 
                 """, [self.email, self.polno_ime])
                 self.uid = cursor.lastrowid
@@ -92,36 +92,36 @@ class Uporabnik:
             ]
         return []
             
-    def dobi_moje_tarce(self):
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, email, polno_ime FROM 
-                uporabnik INNER JOIN
-                sledilec ON uporabnik.uid = sledilec.tarca
-                WHERE 
-                zacetek = ?
-                """, [self.uid]
-            )   
-            podatki = list(cursor.fetchall())
-            
-            return [
-                Uporabnik(pod[0], pod[1], pod[2])
-                for pod in podatki
-            ]       
+    #def dobi_moje_tarce(self):
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, email, polno_ime FROM 
+    #            uporabnik INNER JOIN
+    #            sledilec ON uporabnik.uid = sledilec.tarca
+    #            WHERE 
+    #            zacetek = ?
+    #            """, [self.uid]
+    #        )   
+    #        podatki = list(cursor.fetchall())
+    #        
+    #        return [
+    #            Uporabnik(pod[0], pod[1], pod[2])
+    #            for pod in podatki
+    #        ]       
     
-    def dobi_sledilce(self):
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, email, polno_ime FROM 
-                uporabnik INNER JOIN
-                sledilec ON uporabnik.uid = sledilec.zacetek
-                WHERE 
-                tarca = ?
-                """, [self.uid]
-            )   
-            podatki = list(cursor.fetchall())
-            
-            return [
-                Uporabnik(pod[0], pod[1], pod[2])
-                for pod in podatki
-            ]
+    #def dobi_sledilce(self):
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, email, polno_ime FROM 
+    #            uporabnik INNER JOIN
+    #            sledilec ON uporabnik.uid = sledilec.zacetek
+    #            WHERE 
+    #            tarca = ?
+    #            """, [self.uid]
+    #        )   
+    #        podatki = list(cursor.fetchall())
+    #        
+    #        return [
+    #            Uporabnik(pod[0], pod[1], pod[2])
+    #            for pod in podatki
+    #        ]
