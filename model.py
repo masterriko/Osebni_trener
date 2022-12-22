@@ -133,8 +133,23 @@ class Dnevni_vnos:
         self.datum = datum
         self.uporabnik = uporabnik.id_uporabnika
 class Pocutje:
-    def __init__(self, id_pocutja):
+    def __init__(self, id_pocutja, ocena):
         self.id_pocutja = id_pocutja
+        self.ocena = ocena
+    def shrani_v_bazo(self):
+        if self.ocena is not None:
+            with conn:
+                conn.execute("""
+                UPDATE Pocutje 
+                SET id_pocutja=?, ocena=?           
+            """, [self.id_pocutja, self.ocena])
+        else:
+            with conn:
+                cursor = conn.execute("""
+                INSERT INTO Pocutje (ocena)
+                VALUES (?)                 
+                """, [self.ocena])
+                self.uid = cursor.lastrowid
 class Rekreacija:
     def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min):
         self.id_rekreacije = id_rekreacije
@@ -142,6 +157,20 @@ class Rekreacija:
         self.stevilo_korakov = stevilo_korakov
         self.cas_izvedbe = cas_izvedbe
         self.cas_vadbe_min = cas_vadbe_min
+    def shrani_v_bazo(self):
+        if self.id_rekreacije is not None:
+            with conn:
+                conn.execute("""
+                UPDATE Rekreacija 
+                SET id_rekreacije=?, srcni_utrip=?, stevilo_korakov=?, cas_izvedbe=?, cas_vadbe_min=?           
+            """, [self.id_rekreacije, self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
+        else:
+            with conn:
+                cursor = conn.execute("""
+                INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min)
+                VALUES (?, ?, ?, ?)                 
+                """, [self.ocena])
+                self.uid = cursor.lastrowid
 class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
