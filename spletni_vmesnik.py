@@ -1,6 +1,7 @@
-import bottle
+import bottle 
 import model
 
+'''
 @bottle.get("/")
 def glavna_stran():
     # Stvari v GET pridejo v query
@@ -14,7 +15,23 @@ def glavna_stran():
     # Jih prikažemo
     return bottle.template("glavna.html", uporabniki=uporabniki,
                            od=od, do=do)
+'''
+@app.post('/login')                          
+def add_user():
+    ime = request.forms.get('ime')
+    priimek = request.forms.get('priimek')
+    datum_rojstva = request.forms.get('datum_rojstva')
+    teza = request.forms.get('teza')
+    uporabnisko_ime = request.forms.get('uporabnisko_ime')
+    visina = request.forms.get('visina')
+    geslo = request.forms.get('geslo')
+    mail = request.forms.get('mail')
+    spol = request.forms.get('spol')
 
+    uporabnik = Uporabnik(id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
+    uporabnik.shrani_v_bazo()
+    return bottle.template("login.html")
+'''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):
     uporabnik = model.Uporabnik.dobi_uporabnika_z_idjem(uid)
@@ -36,7 +53,7 @@ def uporabnik_uredi_detajli(uid):
     
     uporabnik.shrani_v_bazo()
     
-    bottle.redirect(f"/uporabniki/{uporabnik.uid}")
-
+    bottle.redirect(f"/uporabniki/{uporabnik.uid/}")
+'''
 
 bottle.run(debug=True, reloader=True)

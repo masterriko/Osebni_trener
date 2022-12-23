@@ -2,11 +2,11 @@ import sqlite3
 
 import naredi_bazo
 
-conn = sqlite3.connect("baza.sqlite3")
+conn = sqlite3.connect("osebni_trener.sqlite3")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
 
-naredi_bazo.pripravi_bazo(conn)
+naredi_bazo.pripravi_bazo()
 
 class Uporabnik:
     def __init__(self, id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
@@ -21,20 +21,22 @@ class Uporabnik:
         self.spol = spol
 
     def shrani_v_bazo(self):
-        if self.mail is not None:
+        if not email_je_ze_v_uporabi(self):
             with conn:
                 conn.execute("""
                 UPDATE Uporabnik 
                 SET id_uporabnika=?, ime=?, priimek=?, datum_rojstva=?, teza=?, uporabnisko_ime=?, visina=?, geslo=?, mail=?, spol=?           
             """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO uporabnik (ime, priimek, datum_rojstva)
-                VALUES (?, ?)                 
-                """, [self.email, self.polno_ime])
-                self.uid = cursor.lastrowid
+            print("Email naslov je že v uporabi.")
             
+
+    def email_je_ze_v_uporabi(self):
+        '''Preverimo ali je mail že v uporabi'''
+        with conn:
+            cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
+            return bool(cursor.fetchone())
+       
     @staticmethod
     def dobi_uporabnika(email):
         with conn:
