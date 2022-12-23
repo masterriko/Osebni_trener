@@ -16,19 +16,19 @@ def glavna_stran():
     return bottle.template("glavna.html", uporabniki=uporabniki,
                            od=od, do=do)
 '''
-@app.post('/login')                          
+@bottle.post('/login')                          
 def add_user():
-    ime = request.forms.get('ime')
-    priimek = request.forms.get('priimek')
-    datum_rojstva = request.forms.get('datum_rojstva')
-    teza = request.forms.get('teza')
-    uporabnisko_ime = request.forms.get('uporabnisko_ime')
-    visina = request.forms.get('visina')
-    geslo = request.forms.get('geslo')
-    mail = request.forms.get('mail')
-    spol = request.forms.get('spol')
+    ime = bottle.request.forms.get('ime')
+    priimek = bottle.request.forms.get('priimek')
+    datum_rojstva = bottle.request.forms.get('datum_rojstva')
+    teza = bottle.request.forms.get('teza')
+    uporabnisko_ime = bottle.requests.forms.get('uporabnisko_ime')
+    visina = bottle.requests.forms.get('visina')
+    geslo = bottle.requests.forms.get('geslo')
+    mail = bottle.request.forms.get('mail')
+    spol = bottle.request.forms.get('spol')
 
-    uporabnik = Uporabnik(id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
+    uporabnik = model.Uporabnik(id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
     return bottle.template("login.html")
 '''

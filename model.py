@@ -9,8 +9,8 @@ conn.execute("PRAGMA foreign_keys = ON")
 naredi_bazo.pripravi_bazo()
 
 class Uporabnik:
-    def __init__(self, id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
-        self.id_uporabnika = id_uporabnika
+    def __init__(self, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
+        #self.id_uporabnika = stevilo_uporabnikov("osebni_trener.sqlite3") + 1
         self.ime = ime
         self.priimek = priimek
         self.datum_rojstva = datum_rojstva
@@ -20,8 +20,16 @@ class Uporabnik:
         self.mail = mail
         self.spol = spol
 
+  
+
+    def email_je_ze_v_uporabi(self):
+        '''Preverimo ali je mail že v uporabi'''
+        with conn:
+            cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
+            return bool(cursor.fetchone())
+
     def shrani_v_bazo(self):
-        if not email_je_ze_v_uporabi(self):
+        if not self.email_je_ze_v_uporabi():
             with conn:
                 conn.execute("""
                 UPDATE Uporabnik 
@@ -29,13 +37,6 @@ class Uporabnik:
             """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
-            
-
-    def email_je_ze_v_uporabi(self):
-        '''Preverimo ali je mail že v uporabi'''
-        with conn:
-            cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
-            return bool(cursor.fetchone())
        
     @staticmethod
     def dobi_uporabnika(email):
@@ -160,19 +161,12 @@ class Rekreacija:
         self.cas_izvedbe = cas_izvedbe
         self.cas_vadbe_min = cas_vadbe_min
     def shrani_v_bazo(self):
-        if self.id_rekreacije is not None:
-            with conn:
-                conn.execute("""
-                UPDATE Rekreacija 
-                SET id_rekreacije=?, srcni_utrip=?, stevilo_korakov=?, cas_izvedbe=?, cas_vadbe_min=?           
-            """, [self.id_rekreacije, self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
-        else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min)
-                VALUES (?, ?, ?, ?)                 
-                """, [self.ocena])
-                self.uid = cursor.lastrowid
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min)
+            VALUES (?, ?, ?, ?)                 
+            """, [self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
+            self.uid = cursor.lastrowid
 class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
@@ -181,21 +175,15 @@ class Obrok:
     def __init__(self, id_obroka, cas_obroka):
         self.cas_obroka = cas_obroka
     def shrani_v_bazo(self):
-        if self.id_rekreacije is not None:
-            with conn:
-                conn.execute("""
-                UPDATE Obrok 
-                SET id_obroka=?, cas_obroka=?           
-            """, [self.id_rekreacije, self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
-        else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min)
-                VALUES (?, ?, ?, ?)                 
-                """, [self.ocena])
-                self.uid = cursor.lastrowid
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Obrok (cas_obroka)
+            VALUES (?)                 
+            """, [self.cas_obroka])
+            self.uid = cursor.lastrowid
 class Zivilo:
     def __init__(self, id_zivila, je_tekocina, ogljikovi_hidrati, ime, vlaknine_mg, kalorije_kcal, beljakovine):
+        ##Tukaj uporabiva Ninja API in nato se sklicujeva iz tega classa za ostale tabele.
         self.id_zivila = id_zivila
         self.je_tekocina = je_tekocina
         self.ogljikovi_hidrati = ogljikovi_hidrati
@@ -203,18 +191,53 @@ class Zivilo:
         self.vlaknine_mg = vlaknine_mg
         self.kalorije_kcal = kalorije_kcal
         self.beljakovine = beljakovine
+    def shrani_v_bazo(self):
+        if self.id_zivilo is not None:
+            with conn:
+                conn.execute("""
+                UPDATE Zivilo
+                SET id_zivila=?, je_tekocija=?, ogljikovi_hidrati=?, ime=?, vlaknine_mg=?, kalorije_kcal=?, beljakovine=?            
+            """, [self.id_zivila, self.je_tekocina, self.ogljikovi_hidrati, self.ime, self.vlaknine_mg, self.kalorije_kcal, self.beljakovine])
+        else:
+            with conn:
+                cursor = conn.execute("""
+                INSERT INTO Zivilo (je_tekocina, ogljikovi_hidrati, , cas_vadbe_min)
+                VALUES (?, ?, ?, ?)                 
+                """, [self.ocena])
+                self.uid = cursor.lastrowid
 class Minerali:
-    def __init__(self, id_minerali, pdv, ime_minerali):
+    def __init__(self, id_minerali, pdv, ime_minerali): 
         self.id_minerali = id_minerali
         self.pdv = pdv
         self.ime_minerali = ime_minerali
+    def shrani_v_bazo(self):
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Minerali (pdv, ime_minerali)
+            VALUES (?, ?)                 
+            """, [self.pdv, self.ime_minerali])
+            self.uid = cursor.lastrowid
 class Vitamini:
     def __init__(self, id_vitamini, pdv, ime_vitamini):
         self.id_vitamini = id_vitamini
         self.pdv = pdv
         self.ime_vitamini = ime_vitamini
+    def shrani_v_bazo(self):
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Vitamini (pdv, ime_vitamini)
+            VALUES (?, ?)                 
+            """, [self.pdv, self.ime_vitamini])
+            self.uid = cursor.lastrowid
 class Mascobe:
     def __init__(self, id_mascobe, pdv, ime_mascobe):
         self.id_mascobe = id_mascobe
         self.pdv = pdv
         self.ime_mascobe = ime_mascobe
+    def shrani_v_bazo(self):
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Mascobe (pdv, ime_mascobe)
+            VALUES (?, ?)                 
+            """, [self.pdv, self.ime_mascobe])
+            self.uid = cursor.lastrowid
