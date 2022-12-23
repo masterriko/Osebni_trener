@@ -178,6 +178,20 @@ class Aktivnost:
 class Obrok:
     def __init__(self, id_obroka, cas_obroka):
         self.cas_obroka = cas_obroka
+    def shrani_v_bazo(self):
+        if self.id_rekreacije is not None:
+            with conn:
+                conn.execute("""
+                UPDATE Obrok 
+                SET id_obroka=?, cas_obroka=?           
+            """, [self.id_rekreacije, self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
+        else:
+            with conn:
+                cursor = conn.execute("""
+                INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min)
+                VALUES (?, ?, ?, ?)                 
+                """, [self.ocena])
+                self.uid = cursor.lastrowid
 class Zivilo:
     def __init__(self, id_zivila, je_tekocina, ogljikovi_hidrati, ime, vlaknine_mg, kalorije_kcal, beljakovine):
         self.id_zivila = id_zivila
