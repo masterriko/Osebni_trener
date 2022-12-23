@@ -2,7 +2,7 @@ import sqlite3
 
 import naredi_bazo
 
-conn = sqlite3.connect("baza.sqlite3")
+conn = sqlite3.connect("osebni_trener.sqlite3")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
 
@@ -34,7 +34,13 @@ class Uporabnik:
                 VALUES (?, ?)                 
                 """, [self.email, self.polno_ime])
                 self.uid = cursor.lastrowid
-            
+
+    def email_je_ze_v_uporabi(self):
+        '''Preverimo ali je mail že v uporabi'''
+        with conn:
+            cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
+            return bool(cursor.fetchone())
+       
     @staticmethod
     def dobi_uporabnika(email):
         with conn:
