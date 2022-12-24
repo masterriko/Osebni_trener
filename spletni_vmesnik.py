@@ -28,9 +28,9 @@ def add_user():
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
 
-    uporabnik = model.Uporabnik(id_uporabnika, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
+    uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
-    return bottle.template("login.html")
+    return bottle.template("login.html", uporabnik = uporabnik)
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):
