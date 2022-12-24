@@ -19,9 +19,7 @@ class Uporabnik:
         self.geslo = geslo
         self.mail = mail
         self.spol = spol
-
-  
-
+        self.visina = visina
     def email_je_ze_v_uporabi(self):
         '''Preverimo ali je mail že v uporabi'''
         with conn:
