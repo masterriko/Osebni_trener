@@ -16,21 +16,23 @@ def glavna_stran():
     return bottle.template("glavna.html", uporabniki=uporabniki,
                            od=od, do=do)
 '''
-@bottle.post('/login')                          
+@bottle.get("/login")       
+def add():                   
+    return bottle.template("login.html")
+@bottle.post("/login") 
 def add_user():
-    ime = bottle.request.forms.get('ime')
-    priimek = bottle.request.forms.get('priimek')
-    datum_rojstva = bottle.request.forms.get('datum_rojstva')
-    teza = bottle.request.forms.get('teza')
-    uporabnisko_ime = bottle.requests.forms.get('uporabnisko_ime')
-    visina = bottle.requests.forms.get('visina')
-    geslo = bottle.requests.forms.get('geslo')
-    mail = bottle.request.forms.get('mail')
-    spol = bottle.request.forms.get('spol')
+    ime = bottle.request.forms.getunicode('ime')
+    priimek = bottle.request.forms.getunicode('priimek')
+    datum_rojstva = bottle.request.forms.getunicode('datum_rojstva')
+    teza = bottle.request.forms.getunicode('teza')
+    uporabnisko_ime = bottle.request.forms.getunicode('uporabnisko_ime')
+    visina = bottle.request.forms.getunicode('visina')
+    geslo = bottle.request.forms.getunicode('geslo')
+    mail = bottle.request.forms.getunicode('mail')
+    spol = bottle.request.forms.getunicode('spol')
 
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
-    uporabnik.shrani_v_bazo()
-    return bottle.template("login.html", uporabnik = uporabnik)
+    uporabnik.shrani_v_bazo() 
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):

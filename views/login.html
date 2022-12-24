@@ -3,38 +3,38 @@
     Login
 </h1>
 
-<form method="POST">
+<form method="POST" action="/login">
     <label>
           Ime:
-          <input type="text" name="ime" value="{{ uporabnik.mail }}">
+          <input type="text" name="ime" value="mail">
       </label>
     <label>
           Priimek:
-          <input type="text" name="priimek" value="{{ uporabnik.ime }}">
+          <input type="text" name="priimek" value="ime">
       </label>
     <label>
           Datum rojstva:
-          <input type="date" name="datum rojstva" value="{{ uporabnik.priimek }}">
+          <input type="date" name="datum rojstva" value="priimek">
       </label>
     <label>
           Teza:
-          <input type="integer" name="teza" value="{{ uporabnik.teza }}">
+          <input type="integer" name="teza" value="teza">
       </label>
     <label>
           Uporabnisko ime:
-          <input type="text" name="uporabnisko ime" value="{{ uporabnik.uporabnisko_ime }}">
+          <input type="text" name="uporabnisko ime" value="uporabnisko_ime">
       </label>
     <label>
           Visina:
-          <input type="text" name="visina" value="{{ uporabnik.visina }}">
+          <input type="text" name="visina" value="visina">
       </label>
     <label>
           Geslo:
-          <input type="varchar(100)" name="geslo" value="{{ uporabnik.geslo }}">
+          <input type="varchar(100)" name="geslo" value="geslo">
       </label>
     <label>
           Email:
-          <input type="email" name="email" value="{{ uporabnik.spol }}">
+          <input type="email" name="email" value="spol">
       </label>
     <input type="submit">
 </form>
