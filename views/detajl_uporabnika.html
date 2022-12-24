@@ -7,31 +7,31 @@
 <form method="POST">
     <label>
         Ime:
-        <input type="text" name="ime" value="{{ uporabnik.email }}">
+        <input type="text" name="ime" value="{{ uporabnik.ime }}">
     </label>
     <label>
         Priimek:
-        <input type="text" name="priimek" value="{{ uporabnik.polno_ime }}">
+        <input type="text" name="priimek" value="{{ uporabnik.priimek }}">
     </label>
     <label>
         Datum rojstva:
-        <input type="date" name="datum rojstva" value="{{ uporabnik.email }}">
+        <input type="date" name="datum rojstva" value="{{ uporabnik.datum_rojstva }}">
     </label>
     <label>
         Teza:
-        <input type="integer" name="teza" value="{{ uporabnik.email }}">
+        <input type="integer" name="teza" value="{{ uporabnik.teza }}">
     </label>
     <label>
         Uporabnisko ime:
-        <input type="text" name="uporabnisko ime" value="{{ uporabnik.email }}">
+        <input type="text" name="uporabnisko ime" value="{{ uporabnik.uporabnisko_ime }}">
     </label>
     <label>
         Visina:
-        <input type="text" name="visina" value="{{ uporabnik.email }}">
+        <input type="text" name="visina" value="{{ uporabnik.visina }}">
     </label>
     <label>
         Geslo:
-        <input type="varchar(100)" name="geslo" value="{{ uporabnik.email }}">
+        <input type="varchar(100)" name="geslo" value="{{ uporabnik.geslo }}">
     </label>
     <label>
         Email:
@@ -39,7 +39,7 @@
     </label>
     <label>
         Spol:
-        <input type="spol" name="smallint" value="{{ uporabnik.email }}">
+        <input type="spol" name="smallint" value="{{ uporabnik.spol }}">
     </label>
     <input type="submit" >
 </form>
