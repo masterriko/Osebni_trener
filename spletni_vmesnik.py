@@ -22,9 +22,9 @@ def add_user():
     priimek = bottle.request.forms.get('priimek')
     datum_rojstva = bottle.request.forms.get('datum_rojstva')
     teza = bottle.request.forms.get('teza')
-    uporabnisko_ime = bottle.requests.forms.get('uporabnisko_ime')
-    visina = bottle.requests.forms.get('visina')
-    geslo = bottle.requests.forms.get('geslo')
+    uporabnisko_ime = bottle.request.forms.get('uporabnisko_ime')
+    visina = bottle.request.forms.get('visina')
+    geslo = bottle.request.forms.get('geslo')
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
 
