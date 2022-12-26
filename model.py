@@ -1,6 +1,9 @@
 import sqlite3
 
 import naredi_bazo
+import re
+ 
+regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
 
 conn = sqlite3.connect("osebni_trener.sqlite3")
 # Nastavimo, da sledi tujim ključem
@@ -37,22 +40,34 @@ class Uporabnik:
             print("Email naslov je že v uporabi.")
        
     @staticmethod
-    def dobi_uporabnika(email):
+    def dobi_uporabnika(mail):
         with conn:
             cursor = conn.execute("""
                 SELECT uid, email, polno_ime 
                 FROM uporabnik
-                WHERE email=?
+                WHERE mail=?
             """, [email])
             podatki = cursor.fetchone()
             
             return Uporabnik(podatki[0], podatki[1], podatki[2])
-     
+
+    def preveri_mail_in_geslo(mail, geslo):
+        if mail != None and check(mail):
+            with conn:
+                cursor = conn.execute("""
+                    SELECT geslo
+                    FROM uporabnik
+                    WHERE mail=?
+                """, [mail])
+                preveri = cursor.fetchone()
+            return preveri == geslo
+        return False
+
     @staticmethod
     def dobi_uporabnika_z_idjem(uid):
         with conn:
             cursor = conn.execute("""
-                SELECT uid, email, polno_ime 
+                SELECT uid, mail, polno_ime 
                 FROM uporabnik
                 WHERE uid=?
             """, [uid])
@@ -65,7 +80,7 @@ class Uporabnik:
         print(od, do)
         with conn:
             cursor = conn.execute("""
-                SELECT uid, email, polno_ime 
+                SELECT uid, mail, polno_ime 
                 FROM uporabnik
                 WHERE ? <= uid AND uid <= ?
             """, [od, do])
@@ -82,7 +97,7 @@ class Uporabnik:
     def dobi_vse_uporabnike():
         with conn:
             cursor = conn.execute("""
-                SELECT uid, email, polno_ime 
+                SELECT uid, mail, polno_ime 
                 FROM uporabnik
             """)
             podatki = list(cursor.fetchall())
@@ -93,6 +108,9 @@ class Uporabnik:
             ]
         return []
             
+def check(mail):
+    return re.fullmatch(regex, mail)
+
     #def dobi_moje_tarce(self):
     #    with conn:
     #        cursor = conn.execute("""
