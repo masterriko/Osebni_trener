@@ -16,9 +16,32 @@ def glavna_stran():
     return bottle.template("glavna.html", uporabniki=uporabniki,
                            od=od, do=do)
 '''
-@bottle.get("/login")       
+@bottle.route('/static/css/<filename:re:.*\.css>')
+def send_css(filename):
+    return bottle.static_file(filename, root='static/css')
+    
+@bottle.get("/login")    
+@bottle.get("/")    
 def add():                   
     return bottle.template("login.html")
+
+@bottle.post("/login") 
+@bottle.post("/") 
+def add_user():
+    mail = bottle.request.forms.get('mail')
+    geslo = bottle.request.forms.get('geslo')
+
+    veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
+    if veljavnost:
+        print("Odobren vstop")
+    else:
+        print("ponovi geslo")
+    bottle.redirect("/login_test")
+'''
+@bottle.get("/login")    
+def add():                   
+    return bottle.template("login.html")
+
 @bottle.post("/login") 
 def add_user():
     ime = bottle.request.forms.get('ime')
@@ -32,7 +55,7 @@ def add_user():
     spol = bottle.request.forms.get('spol')
 
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
-    uporabnik.shrani_v_bazo() 
+    uporabnik.shrani_v_bazo() '''
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):
