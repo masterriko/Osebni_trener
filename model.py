@@ -51,6 +51,7 @@ class Uporabnik:
             
             return Uporabnik(podatki[0], podatki[1], podatki[2])
 
+    @staticmethod
     def preveri_mail_in_geslo(mail, geslo):
         if mail != None and check(mail):
             with conn:
