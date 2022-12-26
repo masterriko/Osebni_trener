@@ -36,7 +36,7 @@ def add_user():
         print("Odobren vstop")
     else:
         print("ponovi geslo")
-    bottle.redirect("/login_test")
+    bottle.redirect("/login")
 '''
 @bottle.get("/login")    
 def add():                   
