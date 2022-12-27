@@ -46,7 +46,7 @@ form .txt_field{
     outline: none;
 }
 
-.txt_field label{
+form .txt_field label{
     position: absolute;
     top: 50%;
     left: 0.313rem;
@@ -68,15 +68,17 @@ form .txt_field{
     transition: 300ms;
 }
 
-.txt_field input:focus ~ label, 
 .txt_field input:focus ~ label{
     top: -0.313rem;
     color: #2691d9;
 }
-
-.txt_field input:focus ~ span::before, 
-.txt_field input:focus ~ label::before{
-    width: 100%; 
+.txt_field input:valid ~ label{
+    top: -0.313rem;
+    color: #2691d9;
+}
+.txt_field input:active ~ label{
+    top: -0.313rem;
+    color: #2691d9;
 }
 
 .pass{

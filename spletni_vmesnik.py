@@ -37,12 +37,12 @@ def add_user():
     else:
         print("ponovi geslo")
     bottle.redirect("/login")
-'''
-@bottle.get("/login")    
-def add():                   
-    return bottle.template("login.html")
 
-@bottle.post("/login") 
+@bottle.get("/signup")    
+def add():                   
+    return bottle.template("signup.html")
+
+@bottle.post("/signup") 
 def add_user():
     ime = bottle.request.forms.get('ime')
     priimek = bottle.request.forms.get('priimek')
@@ -55,7 +55,7 @@ def add_user():
     spol = bottle.request.forms.get('spol')
 
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
-    uporabnik.shrani_v_bazo() '''
+    uporabnik.shrani_v_bazo()
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):
