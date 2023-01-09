@@ -232,5 +232,5 @@ def napolni_nujne_podatke(conn):
 def pripravi_vse(conn):
     pass
 
-pripravi_bazo()
-napolni_nujne_podatke(db)
+# pripravi_bazo()
+# napolni_nujne_podatke(db)
