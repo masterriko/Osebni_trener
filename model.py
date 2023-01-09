@@ -39,17 +39,17 @@ class Uporabnik:
         else:
             print("Email naslov je že v uporabi.")
        
-    @staticmethod
-    def dobi_uporabnika(mail):
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, email, polno_ime 
-                FROM uporabnik
-                WHERE mail=?
-            """, [email])
-            podatki = cursor.fetchone()
-            
-            return Uporabnik(podatki[0], podatki[1], podatki[2])
+    #@staticmethod
+    #def dobi_uporabnika(mail):
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, email, polno_ime 
+    #            FROM uporabnik
+    #            WHERE mail=?
+    #        """, [email])
+    #        podatki = cursor.fetchone()
+    #        
+    #        return Uporabnik(podatki[0], podatki[1], podatki[2])
 
     @staticmethod
     def preveri_mail_in_geslo(mail, geslo):
@@ -198,63 +198,23 @@ class Obrok:
             VALUES (?)                 
             """, [self.cas_obroka])
             self.uid = cursor.lastrowid
-class Zivilo:
-    def __init__(self, id_zivila, je_tekocina, ogljikovi_hidrati, ime, vlaknine_mg, kalorije_kcal, beljakovine):
+class Obrok:
+    def __init__(self, id_obroka, ime_obroka):
         ##Tukaj uporabiva Ninja API in nato se sklicujeva iz tega classa za ostale tabele.
-        self.id_zivila = id_zivila
-        self.je_tekocina = je_tekocina
-        self.ogljikovi_hidrati = ogljikovi_hidrati
-        self.ime = ime
-        self.vlaknine_mg = vlaknine_mg
-        self.kalorije_kcal = kalorije_kcal
-        self.beljakovine = beljakovine
+        self.id_obroka = id_obroka
+        self.ime_obroka = ime_obroka
+
     def shrani_v_bazo(self):
-        if self.id_zivilo is not None:
+        if self.id_obroka is not None:
             with conn:
                 conn.execute("""
-                UPDATE Zivilo
-                SET id_zivila=?, je_tekocija=?, ogljikovi_hidrati=?, ime=?, vlaknine_mg=?, kalorije_kcal=?, beljakovine=?            
-            """, [self.id_zivila, self.je_tekocina, self.ogljikovi_hidrati, self.ime, self.vlaknine_mg, self.kalorije_kcal, self.beljakovine])
+                UPDATE Obrok
+                SET (SELECT * FROM Zivilo WHERE Zivilo.name == %?%)            
+            """, [self.ime_obroka])
         else:
             with conn:
                 cursor = conn.execute("""
-                INSERT INTO Zivilo (je_tekocina, ogljikovi_hidrati, , cas_vadbe_min)
+                INSERT INTO Obrok (SELECT * FROM Zivilo LIMIT 1 WHERE )
                 VALUES (?, ?, ?, ?)                 
-                """, [self.ocena])
+                """, [self.ime_obroka])
                 self.uid = cursor.lastrowid
-class Minerali:
-    def __init__(self, id_minerali, pdv, ime_minerali): 
-        self.id_minerali = id_minerali
-        self.pdv = pdv
-        self.ime_minerali = ime_minerali
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Minerali (pdv, ime_minerali)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_minerali])
-            self.uid = cursor.lastrowid
-class Vitamini:
-    def __init__(self, id_vitamini, pdv, ime_vitamini):
-        self.id_vitamini = id_vitamini
-        self.pdv = pdv
-        self.ime_vitamini = ime_vitamini
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Vitamini (pdv, ime_vitamini)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_vitamini])
-            self.uid = cursor.lastrowid
-class Mascobe:
-    def __init__(self, id_mascobe, pdv, ime_mascobe):
-        self.id_mascobe = id_mascobe
-        self.pdv = pdv
-        self.ime_mascobe = ime_mascobe
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Mascobe (pdv, ime_mascobe)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_mascobe])
-            self.uid = cursor.lastrowid
