@@ -5,7 +5,7 @@ import re
  
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
 
-conn = sqlite3.connect("osebni_trener.sqlite3")
+conn = sqlite3.connect("osebni_trener.db")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
 
@@ -188,33 +188,33 @@ class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
         self.tip = tip
+class Zivilo:
+    def __init__(self, id_zivilo, ime_zivilo):
+        self.id_zivilo = id_zivilo
+        self.ime_zivilo = ime_zivilo
 class Obrok:
-    def __init__(self, id_obroka, cas_obroka):
-        self.cas_obroka = cas_obroka
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Obrok (cas_obroka)
-            VALUES (?)                 
-            """, [self.cas_obroka])
-            self.uid = cursor.lastrowid
-class Obrok:
-    def __init__(self, id_obroka, ime_obroka):
-        ##Tukaj uporabiva Ninja API in nato se sklicujeva iz tega classa za ostale tabele.
+    def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
+        self.cas_obroka = cas_obroka
+        self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
+    def prikazi_mozna(self, ime_zivila):
+        """naredi tabelo približnih iskanj"""
+        ime_zivila_priblizno = "%" + ime_zivila + "%"
+        with conn:
+            cursor = conn.execute("""
+            SELECT name FROM Zivilo WHERE name LIKE ?           
+            """, [ime_zivila_priblizno])
+            self.uid = cursor.lastrowid
+        niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
+        return niz_pribl_iskanj
+    def dodaj_zivilo(self, ime_zivila, masa):
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO ZiviloObrok ime_zivila, kolicina
+            VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
+            """, [ime_zivila, masa])
+            self.uid = cursor.lastrowid #for znak in ime_zivila:
 
-    def shrani_v_bazo(self):
-        if self.id_obroka is not None:
-            with conn:
-                conn.execute("""
-                UPDATE Obrok
-                SET (SELECT * FROM Zivilo WHERE Zivilo.name == %?%)            
-            """, [self.ime_obroka])
-        else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO Obrok (SELECT * FROM Zivilo LIMIT 1 WHERE )
-                VALUES (?, ?, ?, ?)                 
-                """, [self.ime_obroka])
-                self.uid = cursor.lastrowid
+obrok1 = Obrok(1, "kosilo", "12:00")
+obrok1.prikazi_mozna("milk")
