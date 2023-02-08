@@ -5,7 +5,7 @@ import re
  
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
 
-conn = sqlite3.connect("osebni_trener.sqlite3")
+conn = sqlite3.connect("osebni_trener.db")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
 
@@ -39,17 +39,17 @@ class Uporabnik:
         else:
             print("Email naslov je že v uporabi.")
        
-    @staticmethod
-    def dobi_uporabnika(mail):
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, email, polno_ime 
-                FROM uporabnik
-                WHERE mail=?
-            """, [email])
-            podatki = cursor.fetchone()
-            
-            return Uporabnik(podatki[0], podatki[1], podatki[2])
+    #@staticmethod
+    #def dobi_uporabnika(mail):
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, email, polno_ime 
+    #            FROM uporabnik
+    #            WHERE mail=?
+    #        """, [email])
+    #        podatki = cursor.fetchone()
+    #        
+    #        return Uporabnik(podatki[0], podatki[1], podatki[2])
 
     @staticmethod
     def preveri_mail_in_geslo(mail, geslo):
@@ -153,73 +153,33 @@ class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
         self.tip = tip
-class Obrok:
-    def __init__(self, id_obroka, cas_obroka):
-        self.cas_obroka = cas_obroka
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Obrok (cas_obroka)
-            VALUES (?)                 
-            """, [self.cas_obroka])
-            self.uid = cursor.lastrowid
 class Zivilo:
-    def __init__(self, id_zivila, je_tekocina, ogljikovi_hidrati, ime, vlaknine_mg, kalorije_kcal, beljakovine):
-        ##Tukaj uporabiva Ninja API in nato se sklicujeva iz tega classa za ostale tabele.
-        self.id_zivila = id_zivila
-        self.je_tekocina = je_tekocina
-        self.ogljikovi_hidrati = ogljikovi_hidrati
-        self.ime = ime
-        self.vlaknine_mg = vlaknine_mg
-        self.kalorije_kcal = kalorije_kcal
-        self.beljakovine = beljakovine
-    def shrani_v_bazo(self):
-        if self.id_zivilo is not None:
-            with conn:
-                conn.execute("""
-                UPDATE Zivilo
-                SET id_zivila=?, je_tekocija=?, ogljikovi_hidrati=?, ime=?, vlaknine_mg=?, kalorije_kcal=?, beljakovine=?            
-            """, [self.id_zivila, self.je_tekocina, self.ogljikovi_hidrati, self.ime, self.vlaknine_mg, self.kalorije_kcal, self.beljakovine])
-        else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO Zivilo (je_tekocina, ogljikovi_hidrati, , cas_vadbe_min)
-                VALUES (?, ?, ?, ?)                 
-                """, [self.ocena])
-                self.uid = cursor.lastrowid
-class Minerali:
-    def __init__(self, id_minerali, pdv, ime_minerali): 
-        self.id_minerali = id_minerali
-        self.pdv = pdv
-        self.ime_minerali = ime_minerali
-    def shrani_v_bazo(self):
+    def __init__(self, id_zivilo, ime_zivilo):
+        self.id_zivilo = id_zivilo
+        self.ime_zivilo = ime_zivilo
+class Obrok:
+    def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
+        self.id_obroka = id_obroka
+        self.ime_obroka = ime_obroka
+        self.cas_obroka = cas_obroka
+        self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
+    def prikazi_mozna(self, ime_zivila):
+        """naredi tabelo približnih iskanj"""
+        ime_zivila_priblizno = "%" + ime_zivila + "%"
         with conn:
             cursor = conn.execute("""
-            INSERT INTO Minerali (pdv, ime_minerali)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_minerali])
+            SELECT name FROM Zivilo WHERE name LIKE ?           
+            """, [ime_zivila_priblizno])
             self.uid = cursor.lastrowid
-class Vitamini:
-    def __init__(self, id_vitamini, pdv, ime_vitamini):
-        self.id_vitamini = id_vitamini
-        self.pdv = pdv
-        self.ime_vitamini = ime_vitamini
-    def shrani_v_bazo(self):
+        niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
+        return niz_pribl_iskanj
+    def dodaj_zivilo(self, ime_zivila, masa):
         with conn:
             cursor = conn.execute("""
-            INSERT INTO Vitamini (pdv, ime_vitamini)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_vitamini])
-            self.uid = cursor.lastrowid
-class Mascobe:
-    def __init__(self, id_mascobe, pdv, ime_mascobe):
-        self.id_mascobe = id_mascobe
-        self.pdv = pdv
-        self.ime_mascobe = ime_mascobe
-    def shrani_v_bazo(self):
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO Mascobe (pdv, ime_mascobe)
-            VALUES (?, ?)                 
-            """, [self.pdv, self.ime_mascobe])
-            self.uid = cursor.lastrowid
+            INSERT INTO ZiviloObrok ime_zivila, kolicina
+            VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
+            """, [ime_zivila, masa])
+            self.uid = cursor.lastrowid #for znak in ime_zivila:
+
+obrok1 = Obrok(1, "kosilo", "12:00")
+obrok1.prikazi_mozna("milk")

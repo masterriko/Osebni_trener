@@ -1,4 +1,4 @@
-"Activity, Exercise or Sport (1 hour)",130 lb,155 lb,180 lb,205 lb,Calories per kg
+"Activity, Exercise or Sport (1 hour)",58.967 kg,70.306 kg,81.65 kg,93 kg,Calories per kg
 "Cycling, mountain bike, bmx",502,598,695,791,1.75072971940299
 "Cycling, <10 mph, leisure bicycling",236,281,327,372,0.823235629850746
 "Cycling, >20 mph, racing",944,1126,1308,1489,3.29497352835821
@@ -158,7 +158,7 @@ Walking downstairs,177,211,245,279,0.61742672238806
 "Hiking, cross country",354,422,490,558,1.23485344477612
 Bird watching,148,176,204,233,0.515199271641791
 "Marching, rapidly, military",384,457,531,605,1.33843490149254
-"Children's games, hopscotch, dodgeball",295,352,409,465,1.02972154029851
+"Childrens games, hopscotch, dodgeball",295,352,409,465,1.02972154029851
 Pushing stroller or walking with children,148,176,204,233,0.515199271641791
 Pushing a wheelchair,236,281,327,372,0.823235629850746
 Race walking,384,457,531,605,1.33843490149254
