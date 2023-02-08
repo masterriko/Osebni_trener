@@ -38,18 +38,6 @@ class Uporabnik:
             """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
-       
-    #@staticmethod
-    #def dobi_uporabnika(mail):
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, email, polno_ime 
-    #            FROM uporabnik
-    #            WHERE mail=?
-    #        """, [email])
-    #        podatki = cursor.fetchone()
-    #        
-    #        return Uporabnik(podatki[0], podatki[1], podatki[2])
 
     @staticmethod
     def preveri_mail_in_geslo(mail, geslo):
@@ -180,6 +168,3 @@ class Obrok:
             VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
             """, [ime_zivila, masa])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
-
-obrok1 = Obrok(1, "kosilo", "12:00")
-obrok1.prikazi_mozna("milk")
