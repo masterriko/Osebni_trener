@@ -185,6 +185,3 @@ def napolni_nujne_podatke(conn):
             INSERT INTO Aktivnost (tip, poraba_kalorij_na_kg)
             VALUES ('{row[1]}', {row[6]})
             """)
-
-def pripravi_vse(conn):
-    pass
