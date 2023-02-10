@@ -96,6 +96,7 @@ class Uporabnik:
                 for pod in podatki
             ]
         return []
+
             
 def check(mail):
     return re.fullmatch(regex, mail)
@@ -105,10 +106,12 @@ class Dnevni_vnos:
         self.id_dnevnika = id_dnevnika
         self.datum = datum
         self.uporabnik = uporabnik.id_uporabnika
+
 class Pocutje:
     def __init__(self, id_pocutja, ocena):
         self.id_pocutja = id_pocutja
         self.ocena = ocena
+
     def shrani_v_bazo(self):
         if self.ocena is not None:
             with conn:
@@ -123,6 +126,7 @@ class Pocutje:
                 VALUES (?)                 
                 """, [self.ocena])
                 self.uid = cursor.lastrowid
+
 class Rekreacija:
     def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min):
         self.id_rekreacije = id_rekreacije
@@ -130,6 +134,7 @@ class Rekreacija:
         self.stevilo_korakov = stevilo_korakov
         self.cas_izvedbe = cas_izvedbe
         self.cas_vadbe_min = cas_vadbe_min
+
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
@@ -137,20 +142,24 @@ class Rekreacija:
             VALUES (?, ?, ?, ?)                 
             """, [self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
             self.uid = cursor.lastrowid
+
 class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
         self.tip = tip
+
 class Zivilo:
     def __init__(self, id_zivilo, ime_zivilo):
         self.id_zivilo = id_zivilo
         self.ime_zivilo = ime_zivilo
+
 class Obrok:
     def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
+
     def prikazi_mozna(self, ime_zivila):
         """naredi tabelo približnih iskanj"""
         ime_zivila_priblizno = "%" + ime_zivila + "%"
@@ -161,6 +170,7 @@ class Obrok:
             self.uid = cursor.lastrowid
         niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
         return niz_pribl_iskanj
+
     def dodaj_zivilo(self, ime_zivila, masa):
         with conn:
             cursor = conn.execute("""
@@ -168,3 +178,4 @@ class Obrok:
             VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
             """, [ime_zivila, masa])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
+    
