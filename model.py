@@ -38,18 +38,6 @@ class Uporabnik:
             """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
-       
-    #@staticmethod
-    #def dobi_uporabnika(mail):
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, email, polno_ime 
-    #            FROM uporabnik
-    #            WHERE mail=?
-    #        """, [email])
-    #        podatki = cursor.fetchone()
-    #        
-    #        return Uporabnik(podatki[0], podatki[1], podatki[2])
 
     @staticmethod
     def preveri_mail_in_geslo(mail, geslo):
@@ -108,54 +96,22 @@ class Uporabnik:
                 for pod in podatki
             ]
         return []
+
             
 def check(mail):
     return re.fullmatch(regex, mail)
 
-    #def dobi_moje_tarce(self):
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, email, polno_ime FROM 
-    #            uporabnik INNER JOIN
-    #            sledilec ON uporabnik.uid = sledilec.tarca
-    #            WHERE 
-    #            zacetek = ?
-    #            """, [self.uid]
-    #        )   
-    #        podatki = list(cursor.fetchall())
-    #        
-    #        return [
-    #            Uporabnik(pod[0], pod[1], pod[2])
-    #            for pod in podatki
-    #        ]       
-    
-    #def dobi_sledilce(self):
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, email, polno_ime FROM 
-    #            uporabnik INNER JOIN
-    #            sledilec ON uporabnik.uid = sledilec.zacetek
-    #            WHERE 
-    #            tarca = ?
-    #            """, [self.uid]
-    #        )   
-    #        podatki = list(cursor.fetchall())
-    #        
-    #        return [
-    #            Uporabnik(pod[0], pod[1], pod[2])
-    #            for pod in podatki
-    #        ]
-
-    
 class Dnevni_vnos:
     def __init__(self, id_dnevnika, datum, uporabnik):
         self.id_dnevnika = id_dnevnika
         self.datum = datum
         self.uporabnik = uporabnik.id_uporabnika
+
 class Pocutje:
     def __init__(self, id_pocutja, ocena):
         self.id_pocutja = id_pocutja
         self.ocena = ocena
+
     def shrani_v_bazo(self):
         if self.ocena is not None:
             with conn:
@@ -170,6 +126,7 @@ class Pocutje:
                 VALUES (?)                 
                 """, [self.ocena])
                 self.uid = cursor.lastrowid
+
 class Rekreacija:
     def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min):
         self.id_rekreacije = id_rekreacije
@@ -177,6 +134,7 @@ class Rekreacija:
         self.stevilo_korakov = stevilo_korakov
         self.cas_izvedbe = cas_izvedbe
         self.cas_vadbe_min = cas_vadbe_min
+
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
@@ -184,20 +142,24 @@ class Rekreacija:
             VALUES (?, ?, ?, ?)                 
             """, [self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min])
             self.uid = cursor.lastrowid
+
 class Aktivnost:
     def __init__(self, id_aktivnosti, tip, poraba_kalorij):
         self.id_aktivnosti = id_aktivnosti
         self.tip = tip
+
 class Zivilo:
     def __init__(self, id_zivilo, ime_zivilo):
         self.id_zivilo = id_zivilo
         self.ime_zivilo = ime_zivilo
+
 class Obrok:
     def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
+
     def prikazi_mozna(self, ime_zivila):
         """naredi tabelo približnih iskanj"""
         ime_zivila_priblizno = "%" + ime_zivila + "%"
@@ -208,6 +170,7 @@ class Obrok:
             self.uid = cursor.lastrowid
         niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
         return niz_pribl_iskanj
+
     def dodaj_zivilo(self, ime_zivila, masa):
         with conn:
             cursor = conn.execute("""
@@ -215,6 +178,4 @@ class Obrok:
             VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
             """, [ime_zivila, masa])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
-
-obrok1 = Obrok(1, "kosilo", "12:00")
-obrok1.prikazi_mozna("milk")
+    
