@@ -170,6 +170,7 @@ def pripravi_bazo():
 
 
 def napolni_nujne_podatke(conn):
+    #Napolni tabelo zivilo
     for row in df1.itertuples():
         i = 0
         with conn: # mogoce je ena več ali ena manj
@@ -184,5 +185,6 @@ def napolni_nujne_podatke(conn):
             INSERT INTO Aktivnost (tip, poraba_kalorij_na_kg)
             VALUES ('{row[1]}', {row[6]})
             """)
+
 def pripravi_vse(conn):
     pass
