@@ -18,7 +18,6 @@ def pripravi_bazo():
                 ime TEXT,
                 priimek TEXT,
                 datum_rojstva DATE NOT NULL,
-                teza INTEGER NOT NULL,
                 uporabnisko_ime TEXT NOT NULL,
                 visina INTEGER NOT NULL,
                 geslo VARCHAR(255) NOT NULL,
@@ -43,7 +42,14 @@ def pripravi_bazo():
                 ocena INTEGER NOT NULL,
                 FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
             );""")
-
+        # Teza(#3.5)
+        cursor.execute("""CREATE TABLE IF NOT EXISTS Teza
+            (
+                id_teze INTEGER PRIMARY KEY,
+                id_dnevni_vnos INTEGER,
+                tehtanje INTEGER NOT NULL,
+                FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
+            );""")
         # Rekreacija (#4)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Rekreacija
             (
@@ -165,84 +171,11 @@ def pripravi_bazo():
                 FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obrok)) 
                  """)
         # Omejitve (#9)
-        cursor.execute(f"""CREATE TABLE IF NOT EXISTS Zivilo
-            (   id_omejitve INTEGER PRIMARY KEY,
-                {hranila[0]}  TEXT NOT NULL,
-                {hranila[1]}  TEXT NOT NULL,
-                {hranila[2]}  TEXT NOT NULL,
-                {hranila[3]}  TEXT NOT NULL,
-                {hranila[4]}  TEXT NOT NULL,
-                {hranila[5]}  TEXT NOT NULL,
-                {hranila[6]}  TEXT NOT NULL,
-                {hranila[7]}  TEXT NOT NULL,
-                {hranila[8]}  TEXT NOT NULL,
-                {hranila[9]}  TEXT NOT NULL,
-                {hranila[10]} TEXT NOT NULL,
-                {hranila[11]} TEXT NOT NULL,
-                {hranila[12]} TEXT NOT NULL,
-                {hranila[13]} TEXT NOT NULL,
-                {hranila[14]} TEXT NOT NULL,
-                {hranila[15]} TEXT NOT NULL,
-                {hranila[16]} TEXT NOT NULL,
-                {hranila[17]} TEXT NOT NULL,
-                {hranila[18]} TEXT NOT NULL,
-                {hranila[19]} TEXT NOT NULL,
-                {hranila[20]} TEXT NOT NULL,
-                {hranila[21]} TEXT NOT NULL,
-                {hranila[22]} TEXT NOT NULL,
-                {hranila[23]} TEXT NOT NULL,
-                {hranila[24]} TEXT NOT NULL,
-                {hranila[25]} TEXT NOT NULL,
-                {hranila[26]} TEXT NOT NULL,
-                {hranila[27]} TEXT NOT NULL,
-                {hranila[28]} TEXT NOT NULL,
-                {hranila[29]} TEXT NOT NULL,
-                {hranila[30]} TEXT NOT NULL,
-                {hranila[31]} TEXT NOT NULL,
-                {hranila[32]} TEXT NOT NULL,
-                {hranila[33]} TEXT NOT NULL,
-                {hranila[34]} TEXT NOT NULL,
-                {hranila[35]} TEXT NOT NULL,
-                {hranila[36]} TEXT NOT NULL,
-                {hranila[37]} TEXT NOT NULL,
-                {hranila[38]} TEXT NOT NULL,
-                {hranila[39]} TEXT NOT NULL,
-                {hranila[40]} TEXT NOT NULL,
-                {hranila[41]} TEXT NOT NULL,
-                {hranila[42]} TEXT NOT NULL,
-                {hranila[43]} TEXT NOT NULL,
-                {hranila[44]} TEXT NOT NULL,
-                {hranila[45]} TEXT NOT NULL,
-                {hranila[46]} TEXT NOT NULL,
-                {hranila[47]} TEXT NOT NULL,
-                {hranila[48]} TEXT NOT NULL,
-                {hranila[49]} TEXT NOT NULL,
-                {hranila[50]} TEXT NOT NULL,
-                {hranila[51]} TEXT NOT NULL,
-                {hranila[52]} TEXT NOT NULL,
-                {hranila[53]} TEXT NOT NULL,
-                {hranila[54]} TEXT NOT NULL,
-                {hranila[55]} TEXT NOT NULL,
-                {hranila[56]} TEXT NOT NULL,
-                {hranila[57]} TEXT NOT NULL,
-                {hranila[58]} TEXT NOT NULL,
-                {hranila[59]} TEXT NOT NULL,
-                {hranila[60]} TEXT NOT NULL,
-                {hranila[61]} TEXT NOT NULL,
-                {hranila[62]} TEXT NOT NULL,
-                {hranila[63]} TEXT NOT NULL,
-                {hranila[64]} TEXT NOT NULL,
-                {hranila[65]} TEXT NOT NULL,
-                {hranila[66]} TEXT NOT NULL,
-                {hranila[67]} TEXT NOT NULL,
-                {hranila[68]} TEXT NOT NULL,
-                {hranila[69]} TEXT NOT NULL,
-                {hranila[70]} TEXT NOT NULL,
-                {hranila[71]} TEXT NOT NULL,
-                {hranila[72]} TEXT NOT NULL,
-                {hranila[73]} TEXT NOT NULL,
-                {hranila[74]} TEXT NOT NULL,
-                {hranila[75]} TEXT NOT NULL
+        cursor.execute(f"""CREATE TABLE IF NOT EXISTS Omejitve
+            (   ime_hranila INTEGER PRIMARY KEY,
+                koeficient_teze REAL NOT NULL,
+                koeficient_rekreacije REAL NOT NULL
+                koeficient_starosti REAL NOT NULL
             );""")
 
 def napolni_nujne_podatke(conn):
@@ -256,10 +189,22 @@ def napolni_nujne_podatke(conn):
                         """)
     for vrstica in df2.itertuples():
         with conn:
-            x = vrstica[6]
             conn.execute(f""" 
             INSERT INTO Aktivnost (tip, poraba_kalorij_na_kg)
             VALUES ('{vrstica[1]}', {vrstica[6]})
             """)
+
+    #vstavi koeficiente
+    koeficienti_teze_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
+    koeficienti_rekreacije_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
+    koeficienti_starosti_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
+
+    for hr in hranila:
+        if hr in koeficienti_teze_hranil.keys():
+            with conn:
+                conn.execute(f""" 
+                INSERT INTO Omejitve (ime_hranila, koeficient_teze, koeficient_rekreacije, koeficient_starosti)
+                VALUES ('{hr}', {koeficienti_teze_hranil[hr], koeficienti_rekreacije_hranil[hr], koeficienti_starosti_hranil[hr]})
+                """)
 pripravi_bazo()
 napolni_nujne_podatke(db)
