@@ -107,25 +107,31 @@ class Dnevni_vnos:
         self.datum = datum
         self.uporabnik = uporabnik.id_uporabnika
 
+class Teza:
+    def __init__(self, id_teza, tehtanje):
+        self.id_teza = id_teza
+        self.tehtanje = tehtanje
+
+    def shrani_v_bazo(self):
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Teza (tehtanje)
+            VALUES (?)                 
+            """, [self.tehtanje])
+            self.uid = cursor.lastrowid
+
 class Pocutje:
     def __init__(self, id_pocutja, ocena):
         self.id_pocutja = id_pocutja
         self.ocena = ocena
 
     def shrani_v_bazo(self):
-        if self.ocena is not None:
-            with conn:
-                conn.execute("""
-                UPDATE Pocutje 
-                SET id_pocutja=?, ocena=?           
-            """, [self.id_pocutja, self.ocena])
-        else:
-            with conn:
-                cursor = conn.execute("""
-                INSERT INTO Pocutje (ocena)
-                VALUES (?)                 
-                """, [self.ocena])
-                self.uid = cursor.lastrowid
+        with conn:
+            cursor = conn.execute("""
+            INSERT INTO Pocutje (ocena)
+            VALUES (?)                 
+            """, [self.ocena])
+            self.uid = cursor.lastrowid
 
 class Rekreacija:
     def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min):
@@ -161,7 +167,7 @@ class Obrok:
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
 
     def prikazi_mozna(self, ime_zivila):
-        """naredi tabelo približnih iskanj"""
+        """vrne tabelo približnih iskanj"""
         ime_zivila_priblizno = "%" + ime_zivila + "%"
         with conn:
             cursor = conn.execute("""
@@ -169,13 +175,13 @@ class Obrok:
             """, [ime_zivila_priblizno])
             self.uid = cursor.lastrowid
         niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
-        return niz_pribl_iskanj
+        return niz_pribl_iskanj 
 
     def dodaj_zivilo(self, ime_zivila, masa):
+        """doda zivilo v obrok"""
         with conn:
             cursor = conn.execute("""
             INSERT INTO ZiviloObrok ime_zivila, kolicina
             VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
             """, [ime_zivila, masa])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
-    
