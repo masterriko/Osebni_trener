@@ -45,7 +45,7 @@ def pripravi_bazo():
         # Teza(#3.5)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Teza
             (
-                id_teze INTEGER PRIMARY KEY,
+                id_teze INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_dnevni_vnos INTEGER,
                 tehtanje INTEGER NOT NULL,
                 FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
@@ -53,7 +53,7 @@ def pripravi_bazo():
         # Rekreacija (#4)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Rekreacija
             (
-                id_rekreacije INTEGER PRIMARY KEY,
+                id_rekreacije INTEGER PRIMARY KEY AUTOINCREMENT,
                 srcni_utrip INTEGER NOT NULL,
                 stevilo_korakov INTEGER NOT NULL,
                 cas_izvedbe TIME NOT NULL,

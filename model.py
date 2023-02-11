@@ -141,6 +141,17 @@ class Rekreacija:
         self.cas_izvedbe = cas_izvedbe
         self.cas_vadbe_min = cas_vadbe_min
 
+    def prikazi_mozna(self, id_):
+        """vrne tabelo približnih iskanj"""
+        ime_zivila_priblizno = "%" + ime_zivila + "%"
+        with conn:
+            cursor = conn.execute("""
+            SELECT name FROM Zivilo WHERE name LIKE ?           
+            """, [ime_zivila_priblizno])
+            self.uid = cursor.lastrowid
+        niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
+        return niz_pribl_iskanj 
+
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
