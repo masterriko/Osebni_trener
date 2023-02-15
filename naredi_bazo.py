@@ -45,7 +45,7 @@ def pripravi_bazo():
         # Teza(#3.5)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Teza
             (
-                id_teze INTEGER PRIMARY KEY,
+                id_teze INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_dnevni_vnos INTEGER,
                 tehtanje INTEGER NOT NULL,
                 FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
@@ -53,7 +53,7 @@ def pripravi_bazo():
         # Rekreacija (#4)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Rekreacija
             (
-                id_rekreacije INTEGER PRIMARY KEY,
+                id_rekreacije INTEGER PRIMARY KEY AUTOINCREMENT,
                 srcni_utrip INTEGER NOT NULL,
                 stevilo_korakov INTEGER NOT NULL,
                 cas_izvedbe TIME NOT NULL,
@@ -62,11 +62,10 @@ def pripravi_bazo():
                 FOREIGN KEY (id_aktivnost) REFERENCES Aktivnost(id_aktivnost)
             );""")
 
-        # Aktivnost (#5)
+        # Aktivnost (#5) #ali je tukaj autoincrement ?? #Mogoče namesto id aktivnosti kar ime kot primary key?
         cursor.execute("""CREATE TABLE IF NOT EXISTS Aktivnost
             (
-                id_aktivnosti INTEGER PRIMARY KEY NOT NULL,
-                tip TEXT NOT NULL,
+                id_aktivnost TEXT PRIMARY KEY,
                 poraba_kalorij_na_kg DECIMAL NOT NULL
             );""")
 
@@ -172,9 +171,9 @@ def pripravi_bazo():
                  """)
         # Omejitve (#9)
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS Omejitve
-            (   ime_hranila INTEGER PRIMARY KEY,
+            (   ime_hranila TEXT PRIMARY KEY,
                 koeficient_teze REAL NOT NULL,
-                koeficient_rekreacije REAL NOT NULL
+                koeficient_rekreacije REAL NOT NULL,
                 koeficient_starosti REAL NOT NULL
             );""")
 
@@ -190,7 +189,7 @@ def napolni_nujne_podatke(conn):
     for vrstica in df2.itertuples():
         with conn:
             conn.execute(f""" 
-            INSERT INTO Aktivnost (tip, poraba_kalorij_na_kg)
+            INSERT INTO Aktivnost (id_aktivnost, poraba_kalorij_na_kg)
             VALUES ('{vrstica[1]}', {vrstica[6]})
             """)
 
@@ -204,7 +203,7 @@ def napolni_nujne_podatke(conn):
             with conn:
                 conn.execute(f""" 
                 INSERT INTO Omejitve (ime_hranila, koeficient_teze, koeficient_rekreacije, koeficient_starosti)
-                VALUES ('{hr}', {koeficienti_teze_hranil[hr], koeficienti_rekreacije_hranil[hr], koeficienti_starosti_hranil[hr]})
+                VALUES ('{hr}', {koeficienti_teze_hranil[hr]}, {koeficienti_rekreacije_hranil[hr]}, {koeficienti_starosti_hranil[hr]})
                 """)
 pripravi_bazo()
 napolni_nujne_podatke(db)
