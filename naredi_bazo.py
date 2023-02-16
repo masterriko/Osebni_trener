@@ -189,7 +189,7 @@ def pripravi_bazo():
                 iron_mg DECIMAL NOT NULL,
                 potassium_mg INTEGER NOT NULL,
                 zink_mg INTEGER NOT NULL,
-                water_g INTEGER NOT NULL) 
+                water_g INTEGER NOT NULL  
             );""")
 
 def napolni_nujne_podatke(conn):
