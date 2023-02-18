@@ -83,6 +83,19 @@ def klik():
         print("ponovi geslo")
         bottle.redirect("/login")
 
+@bottle.post("/activity")  
+def klik():
+    mail = bottle.request.forms.get('mail')
+    geslo = bottle.request.forms.get('geslo')
+
+    veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
+    if veljavnost:
+        print("Odobren vstop")
+        bottle.redirect("/home")
+    else:
+        print("ponovi geslo")
+        bottle.redirect("/login")
+
 
 '''
 @bottle.get("/uporabniki/<uid:int>")
