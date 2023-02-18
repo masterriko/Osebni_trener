@@ -34,9 +34,10 @@ def add_user():
     veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
     if veljavnost:
         print("Odobren vstop")
+        bottle.redirect("/home.html")
     else:
         print("ponovi geslo")
-    bottle.redirect("/login")
+        bottle.redirect("/login")
 
 @bottle.get("/signup")    
 def add():                   

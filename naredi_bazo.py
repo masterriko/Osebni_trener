@@ -20,6 +20,7 @@ def pripravi_bazo():
                 datum_rojstva DATE NOT NULL,
                 uporabnisko_ime TEXT NOT NULL,
                 visina INTEGER NOT NULL,
+                teza INTEGER NOT NULL,
                 geslo VARCHAR(255) NOT NULL,
                 mail TEXT NOT NULL,
                 spol SMALLINT NOT NULL
@@ -40,14 +41,6 @@ def pripravi_bazo():
                 id_pocutja INTEGER PRIMARY KEY,
                 id_dnevni_vnos INTEGER,
                 ocena INTEGER NOT NULL,
-                FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
-            );""")
-        # Teza(#3.5)
-        cursor.execute("""CREATE TABLE IF NOT EXISTS Teza
-            (
-                id_teze INTEGER PRIMARY KEY AUTOINCREMENT,
-                id_dnevni_vnos INTEGER,
-                tehtanje INTEGER NOT NULL,
                 FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
             );""")
         # Rekreacija (#4)
@@ -227,4 +220,6 @@ def napolni_nujne_podatke(conn):
 
 
 pripravi_bazo()
+print("Baza je pripravljena")
 napolni_nujne_podatke(db)
+print("Baza je napolnjena")

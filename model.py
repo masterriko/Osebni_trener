@@ -1,6 +1,4 @@
 import sqlite3
-
-import naredi_bazo
 import re
  
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
@@ -8,8 +6,6 @@ regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Z|a-z]{2,}\b'
 conn = sqlite3.connect("osebni_trener.db")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
-
-naredi_bazo.pripravi_bazo()
 
 class Uporabnik:
     def __init__(self, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
@@ -33,9 +29,9 @@ class Uporabnik:
         if not self.email_je_ze_v_uporabi():
             with conn:
                 conn.execute("""
-                UPDATE Uporabnik 
-                SET id_uporabnika=?, ime=?, priimek=?, datum_rojstva=?, teza=?, uporabnisko_ime=?, visina=?, geslo=?, mail=?, spol=?           
-            """, [self.id_uporabnika, self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
+                INSERT INTO Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)           
+            """, [self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
 
