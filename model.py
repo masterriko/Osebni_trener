@@ -8,13 +8,12 @@ conn = sqlite3.connect("osebni_trener.db")
 conn.execute("PRAGMA foreign_keys = ON")
 
 class Uporabnik:
-    def __init__(self, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
+    def __init__(self, ime, priimek, datum_rojstva, teza,visina, geslo, mail, spol):
         #self.id_uporabnika = stevilo_uporabnikov("osebni_trener.sqlite3") + 1
         self.ime = ime
         self.priimek = priimek
         self.datum_rojstva = datum_rojstva
         self.teza = teza
-        self.uporabnisko_ime= uporabnisko_ime
         self.geslo = geslo
         self.mail = mail
         self.spol = spol
@@ -30,9 +29,9 @@ class Uporabnik:
         if not self.email_je_ze_v_uporabi():
             with conn:
                 conn.execute("""
-                INSERT INTO Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol) 
+                INSERT INTO Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)           
-            """, [self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol])
+            """, [self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
 
