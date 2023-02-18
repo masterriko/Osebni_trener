@@ -9,7 +9,6 @@ conn = sqlite3.connect("osebni_trener.db")
 # Nastavimo, da sledi tujim ključem
 conn.execute("PRAGMA foreign_keys = ON")
 
-naredi_bazo.pripravi_bazo()
 
 class Uporabnik:
     def __init__(self, ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol):
