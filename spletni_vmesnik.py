@@ -53,7 +53,6 @@ def add_uporabnik():
     teza = bottle.request.forms.get('teza')
     visina = bottle.request.forms.get('visina')
     geslo = bottle.request.forms.get('geslo')
-
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
     print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
