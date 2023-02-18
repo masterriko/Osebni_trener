@@ -46,7 +46,7 @@ class Uporabnik:
                     WHERE mail=?
                 """, [mail])
                 preveri = cursor.fetchone()
-            return preveri == geslo
+            return preveri[0] == geslo
         return False
 
     @staticmethod
