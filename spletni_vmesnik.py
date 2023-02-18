@@ -27,14 +27,14 @@ def add():
 
 @bottle.post("/login") 
 @bottle.post("/") 
-def add_user():
+def preveri_uporabnik():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
 
     veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
     if veljavnost:
         print("Odobren vstop")
-        bottle.redirect("/home.html")
+        bottle.redirect("/home")
     else:
         print("ponovi geslo")
         bottle.redirect("/login")
@@ -43,8 +43,10 @@ def add_user():
 def add():                   
     return bottle.template("signup.html")
 
+
+
 @bottle.post("/signup") 
-def add_user():
+def add_uporabnik():
     ime = bottle.request.forms.get('ime')
     priimek = bottle.request.forms.get('priimek')
     datum_rojstva = bottle.request.forms.get('datum_rojstva')
@@ -58,6 +60,32 @@ def add_user():
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
     bottle.redirect("/login")
+
+@bottle.get("/home")    
+def add():                   
+    return bottle.template("home.html")
+
+
+
+@bottle.get("/food")    
+def add():                   
+    return bottle.template("food.html")
+
+
+@bottle.post("/food")  
+def klik():
+    mail = bottle.request.forms.get('mail')
+    geslo = bottle.request.forms.get('geslo')
+
+    veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
+    if veljavnost:
+        print("Odobren vstop")
+        bottle.redirect("/home")
+    else:
+        print("ponovi geslo")
+        bottle.redirect("/login")
+
+
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):
@@ -82,5 +110,8 @@ def uporabnik_uredi_detajli(uid):
     
     bottle.redirect(f"/uporabniki/{uporabnik.uid/}")
 '''
+
+
+
 
 bottle.run(debug=True, reloader=True)
