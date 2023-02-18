@@ -47,8 +47,6 @@ def add_user():
 def add():                   
     return bottle.template("signup.html")
 
-
-
 @bottle.post("/signup") 
 def add_uporabnik():
     ime = bottle.request.forms.get('ime')
@@ -68,12 +66,9 @@ def add_uporabnik():
 def add():                   
     return bottle.template("home.html")
 
-
-
 @bottle.get("/food")    
 def add():                   
     return bottle.template("food.html")
-
 
 @bottle.post("/food")  
 def klik():
@@ -113,8 +108,5 @@ def uporabnik_uredi_detajli(uid):
     
     bottle.redirect(f"/uporabniki/{uporabnik.uid/}")
 '''
-
-
-
 
 bottle.run(debug=True, reloader=True)
