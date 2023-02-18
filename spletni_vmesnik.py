@@ -27,7 +27,7 @@ def add():
 
 @bottle.post("/login") 
 @bottle.post("/") 
-def add_user():
+def login_user():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
 
@@ -54,7 +54,7 @@ def add_user():
     geslo = bottle.request.forms.get('geslo')
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
-
+    print(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
     bottle.redirect("/login")

@@ -27,43 +27,43 @@
         <h1>Login</h1>
         <form method="POST" action="/signup" onsubmit="return verifyPassword() && isInt('height_message') && isInt('weight_message')">
             <div class="txt_field">
-                <input type="text" name="name" required>
+                <input type="text" name="ime" required>
                 <span></span>
                 <label>Ime</label>
             </div>
             <div class="field">
                 <label class="sex">Spol</label>
-                <input type="radio" name="gender" value="male" required> Moški
-                <input type="radio" name="gender" value="female" required> Ženska
-                <input type="radio" name="gender" value="other" required> Drugo
+                <input type="radio" name="gender" value="male" name = "spol" required> Moški
+                <input type="radio" name="gender" value="female" name = "spol" required> Ženska
+                <input type="radio" name="gender" value="other" name = "spol" required> Drugo
             </div>
             <div class="txt_field">
-                <input type="date" required>
+                <input type="date" name = "datum" required>
                 <span></span>
                 <label>Datum rojstva</label>
             </div>
             <div class="txt_field">
-              <input type="height" type = "number" id = "height" required>
+              <input type="height" type = "number" id = "height" name = "visina" required>
               <span></span>
               <label>Visina (cm)</label>
             </div>
             <div class="txt_field">
-              <input type="weight" type = "number" id = "weight" required>
+              <input type="weight" type = "number" id = "weight" name = "teza" required>
               <span></span>
               <label>Teza (kg)</label>
             </div>
             <div class="txt_field">
-                <input type="email" required>
+                <input type="email" name = "mail" required>
                 <span></span>
                 <label>Email</label>
             </div>
             <div class="txt_field">
-                <input type="uname" required>
+                <input type="uname" name = "uporabnisko_ime" required>
                 <span></span>
                 <label>Uporabniško ime</label>
             </div>
             <div class="txt_field">
-                <input type="password" id = "password" required>
+                <input type="password" id = "password" name = "geslo" required>
                 <span></span>
                 <label>Geslo</label>
             </div>
