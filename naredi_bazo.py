@@ -18,7 +18,6 @@ def pripravi_bazo():
                 ime TEXT,
                 priimek TEXT,
                 datum_rojstva DATE NOT NULL,
-                uporabnisko_ime TEXT NOT NULL,
                 visina INTEGER NOT NULL,
                 teza INTEGER NOT NULL,
                 geslo VARCHAR(255) NOT NULL,

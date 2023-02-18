@@ -51,13 +51,13 @@ def add_uporabnik():
     priimek = bottle.request.forms.get('priimek')
     datum_rojstva = bottle.request.forms.get('datum_rojstva')
     teza = bottle.request.forms.get('teza')
-    uporabnisko_ime = bottle.request.forms.get('uporabnisko_ime')
     visina = bottle.request.forms.get('visina')
     geslo = bottle.request.forms.get('geslo')
+
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
-    print(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
-    uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
+    print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
+    uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
     bottle.redirect("/login")
 
