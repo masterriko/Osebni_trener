@@ -56,6 +56,7 @@ def add_user():
 
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, uporabnisko_ime, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
+    bottle.redirect("/login")
 '''
 @bottle.get("/uporabniki/<uid:int>")
 def uporabnik_detajli(uid):

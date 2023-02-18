@@ -129,7 +129,7 @@ b{
 
 aside{
   height: 100vh;
-  background: gray;
+  background: white;
 }
 
 aside .top{
@@ -145,8 +145,8 @@ aside .logo{
 }
 
 aside .logo img{
-  width: 2rem;
-  height: 2rem;
+  width: 5rem;
+  height: 5rem;
 }
 
 aside .close{
@@ -157,7 +157,7 @@ aside .sidebar{
   background-color: white;
   display: flex;
   flex-direction: column;
-  height: 86vh;
+  height: 100%;
   position: relative;
   top: 3rem;
 }
@@ -220,3 +220,29 @@ aside .sidebar .message-count{
   font-size: 11px;
   border-radius: var(--border-radius-1);
 }
+
+main .row .column{
+  display: flex;
+  flex: 33.33%;
+  padding: 5px;
+}
+
+/* Create three equal columns that sits next to each other */
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+.card {
+  background: var(--color-info-light);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: 2rem;
+  text-align: center;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+
