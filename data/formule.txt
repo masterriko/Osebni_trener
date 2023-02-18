@@ -1,4 +1,4 @@
-Kalorije: 
+Kalorije: 2000
 
 magnesium_mg: 400mg
 
