@@ -25,12 +25,12 @@ class Uporabnik:
             return bool(cursor.fetchone())
 
     def shrani_v_bazo(self):
-        print(self.ime, self.priimek, self.datum_rojstva, self.teza, self.uporabnisko_ime, self.visina, self.geslo, self.mail, self.spol)
+        print(self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.mail, self.spol)
         if not self.email_je_ze_v_uporabi():
             with conn:
                 conn.execute("""
                 INSERT INTO Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)           
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)           
             """, [self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.mail, self.spol])
         else:
             print("Email naslov je že v uporabi.")
