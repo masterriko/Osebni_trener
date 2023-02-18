@@ -1,37 +1,22 @@
 import bottle 
 import model
 
-'''
-@bottle.get("/")
-def glavna_stran():
-    # Stvari v GET pridejo v query
-    od = int(bottle.request.query.get("od", 0))
-    do = int(bottle.request.query.get("do", 1000))
-    
-    # Poberi vse uporabnike iz baze
-    uporabniki = model.Uporabnik.dobi_uporabnike_med_idji(od, do)
-    # Kaj naredimo z njimi -> Trenutno ne rabimo 0
-    print(uporabniki)
-    # Jih prikažemo
-    return bottle.template("glavna.html", uporabniki=uporabniki,
-                           od=od, do=do)
-'''
 @bottle.route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
     return bottle.static_file(filename, root='static/css')
 
 @bottle.route('/static/img/<filename:re:.*\.png>')
-def send_css(filename):
+def send_img(filename):
     return bottle.static_file(filename, root='static/img')
     
 @bottle.get("/login")    
 @bottle.get("/")    
-def add():                   
+def get_login():                   
     return bottle.template("login.html")
 
 @bottle.post("/login") 
 @bottle.post("/") 
-def add_user():
+def log_in():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
 
@@ -44,11 +29,11 @@ def add_user():
         bottle.redirect("/login")
 
 @bottle.get("/signup")    
-def add():                   
+def get_signup():                   
     return bottle.template("signup.html")
 
 @bottle.post("/signup") 
-def add_uporabnik():
+def add_user():
     ime = bottle.request.forms.get('ime')
     priimek = bottle.request.forms.get('priimek')
     datum_rojstva = bottle.request.forms.get('datum_rojstva')
@@ -63,15 +48,15 @@ def add_uporabnik():
     bottle.redirect("/login")
 
 @bottle.get("/home")    
-def add():                   
+def get_home():                   
     return bottle.template("home.html")
 
 @bottle.get("/food")    
-def add():                   
+def get_food():                   
     return bottle.template("food.html")
 
 @bottle.post("/food")  
-def klik():
+def add_foodk():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
 
@@ -95,31 +80,5 @@ def klik():
     else:
         print("ponovi geslo")
         bottle.redirect("/login")
-
-
-'''
-@bottle.get("/uporabniki/<uid:int>")
-def uporabnik_detajli(uid):
-    uporabnik = model.Uporabnik.dobi_uporabnika_z_idjem(uid)
-    
-    
-    return bottle.template("detajl_uporabnika.html", 
-                           uporabnik=uporabnik,
-                           vsi_uporabniki=model.Uporabnik.dobi_vse_uporabnike())
-
-@bottle.post("/uporabniki/<uid:int>")
-def uporabnik_uredi_detajli(uid):
-    uporabnik = model.Uporabnik.dobi_uporabnika_z_idjem(uid)
-        
-    novo_polno_ime = bottle.request.forms.getunicode("polno_ime")
-    nov_email = bottle.request.forms.getunicode("email")
-    
-    uporabnik.polno_ime = novo_polno_ime
-    uporabnik.email = nov_email
-    
-    uporabnik.shrani_v_bazo()
-    
-    bottle.redirect(f"/uporabniki/{uporabnik.uid/}")
-'''
 
 bottle.run(debug=True, reloader=True)
