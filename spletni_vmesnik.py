@@ -19,6 +19,10 @@ def glavna_stran():
 @bottle.route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
     return bottle.static_file(filename, root='static/css')
+
+@bottle.route('/static/img/<filename:re:.*\.png>')
+def send_css(filename):
+    return bottle.static_file(filename, root='static/img')
     
 @bottle.get("/login")    
 @bottle.get("/")    
