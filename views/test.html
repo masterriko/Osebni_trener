@@ -1,53 +1,121 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Multiple Charts Example</title>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<title>Add and Delete Elements in a Column</title>
+	<style>
+    body {
+			font-family: Arial, sans-serif;
+			background-color: #f5f5f5;
+		}
+    h1 {
+			margin-bottom: 30px;
+			text-align: center;
+			color: #333;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+
+		.column {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border: 2px solid #ccc;
+			padding: 10px;
+			margin: 10px;
+			min-width: 200px;
+			background-color: #fff;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+			border-radius: 5px;
+		}
+    select {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			background-color: #fff;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			padding: 10px;
+			width: 100%;
+			cursor: pointer;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		}
+		.row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: 10px;
+			border-bottom: 1px solid #ccc;
+			transition: background-color 0.3s ease;
+		}
+    button:hover {
+			background-color: #3e8e41;
+		}
+    button {
+			font-size: 16px;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			background-color: #4caf50;
+			color: #fff;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+		.row:hover {
+			background-color: #f5f5f5;
+			cursor: pointer;
+		}
+
+		.row.dragging {
+			opacity: 0.5;
+			cursor: move;
+		}
+    .select-wrapper {
+			position: relative;
+			width: 200px;
+			margin-right: 10px;
+		}
+
+		.select-wrapper::after {
+			content: '';
+			position: absolute;
+			top: 50%;
+			right: 10px;
+			transform: translateY(-50%);
+			border-top: 8px solid #333;
+			border-right: 6px solid transparent;
+			border-left: 6px solid transparent;
+		}
+    .row button {
+			font-size: 16px;
+			padding: 5px 10px;
+			border: none;
+			border-radius: 5px;
+			background-color: #f44336;
+			color: #fff;
+			cursor: pointer;
+			transition: background-color
+    }
+	</style>
 </head>
 <body>
-  <div id="chart1" style="width: 400px; height: 300px;"></div>
-  <div id="chart2" style="width: 400px; height: 300px;"></div>
+	<div class="container">
+		<select id="select">
+			<option value="Item 1">Item 1</option>
+			<option value="Item 2">Item 2</option>
+			<option value="Item 3">Item 3</option>
+			<option value="Item 4">Item 4</option>
+		</select>
+		<button onclick="addItem()">Add Item</button>
+		<div class="column" id="column">
+		</div>
+	</div>
 
-  <script type="text/javascript">
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawCharts);
-
-    function drawCharts() {
-      var data1 = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 11],
-        ['Eat', 2],
-        ['Commute', 2],
-        ['Watch TV', 2],
-        ['Sleep', 7]
-      ]);
-
-      var options1 = {
-        title: 'My Daily Activities'
-      };
-
-      var data2 = google.visualization.arrayToDataTable([
-        ['Task', 'Hours per Day'],
-        ['Work', 8],
-        ['Eat', 3],
-        ['Commute', 2],
-        ['Watch TV', 5],
-        ['Sleep', 6]
-      ]);
-
-      var options2 = {
-        title: 'Another Day in My Life'
-      };
-
-      function drawChart(containerId, data, options) {
-        var chart = new google.visualization.PieChart(document.getElementById(containerId));
-        chart.draw(data, options);
-      }
-
-      drawChart('chart1', data1, options1);
-      drawChart('chart2', data2, options2);
-    }
-  </script>
+	<script src="script.js"></script>
 </body>
 </html>
