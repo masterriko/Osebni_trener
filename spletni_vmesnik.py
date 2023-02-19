@@ -63,14 +63,16 @@ def get_food():
 @bottle.post("/food")  
 def add_food():
     zivilo = None
-    ime_zivila = bottle.request.forms.get('ime_zivila')
+    ime_zivila = bottle.request.forms.get('hrana')
     cas_obroka = bottle.request.forms.get('cas_obroka')
     kolicina = bottle.request.forms.get("kolicina")
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok("Zajtrk", cas_obroka)
     if not obrok.preveri_zivilo(ime_zivila):
+        print("ne")
         prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
     else:
+        print("ja")
         zivilo = model.Zivilo.dodaj_zivilo()
 
 @bottle.get("/test")    
