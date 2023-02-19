@@ -200,24 +200,6 @@ def napolni_nujne_podatke(conn):
             VALUES ('{vrstica[1]}', {vrstica[6]})
             """)
 
-
-
-    #################
-    #vstavi koeficiente
-    #koeficienti_teze_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
-    #koeficienti_rekreacije_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
-    #koeficienti_starosti_hranil = {"calories": 1, "total_fat_g": 1, "vitamin_a_IU": 1, "vitamin_b12_mcg": 1, "vitamin_b6_mg": 1, "vitamin_c_mg":1, "vitamin_d_IU":1, "calcium_mg":1, "magnesium_mg":1, "protein_g":1, "carbohydrate_g":1, "fiber_g":1, "sugars_g":1, "fat_g":1, "caffeine":1, "water":1}
-#
-    #for hr in hranila:
-    #    if hr in koeficienti_teze_hranil.keys():
-    #        with conn:
-    #            conn.execute(f""" 
-    #            INSERT INTO Omejitve (ime_hranila, koeficient_teze, koeficient_rekreacije, koeficient_starosti)
-    #            VALUES ('{hr}', {koeficienti_teze_hranil[hr]}, {koeficienti_rekreacije_hranil[hr]}, {koeficienti_starosti_hranil[hr]})
-    #            """)
-    #################
-
-
 pripravi_bazo()
 print("Baza je pripravljena")
 napolni_nujne_podatke(db)

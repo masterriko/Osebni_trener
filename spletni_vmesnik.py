@@ -56,29 +56,18 @@ def get_food():
     return bottle.template("food.html")
 
 @bottle.post("/food")  
-def add_foodk():
-    mail = bottle.request.forms.get('mail')
-    geslo = bottle.request.forms.get('geslo')
+def add_food():
+    return -1
+    #Tukaj napiši katere podatke rabiš za bazo
 
-    veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
-    if veljavnost:
-        print("Odobren vstop")
-        bottle.redirect("/home")
-    else:
-        print("ponovi geslo")
-        bottle.redirect("/login")
+@bottle.get("/activity")  
+def add_activity():
+    return bottle.template("activity.html")
 
 @bottle.post("/activity")  
-def klik():
-    mail = bottle.request.forms.get('mail')
-    geslo = bottle.request.forms.get('geslo')
+def add_activity():
+    return -1
+    #Tukaj napiši katere podatke rabiš za bazo
 
-    veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
-    if veljavnost:
-        print("Odobren vstop")
-        bottle.redirect("/home")
-    else:
-        print("ponovi geslo")
-        bottle.redirect("/login")
 
 bottle.run(debug=True, reloader=True)
