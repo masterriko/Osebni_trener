@@ -8,6 +8,10 @@ def send_css(filename):
 @bottle.route('/static/img/<filename:re:.*\.png>')
 def send_img(filename):
     return bottle.static_file(filename, root='static/img')
+
+@bottle.route('/static/javascript/<filename:re:.*\.js>')
+def send_javascript(filename):
+    return bottle.static_file(filename, root='static/js')
     
 @bottle.get("/login")    
 @bottle.get("/")    
