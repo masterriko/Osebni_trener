@@ -64,6 +64,7 @@ def get_food():
 def add_food():
     zivilo = None
     ime_zivila = bottle.request.forms.get('hrana')
+    print(ime_zivila)
     cas_obroka = bottle.request.forms.get('cas_obroka')
     kolicina = bottle.request.forms.get("kolicina")
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
