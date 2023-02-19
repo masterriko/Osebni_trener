@@ -57,8 +57,17 @@ def get_food():
 
 @bottle.post("/food")  
 def add_food():
-    return -1
-    #Tukaj napiši katere podatke rabiš za bazo
+    zivilo = None
+    ime_zivila = bottle.request.forms.get('ime_zivila')
+    cas_obroka = bottle.request.forms.get('cas_obroka')
+    kolicina = bottle.request.forms.get("kolicina")
+    vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
+    obrok = model.Obrok("Zajtrk", cas_obroka)
+    if not obrok.preveri_zivilo(ime_zivila):
+        prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
+    else:
+        zivilo = model.Zivilo.dodaj_zivilo()
+
 
 @bottle.get("/activity")  
 def get_activity():
