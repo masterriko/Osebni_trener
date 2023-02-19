@@ -14,23 +14,22 @@ def pripravi_bazo():
         # Uporabnik (#1)
         cursor.execute(""" CREATE TABLE IF NOT EXISTS Uporabnik
             (
-                id_uporabnika INTEGER PRIMARY KEY AUTOINCREMENT,
+                mail TEXT INTEGER PRIMARY KEY,
                 ime TEXT,
                 priimek TEXT,
                 datum_rojstva DATE NOT NULL,
                 visina INTEGER NOT NULL,
                 teza INTEGER NOT NULL,
                 geslo VARCHAR(255) NOT NULL,
-                mail TEXT NOT NULL,
                 spol SMALLINT NOT NULL
             );""")
         # Dnevni vnos (#2)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Dnevni_vnos
             (
-                id_dnevnika INTEGER PRIMARY KEY,
+                id_dnevnika INTEGER PRIMARY KEY AUTOINCREMENT,
                 datum DATE NOT NULL,
-                id_uporabnika INTEGER NOT NULL,
-                id_pocutja INTEGER NOT NULL,
+                mail TEXT NOT NULL,
+                id_pocutja INTEGER NOT NULL, 
                 FOREIGN KEY (id_uporabnika) REFERENCES Uporabnik(id_uporabnika)
             );""")
 
@@ -46,8 +45,6 @@ def pripravi_bazo():
         cursor.execute("""CREATE TABLE IF NOT EXISTS Rekreacija
             (
                 id_rekreacije INTEGER PRIMARY KEY AUTOINCREMENT,
-                srcni_utrip INTEGER NOT NULL,
-                stevilo_korakov INTEGER NOT NULL,
                 cas_izvedbe TIME NOT NULL,
                 cas_vadbe_min TIME,
                 id_aktivnost INTEGER,
@@ -73,8 +70,7 @@ def pripravi_bazo():
 
         # Zivilo (#7)
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS Zivilo
-            (   id_zivila INTEGER PRIMARY KEY,
-                {hranila[0]}  TEXT NOT NULL,
+            (   {hranila[0]}  TEXT PRIMARY KEY NOT NULL,
                 {hranila[1]}  TEXT NOT NULL,
                 {hranila[2]}  TEXT NOT NULL,
                 {hranila[3]}  TEXT NOT NULL,

@@ -8,7 +8,7 @@ conn = sqlite3.connect("osebni_trener.db")
 conn.execute("PRAGMA foreign_keys = ON")
 
 class Uporabnik:
-    def __init__(self, ime, priimek, datum_rojstva, teza,visina, geslo, mail, spol):
+    def __init__(self, mail, ime = None, priimek = None, datum_rojstva = None, teza = None, visina = None, geslo = None, spol= None):
         #self.id_uporabnika = stevilo_uporabnikov("osebni_trener.sqlite3") + 1
         self.ime = ime
         self.priimek = priimek
@@ -48,66 +48,82 @@ class Uporabnik:
             return preveri[0] == geslo
         return False
 
-    @staticmethod
-    def dobi_uporabnika_z_idjem(uid):
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, mail, polno_ime 
-                FROM uporabnik
-                WHERE uid=?
-            """, [uid])
-            podatki = cursor.fetchone()
-            
-            return Uporabnik(podatki[0], podatki[1], podatki[2])
+    #def dobi_uporabnika_z_idjem(self):
+    #    """Vrne id trenutnega uporabnika"""
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT id_uporabnika
+    #            FROM uporabnik
+    #            WHERE mail = ?
+    #        """, [self.mail])
+    #        podatki = cursor.fetchone()
+    #        return podatki[0]
       
-    @staticmethod
-    def dobi_uporabnike_med_idji(od, do):
-        print(od, do)
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, mail, polno_ime 
-                FROM uporabnik
-                WHERE ? <= uid AND uid <= ?
-            """, [od, do])
-            podatki = list(cursor.fetchall())
-            
-            return [
-                Uporabnik(pod[0], pod[1], pod[2])
-                for pod in podatki
-            ]
-        return []
+    #@staticmethod
+    #def dobi_uporabnike_med_idji(od, do):
+    #    print(od, do)
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, mail, polno_ime 
+    #            FROM uporabnik
+    #            WHERE ? <= uid AND uid <= ?
+    #        """, [od, do])
+    #        podatki = list(cursor.fetchall())
+    #        
+    #        return [
+    #            Uporabnik(pod[0], pod[1], pod[2])
+    #            for pod in podatki
+    #        ]
+    #    return []
       
         
-    @staticmethod
-    def dobi_vse_uporabnike():
-        with conn:
-            cursor = conn.execute("""
-                SELECT uid, mail, polno_ime 
-                FROM uporabnik
-            """)
-            podatki = list(cursor.fetchall())
-            
-            return [
-                Uporabnik(pod[0], pod[1], pod[2])
-                for pod in podatki
-            ]
-        return []
+    #@staticmethod
+    #def dobi_vse_uporabnike():
+    #    with conn:
+    #        cursor = conn.execute("""
+    #            SELECT uid, mail, polno_ime 
+    #            FROM uporabnik
+    #        """)
+    #        podatki = list(cursor.fetchall())
+    #        
+    #        return [
+    #            Uporabnik(pod[0], pod[1], pod[2])
+    #            for pod in podatki
+    #        ]
+    #    return []
 
             
 def check(mail):
     return re.fullmatch(regex, mail)
 
 class Dnevni_vnos:
-    def __init__(self, id_dnevnika, datum, uporabnik):
-        self.id_dnevnika = id_dnevnika
+    def __init__(self, datum, uporabnik):
         self.datum = datum
-        self.uporabnik = uporabnik.id_uporabnika
+        self.uporabnik = uporabnik
+    def dodaj_v_dnevni_vnos(self):
+        with conn:
+            cursor1 = conn.execute("""SELECT id_pocutja FROM Dnevni_vnos""")
+            if cursor1 == None:
+                id_pocutja = 1
+            else:
+                id_pocutja = cursor1.lastrowid + 1
+            cursor2 = conn.execute("""
+            INSERT INTO Dnevni_vnos (datum, id_uporabnika, id_pocutja)
+            VALUES (?, ?, ?)                 
+            """, [self.datum, self.uporabnik, id_pocutja])
+    @staticmethod
+    def return_dnevnik(mail):
+        with conn:
+            cursor = conn.execute("SELECT id_dnevnika, id_pocutja WHERE mail = ?", [mail])
+            podatki = cursor.fetchone()
+            return podatki
+
+
 
 class Teza:
     def __init__(self, id_teza, tehtanje):
         self.id_teza = id_teza
         self.tehtanje = tehtanje
-
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
@@ -115,63 +131,50 @@ class Teza:
             VALUES (?)                 
             """, [self.tehtanje])
             self.uid = cursor.lastrowid
-
 class Pocutje:
-    def __init__(self, id_pocutja, ocena):
+    def __init__(self, id_pocutja, ocena, id_dnevnika):
         self.id_pocutja = id_pocutja
         self.ocena = ocena
-
+        self.id_dnevnika = id_dnevnika
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
-            INSERT INTO Pocutje (ocena)
-            VALUES (?)                 
+            INSERT INTO Pocutje (id_pocutja, id_dnevni_vnos, ocena)
+            VALUES (?, ?, ?)                 
             """, [self.ocena])
             self.uid = cursor.lastrowid
 
 class Rekreacija:
-    def __init__(self, id_rekreacije, srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min, tip_aktivnosti):
-        self.id_rekreacije = id_rekreacije
-        self.srcni_utrip = srcni_utrip
-        self.stevilo_korakov = stevilo_korakov
-        self.cas_izvedbe = cas_izvedbe
-        self.cas_vadbe_min = cas_vadbe_min
-        self.aktivnost = tip_aktivnosti
-    
-    def prikazi_mozna(self, ime_aktivnosti):
-        """vrne tabelo, ki vsebujejo ime iskanj"""
-        ime_aktivnosti_priblizno = "%" + ime_aktivnosti + "%"
-        with conn:
-            cursor = conn.execute("""
-            SELECT name FROM Aktivnost WHERE tip LIKE ?           
-            """, [ime_aktivnosti_priblizno])
-            self.uid = cursor.lastrowid
-        niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
-        return niz_pribl_iskanj 
-
+    def __init__(self, id_aktivnosti, cas_vadbe, trajanje_vadbe_min):
+        self.id_aktivnosti = id_aktivnosti
+        self.cas_vadbe = cas_vadbe
+        self.trajanje_vadbe_min = trajanje_vadbe_min
     #ni do konca narejeno
-    def dodaj_aktivnost(self, ime_aktivnosti, cas):
+    def dodaj_aktivnost(self):
         with conn:
-            cursor = conn.execute("""
-            INSERT INTO Rekreacija (srcni_utrip, stevilo_korakov, cas_izvedbe, cas_vadbe_min, id_aktivnost) 
-            VALUES (?, ?, ?, ?)                 
-            """, [self.srcni_utrip, self.stevilo_korakov, self.cas_izvedbe, self.cas_vadbe_min, self.aktivnost])
-            self.uid = cursor.lastrowid
-    ########
-    def dodaj_zivilo(self, ime_zivila, masa):
-        """doda zivilo v obrok"""
-        with conn:
-            cursor = conn.execute("""
-            INSERT INTO ZiviloObrok ime_zivila, kolicina
-            VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
-            """, [ime_zivila, masa])
-            self.uid = cursor.lastrowid #for znak in ime_zivila:
+            cursor = conn.execute("SELECT id_aktivnost FROM Aktivnost WHERE id_aktivnost = ?", [self.id_aktivnosti])
+            result = cursor.fetchone()
+            if result != None:
+                cursor = conn.execute("""
+                INSERT INTO Rekreacija (cas_izvedbe, cas_vadbe_min, id_aktivnost) 
+                VALUES (?, ?, ?)                 
+                """, [self.cas_vadbe , self.trajanje_vadbe_min, self.id_aktivnosti])
+            #self.uid = cursor.lastrowid
 
 
 class Aktivnost:
-    def __init__(self, id_aktivnosti, tip, poraba_kalorij):
+    def __init__(self, id_aktivnosti):
         self.id_aktivnosti = id_aktivnosti
-        self.tip = tip
+    @staticmethod
+    def dobi_imena_vseh_aktivnosti():
+        with conn:
+            cursor = conn.execute("""
+                SELECT id_aktivnost
+                FROM Aktivnost
+            """)
+            podatki = list(cursor.fetchall())
+            return podatki
+        return []
 
 class Zivilo:
     def __init__(self, id_zivilo, ime_zivilo):

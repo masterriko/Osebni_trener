@@ -1,5 +1,8 @@
 import bottle 
 import model
+import sqlite3
+import time
+conn = sqlite3.connect('osebni_trener.db')
 
 @bottle.route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
@@ -49,7 +52,23 @@ def add_signup():
     print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
     uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
     uporabnik.shrani_v_bazo()
+    date = time.datetime.now()
+    date = date.strftime("%Y-%m-%d %H:%M:%S")
+    dnevnik = model.Dnevni_vnos(date, mail)
+    dnevnik.dodaj_v_dnevni_vnos()
+
     bottle.redirect("/login")
+
+
+def get_user():
+    '''
+    Pogleda, kdo je uporabnik in vrne njegov mail.
+    '''
+    uporabnik_mail = bottle.request.get_cookie('mail')
+    if uporabnik_mail is not None:
+        return uporabnik_mail
+    else:
+        return None
 
 @bottle.get("/home")    
 def get_home():                   
@@ -68,20 +87,40 @@ def add_food():
     kolicina = bottle.request.forms.get("kolicina")
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok("Zajtrk", cas_obroka)
-    if not obrok.preveri_zivilo(ime_zivila):
-        prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
-    else:
-        zivilo = model.Zivilo.dodaj_zivilo()
+    zivilo = model.Zivilo.dodaj_zivilo()
 
 
 @bottle.get("/activity")  
 def get_activity():
-    return bottle.template("activity.html")
+    ime_aktivnosti = model.Aktivnost.dobi_imena_vseh_aktivnosti()                
+    return bottle.template("activity.html", aktivnost = ime_aktivnosti)
+
 
 @bottle.post("/activity")  
 def add_activity():
-    return -1
+    ime_aktivnosti = bottle.request.forms.get("ime_aktivnosti")
+    cas_aktivnosti = bottle.request.forms.get("cas_aktivnosti")
+    trajanje_aktivnosti = bottle.request.forms.get("trajanje")
+    rekreacija = model.Rekreacija(ime_aktivnosti, cas_aktivnosti, trajanje_aktivnosti)
+    rekreacija.dodaj_aktivnost()
+
     #Tukaj napiši katere podatke rabiš za bazo
+
+
+@bottle.get("/feeling")  
+def get_feeling():               
+    return bottle.template("feeling.html")
+
+
+@bottle.post("/feeling")  
+def add_feeling():
+    ocena = bottle.request.forms.get("ocena")
+    mail = get_user()
+    id_dnevnika, id_pocutja = model.Dnevni_vnos.return_dnevnik(mail)
+    pocutje = model.Pocutje(id_pocutja, ocena, id_dnevnika)
+    pocutje.shrani_v_bazo()
+
+
 
 
 bottle.run(debug=True, reloader=True)
