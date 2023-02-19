@@ -18,15 +18,15 @@
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
             <label for="multi-last-name">Čas obroka</label>
-            <input type="text" id="multi-last-name" class="pure-u-23-24" />
+            <input type="text" id="multi-last-name" class="pure-u-23-24", name="cas_obroka" />
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
             <label for="multi-email">Količina [g]</label>
-            <input type="number" id="kolicina" class="pure-u-23-24" required="" />
+            <input type="number" id="kolicina" class="pure-u-23-24", name="kolicina" required="" />
         </div>
         <div class="pure-u-1 pure-u-md-1-3">
             <label for="multi-state">Ime obroka</label>
-            <select id="vrsta_obroka" class="pure-input-1-2">
+            <select id="vrsta_obroka" class="pure-input-1-2", name="vrsta_obroka">
                 <option>Zajtrk</option>
                 <option>Kosilo</option>
                 <option>Večerja</option>
@@ -40,7 +40,7 @@
 </form>
 <div class="chart-container">
     <div class="chart">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js%22%3E</script>
         <canvas id="myChart"></canvas>
         <script src="../static/javascript/app_activity.js"></script>
     </div>
