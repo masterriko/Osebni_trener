@@ -56,8 +56,9 @@ def get_home():
     return bottle.template("home.html")
 
 @bottle.get("/food")    
-def get_food():                   
-    return bottle.template("food.html")
+def get_food():   
+    ime_hrane = model.Zivilo.dobi_imena_vseh_zivil()                
+    return bottle.template("food.html", hrana = ime_hrane)
 
 @bottle.post("/food")  
 def add_food():

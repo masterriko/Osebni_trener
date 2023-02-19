@@ -178,23 +178,23 @@ class Zivilo:
         self.id_zivilo = id_zivilo
         self.ime_zivilo = ime_zivilo
 
+    @staticmethod
+    def dobi_imena_vseh_zivil():
+        with conn:
+            cursor = conn.execute("""
+                SELECT name 
+                FROM Zivilo
+            """)
+            podatki = list(cursor.fetchall())
+            return podatki
+        return []
+
 class Obrok:
     def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
-
-    def prikazi_mozna(self, ime_zivila):
-        """vrne tabelo približnih iskanj"""
-        ime_zivila_priblizno = "%" + ime_zivila + "%"
-        with conn:
-            cursor = conn.execute("""
-            SELECT name FROM Zivilo WHERE name LIKE ?           
-            """, [ime_zivila_priblizno])
-            self.uid = cursor.lastrowid
-        niz_pribl_iskanj = cursor.fetchall() #dodaj v tabelo!!
-        return niz_pribl_iskanj 
 
     def dodaj_zivilo(self, ime_zivila, masa):
         """doda zivilo v obrok"""
