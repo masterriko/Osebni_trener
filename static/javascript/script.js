@@ -1,52 +1,60 @@
-// Define variables
-var column = document.getElementById("column");
-var select = document.getElementById("select");
+// Get elements
+const input = document.querySelector('.input');
+const datalist = document.querySelector('#hrana');
+const column = document.querySelector('#column');
+const trashcan = document.querySelector('#trashcan');
 
-// Add event listeners
-select.addEventListener("change", addItem);
-column.addEventListener("dragstart", dragStart);
-column.addEventListener("dragover", dragOver);
-column.addEventListener("drop", drop);
+// Event listeners
+input.addEventListener('input', addToList);
+column.addEventListener('dragstart', dragStart);
+column.addEventListener('dragover', dragOver);
+column.addEventListener('drop', drop);
+trashcan.addEventListener('dragover', dragOver);
+trashcan.addEventListener('drop', deleteItem);
 
-// Function to add a new item to the column
-function addItem() {
-  var value = select.value;
-  if (value !== "") {
-    var row = document.createElement("div");
-    row.className = "row";
-    row.draggable = true;
-    row.innerHTML = "<span>" + value + "</span><button onclick='deleteItem(this.parentNode)'>x</button>";
-    column.appendChild(row);
-    select.value = "";
+// Add item to list
+function addToList() {
+  const value = input.value;
+  const option = datalist.querySelector(`[value="${value}"]`);
+
+  if (option) {
+    const item = document.createElement('div');
+    item.classList.add('item');
+    item.textContent = value;
+    item.setAttribute('draggable', true);
+    column.appendChild(item);
   }
+
+  input.value = '';
 }
 
-// Function to delete an item from the column
-function deleteItem(item) {
-  column.removeChild(item);
-}
-
-// Function to handle drag start event
+// Drag and drop functions
 function dragStart(event) {
-  var item = event.target;
-  item.classList.add("dragging");
+  event.dataTransfer.setData('text/plain', event.target.textContent);
+  event.dataTransfer.dropEffect = 'move';
 }
 
-// Function to handle drag over event
 function dragOver(event) {
   event.preventDefault();
+  event.dataTransfer.dropEffect = 'move';
 }
 
-// Function to handle drop event
 function drop(event) {
-  var item = event.target;
-  if (item.className === "row") {
-    var draggingItem = document.querySelector(".dragging");
-    var nextItem = item.nextElementSibling;
-    if (nextItem === draggingItem) {
-      nextItem = nextItem.nextElementSibling;
-    }
-    column.insertBefore(draggingItem, nextItem);
-    draggingItem.classList.remove("dragging");
+  event.preventDefault();
+  const data = event.dataTransfer.getData('text/plain');
+  const item = document.createElement('div');
+  item.classList.add('item');
+  item.textContent = data;
+  item.setAttribute('draggable', true);
+  column.appendChild(item);
+}
+
+function deleteItem(event) {
+  event.preventDefault();
+  const data = event.dataTransfer.getData('text/plain');
+  const item = column.querySelector(`.item:contains("${data}")`);
+
+  if (item) {
+    column.removeChild(item);
   }
 }

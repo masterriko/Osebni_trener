@@ -11,7 +11,7 @@ def send_img(filename):
 
 @bottle.route('/static/javascript/<filename:re:.*\.js>')
 def send_javascript(filename):
-    return bottle.static_file(filename, root='static/js')
+    return bottle.static_file(filename, root='static/javascript')
     
 @bottle.get("/login")    
 @bottle.get("/")    
