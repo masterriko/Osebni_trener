@@ -153,7 +153,6 @@ def pripravi_bazo():
             (   id_zivila INTEGER NOT NULL,
                 ime_zivila TEXT NOT NULL,
                 id_obroka INTEGER NOT NULL,
-                kolicina INTEGER NOT NULL,
                 FOREIGN KEY (id_zivila) REFERENCES Zivilo(id_zivilo),
                 FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obrok)) 
                  """)

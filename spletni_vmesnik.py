@@ -14,7 +14,7 @@ def send_img(filename):
 
 @bottle.route('/static/javascript/<filename:re:.*\.js>')
 def send_javascript(filename):
-    return bottle.static_file(filename, root='static/js')
+    return bottle.static_file(filename, root='static/javascript')
     
 @bottle.get("/login")    
 @bottle.get("/")    
@@ -82,13 +82,23 @@ def get_food():
 @bottle.post("/food")  
 def add_food():
     zivilo = None
-    ime_zivila = bottle.request.forms.get('ime_zivila')
+    ime_zivila = bottle.request.forms.get('hrana')
+    print(ime_zivila)
     cas_obroka = bottle.request.forms.get('cas_obroka')
     kolicina = bottle.request.forms.get("kolicina")
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok("Zajtrk", cas_obroka)
-    zivilo = model.Zivilo.dodaj_zivilo()
+    if not obrok.preveri_zivilo(ime_zivila):
+        print("ne")
+        prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
+    else:
+        print("ja")
+        zivilo = model.Zivilo.dodaj_zivilo()
 
+@bottle.get("/test")    
+def get_food():   
+    ime_hrane = model.Zivilo.dobi_imena_vseh_zivil()                
+    return bottle.template("test.html", hrana = ime_hrane)
 
 @bottle.get("/activity")  
 def get_activity():
