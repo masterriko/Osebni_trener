@@ -30,7 +30,7 @@ def pripravi_bazo():
                 datum DATE NOT NULL,
                 mail TEXT NOT NULL,
                 id_pocutja INTEGER NOT NULL, 
-                FOREIGN KEY (id_uporabnika) REFERENCES Uporabnik(id_uporabnika)
+                FOREIGN KEY (mail) REFERENCES Uporabnik(mail)
             );""")
 
         # Pocutje (#3)

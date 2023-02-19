@@ -50,12 +50,12 @@ def add_signup():
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
     print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
-    uporabnik = model.Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
+    uporabnik = model.Uporabnik(mail, ime, priimek, datum_rojstva, teza, visina, geslo, spol)
     uporabnik.shrani_v_bazo()
-    date = time.datetime.now()
-    date = date.strftime("%Y-%m-%d %H:%M:%S")
-    dnevnik = model.Dnevni_vnos(date, mail)
-    dnevnik.dodaj_v_dnevni_vnos()
+    #date = time.datetime.now()
+    #date = date.strftime("%Y-%m-%d %H:%M:%S")
+    #dnevnik = model.Dnevni_vnos(date, mail)
+    #dnevnik.dodaj_v_dnevni_vnos()
 
     bottle.redirect("/login")
 

@@ -29,9 +29,9 @@ class Uporabnik:
         if not self.email_je_ze_v_uporabi():
             with conn:
                 conn.execute("""
-                INSERT INTO Uporabnik(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol) 
+                INSERT INTO Uporabnik(mail, ime, priimek, datum_rojstva, teza, visina, geslo, spol) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)           
-            """, [self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.mail, self.spol])
+            """, [self.mail, self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.spol])
         else:
             print("Email naslov je že v uporabi.")
 
