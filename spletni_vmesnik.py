@@ -16,7 +16,7 @@ def get_login():
 
 @bottle.post("/login") 
 @bottle.post("/") 
-def log_in():
+def add_login():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
 
@@ -33,7 +33,7 @@ def get_signup():
     return bottle.template("signup.html")
 
 @bottle.post("/signup") 
-def add_user():
+def add_signup():
     ime = bottle.request.forms.get('ime')
     priimek = bottle.request.forms.get('priimek')
     datum_rojstva = bottle.request.forms.get('datum_rojstva')
@@ -61,7 +61,7 @@ def add_food():
     #Tukaj napiši katere podatke rabiš za bazo
 
 @bottle.get("/activity")  
-def add_activity():
+def get_activity():
     return bottle.template("activity.html")
 
 @bottle.post("/activity")  
