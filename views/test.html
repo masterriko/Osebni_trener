@@ -1,10 +1,70 @@
-% rebase('base.html')
-<h2>Poišči Naročnika</h2>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add and Delete Elements in a Column</title>
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
 
+		.column {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			border: 2px solid #ccc;
+			padding: 10px;
+			margin: 10px;
+			min-width: 200px;
+		}
 
-<input class="input" type="text" list="hrana" name="hrana">
-<datalist id="hrana">
-% for ime in hrana:
-    <option value="{{ime}}">
-        %end
-</datalist>
+		.row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+			padding: 5px;
+		}
+
+		.row:hover {
+			background-color: #f5f5f5;
+			cursor: pointer;
+		}
+
+		.row.dragging {
+			opacity: 0.5;
+			cursor: move;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<select id="select">
+			<option value="Item 1">Item 1</option>
+			<option value="Item 2">Item 2</option>
+			<option value="Item 3">Item 3</option>
+			<option value="Item 4">Item 4</option>
+		</select>
+		<button onclick="addItem()">Add Item</button>
+		<div class="column" id="column">
+		</div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+</html>
+    <div class="container">
+        <input class="input" type="text" list="hrana" name="hrana">
+        <datalist id="hrana">
+          % for ime in hrana:
+          <option value="{{ime[0]}}">
+          %end
+        </datalist>
+        <div class="column" id="column"></div>
+        <div class="trashcan" id="trashcan"><i class="fas fa-trash"></i></div>
+    </div>
+	<script src="script.js"></script>
+</body>
+</html>

@@ -8,14 +8,20 @@
             <label for="multi-first-name">Ime živila</label>
             <input type="text" id="ime_zivila" class="pure-u-23-24" />
         </div> -->
-        <div class="control">
+        
+        
+        <div class="container">
             <input class="input" type="text" list="hrana" name="hrana">
             <datalist id="hrana">
-                % for ime in hrana:
-                <option value="{{ime}}">
-                    %end
+              % for ime in hrana:
+              <option value="{{ime[0]}}">
+              %end
             </datalist>
+            <div class="column" id="column"></div>
+            <div class="trashcan" id="trashcan"><i class="fas fa-trash"></i></div>
         </div>
+        
+        <script src="script.js"></script>
         <div class="pure-u-1 pure-u-md-1-3">
             <label for="multi-last-name">Čas obroka</label>
             <input type="text" id="multi-last-name" class="pure-u-23-24", name="cas_obroka" />

@@ -73,6 +73,10 @@ def add_food():
     else:
         zivilo = model.Zivilo.dodaj_zivilo()
 
+@bottle.get("/test")    
+def get_food():   
+    ime_hrane = model.Zivilo.dobi_imena_vseh_zivil()                
+    return bottle.template("test.html", hrana = ime_hrane)
 
 @bottle.get("/activity")  
 def get_activity():
