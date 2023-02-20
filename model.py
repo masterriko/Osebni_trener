@@ -26,6 +26,7 @@ class Uporabnik:
 
     def get_feeling(self):
         with conn:
+            return -1
     def get_vitamin_totals(self):
         with conn:
             expected_vitamins = {
