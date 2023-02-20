@@ -1,7 +1,7 @@
 import bottle 
 import model
 import sqlite3
-import time
+import datetime
 conn = sqlite3.connect('osebni_trener.db')
 
 @bottle.route('/static/css/<filename:re:.*\.css>')
@@ -30,6 +30,7 @@ def add_login():
     veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
     if veljavnost:
         print("Odobren vstop")
+        bottle.response.set_cookie('mail', mail, path='/')
         bottle.redirect("/home")
     else:
         print("ponovi geslo")
@@ -52,14 +53,14 @@ def add_signup():
     print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
     uporabnik = model.Uporabnik(mail, ime, priimek, datum_rojstva, teza, visina, geslo, spol)
     uporabnik.shrani_v_bazo()
-    #date = time.datetime.now()
-    #date = date.strftime("%Y-%m-%d %H:%M:%S")
-    #dnevnik = model.Dnevni_vnos(date, mail)
-    #dnevnik.dodaj_v_dnevni_vnos()
+    date = datetime.datetime.now()
+    date = date.strftime("%Y-%m-%d %H:%M:%S")
+    dnevnik = model.Dnevni_vnos(date, mail)
+    dnevnik.dodaj_v_dnevni_vnos()
 
     bottle.redirect("/login")
 
-
+ 
 def get_user():
     '''
     Pogleda, kdo je uporabnik in vrne njegov mail.
@@ -76,7 +77,8 @@ def get_home():
 
 @bottle.get("/food")    
 def get_food():   
-    ime_hrane = model.Zivilo.dobi_imena_vseh_zivil()                
+    ime_hrane = model.Zivilo.dobi_imena_vseh_zivil()  
+    uporabnik_mail = bottle.request.get_cookie('mail')              
     return bottle.template("food.html", hrana = ime_hrane)
 
 @bottle.post("/food")  
@@ -115,7 +117,6 @@ def add_activity():
     rekreacija.dodaj_aktivnost()
 
     #Tukaj napiši katere podatke rabiš za bazo
-
 
 @bottle.get("/feeling")  
 def get_feeling():               

@@ -108,13 +108,13 @@ class Dnevni_vnos:
             else:
                 id_pocutja = cursor1.lastrowid + 1
             cursor2 = conn.execute("""
-            INSERT INTO Dnevni_vnos (datum, id_uporabnika, id_pocutja)
+            INSERT INTO Dnevni_vnos (datum, mail, id_pocutja)
             VALUES (?, ?, ?)                 
             """, [self.datum, self.uporabnik, id_pocutja])
     @staticmethod
     def return_dnevnik(mail):
         with conn:
-            cursor = conn.execute("SELECT id_dnevnika, id_pocutja WHERE mail = ?", [mail])
+            cursor = conn.execute("SELECT id_dnevnika, id_pocutja FROM Dnevni_vnos WHERE mail = ?", [mail])
             podatki = cursor.fetchone()
             return podatki
 
@@ -141,7 +141,7 @@ class Pocutje:
             cursor = conn.execute("""
             INSERT INTO Pocutje (id_pocutja, id_dnevni_vnos, ocena)
             VALUES (?, ?, ?)                 
-            """, [self.ocena])
+            """, [self.id_pocutja, self.id_dnevnika, self.ocena])
             self.uid = cursor.lastrowid
 
 class Rekreacija:
