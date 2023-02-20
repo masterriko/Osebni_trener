@@ -195,11 +195,17 @@ class Obrok:
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
 
-    def dodaj_obrok(self):
-        """doda zivilo v obrok"""
+    def dodaj_zivilo(self, ime_zivila):
+        """doda zivilo v ZiviloObrok"""
         with conn:
             cursor = conn.execute("""
-            INSERT INTO ZiviloObrok (ime_zivila, 
+            INSERT INTO ZiviloObrok ime_zivila, id_obroka
             VALUES ((SELECT name FROM Zivilo WHERE name == ? ), ?)                 
-            """, [ime_zivila])
+            """, [ime_zivila, self.id_obroka])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
+    def preveri_zivilo(self, ime_zivila):
+        with conn:
+            cursor = conn.execute("""
+            SELECT Name FROM Zivilo WHERE Name = ?                 
+            """, [ime_zivila])
+            return cursor

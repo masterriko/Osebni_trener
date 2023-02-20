@@ -83,12 +83,17 @@ def get_food():
 
 @bottle.post("/food")  
 def add_food():
-    ime_zivila = bottle.request.forms.getlist('row')
+    zivilo = None
+    ime_zivila = bottle.request.forms.getall('hrana')
+    print(ime_zivila)
     cas_obroka = bottle.request.forms.get('cas_obroka')
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
-    print(ime_zivila, cas_obroka, vrsta_obroka)
-    print("jo")
-    bottle.redirect("/food")
+    obrok = model.Obrok(vrsta_obroka, cas_obroka)
+    if obrok.preveri_zivilo(ime_zivila) != None:
+        print("ja")
+        zivilo = model.Zivilo.dodaj_zivilo()
+        
+
 
 @bottle.get("/activity")  
 def get_activity():
