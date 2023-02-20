@@ -39,14 +39,13 @@
         %end
     }
     function drawGraph() {
-        % for other, dataDict in others.items():
+
             var data = google.visualization.arrayToDataTable([
                 ['Hranila', 'Zaužita vrednost', 'PDV'],
-                ['Vlaknine', {{dataDict['total'] if other == "fiber_g" else None}}, 44],
-                ['Ogljikovi hidrati', 700, 300],
-                ['Proteini', 80, 70],
+                ['Vlaknine', {{ other_totals['fiber_mg']['total']  }}, {{ other_totals['fiber_mg']['pdv']  }}],
+                ['Ogljikovi hidrati', {{ other_totals['carbohydrate_g']['total']  }}, {{ other_totals['carbohydrate_g']['pdv']  }}],
+                ['Proteini', {{ other_totals['protein_g']['total']  }}, {{ other_totals['protein_g']['pdv']  }}],
             ]);
-        %end
         var options = {
             hAxis: {
                 format: '###g'
