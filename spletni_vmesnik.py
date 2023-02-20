@@ -127,6 +127,9 @@ def add_feeling():
     pocutje.shrani_v_bazo()
     bottle.redirect("/feeling")
 
-
+@bottle.get('/logout')
+def logout():
+    bottle.response.delete_cookie('mail')
+    bottle.redirect('/')
 
 bottle.run(debug=True, reloader=True)
