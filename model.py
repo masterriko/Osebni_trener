@@ -24,6 +24,8 @@ class Uporabnik:
             cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
             return bool(cursor.fetchone())
 
+    def get_feeling(self):
+        with conn:
     def get_vitamin_totals(self):
         with conn:
             expected_vitamins = {
@@ -98,7 +100,7 @@ class Uporabnik:
 
             return mineral_to_total
     
-    def get_other(self):
+    def get_other_totals(self):
         with conn:
             expected = {
                 "fiber_g": 35,
@@ -153,51 +155,6 @@ class Uporabnik:
                 return False
             return preveri[0] == geslo
         return False
-
-    #def dobi_uporabnika_z_idjem(self):
-    #    """Vrne id trenutnega uporabnika"""
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT id_uporabnika
-    #            FROM uporabnik
-    #            WHERE mail = ?
-    #        """, [self.mail])
-    #        podatki = cursor.fetchone()
-    #        return podatki[0]
-      
-    #@staticmethod
-    #def dobi_uporabnike_med_idji(od, do):
-    #    print(od, do)
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, mail, polno_ime 
-    #            FROM uporabnik
-    #            WHERE ? <= uid AND uid <= ?
-    #        """, [od, do])
-    #        podatki = list(cursor.fetchall())
-    #        
-    #        return [
-    #            Uporabnik(pod[0], pod[1], pod[2])
-    #            for pod in podatki
-    #        ]
-    #    return []
-      
-        
-    #@staticmethod
-    #def dobi_vse_uporabnike():
-    #    with conn:
-    #        cursor = conn.execute("""
-    #            SELECT uid, mail, polno_ime 
-    #            FROM uporabnik
-    #        """)
-    #        podatki = list(cursor.fetchall())
-    #        
-    #        return [
-    #            Uporabnik(pod[0], pod[1], pod[2])
-    #            for pod in podatki
-    #        ]
-    #    return []
-
             
 def check(mail):
     return re.fullmatch(regex, mail)
@@ -213,7 +170,6 @@ class Dnevni_vnos:
             INSERT INTO Dnevni_vnos (datum, mail)
             VALUES (?, ?)                 
             """, [self.datum, self.uporabnik])
-    ################
     @staticmethod
     def return_dnevnik(mail):
         with conn:
@@ -250,7 +206,7 @@ class Rekreacija:
         self.id_aktivnosti = id_aktivnosti
         self.cas_vadbe = cas_vadbe
         self.trajanje_vadbe_min = trajanje_vadbe_min
-    #ni do konca narejeno
+
     def dodaj_aktivnost(self, id_dnevnika):
         with conn:
             cursor = conn.execute("SELECT id_aktivnost FROM Aktivnost WHERE id_aktivnost = ?", [self.id_aktivnosti])

@@ -75,8 +75,8 @@ def get_home():
     uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))
     vitamin_totals = uporabnik.get_vitamin_totals()
     mineral_totals = uporabnik.get_mineral_totals()
-    others = uporabnik.get_other()
-    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, others=others)
+    other_totals = uporabnik.get_other_totals()
+    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, other_totals=other_totals)
 
 @bottle.get("/food")    
 def get_food():   
