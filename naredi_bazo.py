@@ -29,14 +29,13 @@ def pripravi_bazo():
                 id_dnevnika INTEGER PRIMARY KEY AUTOINCREMENT,
                 datum DATE NOT NULL,
                 mail TEXT NOT NULL,
-                id_pocutja INTEGER NOT NULL, 
                 FOREIGN KEY (mail) REFERENCES Uporabnik(mail)
             );""")
 
         # Pocutje (#3)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Pocutje
             (
-                id_pocutja INTEGER PRIMARY KEY,
+                id_pocutja INTEGER PRIMARY KEY AUTOINCREMENT,
                 id_dnevni_vnos INTEGER,
                 ocena INTEGER NOT NULL,
                 FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
@@ -46,8 +45,9 @@ def pripravi_bazo():
             (
                 id_rekreacije INTEGER PRIMARY KEY AUTOINCREMENT,
                 cas_izvedbe TIME NOT NULL,
-                cas_vadbe_min TIME,
-                id_aktivnost INTEGER,
+                cas_vadbe_min INTEGER NOT NULL,
+                id_aktivnost TEXT NOT NULL,
+                id_dnevni_vnos INTEGER,
                 FOREIGN KEY (id_aktivnost) REFERENCES Aktivnost(id_aktivnost)
             );""")
 

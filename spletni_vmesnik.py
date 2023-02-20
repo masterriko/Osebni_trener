@@ -114,7 +114,10 @@ def add_activity():
     cas_aktivnosti = bottle.request.forms.get("cas_aktivnosti")
     trajanje_aktivnosti = bottle.request.forms.get("trajanje")
     rekreacija = model.Rekreacija(ime_aktivnosti, cas_aktivnosti, trajanje_aktivnosti)
-    rekreacija.dodaj_aktivnost()
+    mail = get_user()
+    id_dnevnika = model.Dnevni_vnos.return_dnevnik(mail)
+    rekreacija.dodaj_aktivnost(id_dnevnika)
+    bottle.redirect("/activity")
 
     #Tukaj napiši katere podatke rabiš za bazo
 
@@ -127,8 +130,12 @@ def get_feeling():
 def add_feeling():
     ocena = bottle.request.forms.get("ocena")
     mail = get_user()
-    id_dnevnika, id_pocutja = model.Dnevni_vnos.return_dnevnik(mail)
-    pocutje = model.Pocutje(id_pocutja, ocena, id_dnevnika)
+    date = datetime.datetime.now()
+    date = date.strftime("%Y-%m-%d %H:%M:%S")
+    id_dnevnika = model.Dnevni_vnos.return_dnevnik(mail)
+    #dnevnik = model.Dnevni_vnos(date, mail)
+    #dnevnik.dodaj_v_dnevni_vnos()
+    pocutje = model.Pocutje(ocena, id_dnevnika)
     pocutje.shrani_v_bazo()
 
 

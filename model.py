@@ -100,24 +100,20 @@ class Dnevni_vnos:
     def __init__(self, datum, uporabnik):
         self.datum = datum
         self.uporabnik = uporabnik
+
     def dodaj_v_dnevni_vnos(self):
         with conn:
-            cursor1 = conn.execute("""SELECT id_pocutja FROM Dnevni_vnos""")
-            if cursor1 == None:
-                id_pocutja = 1
-            else:
-                id_pocutja = cursor1.lastrowid + 1
             cursor2 = conn.execute("""
-            INSERT INTO Dnevni_vnos (datum, mail, id_pocutja)
-            VALUES (?, ?, ?)                 
-            """, [self.datum, self.uporabnik, id_pocutja])
+            INSERT INTO Dnevni_vnos (datum, mail)
+            VALUES (?, ?)                 
+            """, [self.datum, self.uporabnik])
+    ################
     @staticmethod
     def return_dnevnik(mail):
         with conn:
-            cursor = conn.execute("SELECT id_dnevnika, id_pocutja FROM Dnevni_vnos WHERE mail = ?", [mail])
+            cursor = conn.execute("SELECT id_dnevnika FROM Dnevni_vnos WHERE mail = ?", [mail])
             podatki = cursor.fetchone()
-            return podatki
-
+            return podatki[0]
 
 
 class Teza:
@@ -132,16 +128,15 @@ class Teza:
             """, [self.tehtanje])
             self.uid = cursor.lastrowid
 class Pocutje:
-    def __init__(self, id_pocutja, ocena, id_dnevnika):
-        self.id_pocutja = id_pocutja
+    def __init__(self, ocena, id_dnevnika):
         self.ocena = ocena
         self.id_dnevnika = id_dnevnika
     def shrani_v_bazo(self):
         with conn:
             cursor = conn.execute("""
-            INSERT INTO Pocutje (id_pocutja, id_dnevni_vnos, ocena)
-            VALUES (?, ?, ?)                 
-            """, [self.id_pocutja, self.id_dnevnika, self.ocena])
+            INSERT INTO Pocutje (id_dnevni_vnos, ocena)
+            VALUES (?, ?)                 
+            """, [self.id_dnevnika, self.ocena])
             self.uid = cursor.lastrowid
 
 class Rekreacija:
@@ -150,15 +145,15 @@ class Rekreacija:
         self.cas_vadbe = cas_vadbe
         self.trajanje_vadbe_min = trajanje_vadbe_min
     #ni do konca narejeno
-    def dodaj_aktivnost(self):
+    def dodaj_aktivnost(self, id_dnevnika):
         with conn:
             cursor = conn.execute("SELECT id_aktivnost FROM Aktivnost WHERE id_aktivnost = ?", [self.id_aktivnosti])
             result = cursor.fetchone()
             if result != None:
                 cursor = conn.execute("""
-                INSERT INTO Rekreacija (cas_izvedbe, cas_vadbe_min, id_aktivnost) 
-                VALUES (?, ?, ?)                 
-                """, [self.cas_vadbe , self.trajanje_vadbe_min, self.id_aktivnosti])
+                INSERT INTO Rekreacija (cas_izvedbe, cas_vadbe_min, id_aktivnost, id_dnevni_vnos) 
+                VALUES (?, ?, ?, ?)                 
+                """, [self.cas_vadbe , self.trajanje_vadbe_min, self.id_aktivnosti, id_dnevnika])
             #self.uid = cursor.lastrowid
 
 
