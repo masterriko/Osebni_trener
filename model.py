@@ -45,6 +45,8 @@ class Uporabnik:
                     WHERE mail=?
                 """, [mail])
                 preveri = cursor.fetchone()
+            if preveri == None:
+                return False
             return preveri[0] == geslo
         return False
 
@@ -188,8 +190,7 @@ class Zivilo:
         return []
 
 class Obrok:
-    def __init__(self, id_obroka, ime_obroka, cas_obroka, zivilo = []):
-        self.id_obroka = id_obroka
+    def __init__(self, ime_obroka, cas_obroka, zivilo = []):
         self.ime_obroka = ime_obroka
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino

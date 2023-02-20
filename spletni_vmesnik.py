@@ -87,7 +87,6 @@ def add_food():
     ime_zivila = bottle.request.forms.getall('hrana')
     print(ime_zivila)
     cas_obroka = bottle.request.forms.get('cas_obroka')
-    kolicina = bottle.request.forms.get("kolicina")
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok(vrsta_obroka, cas_obroka)
     if obrok.preveri_zivilo(ime_zivila) != None:
@@ -104,7 +103,7 @@ def get_activity():
 
 @bottle.post("/activity")  
 def add_activity():
-    ime_aktivnosti = bottle.request.forms.get("ime_aktivnosti")
+    ime_aktivnosti = bottle.request.forms.get("column")
     cas_aktivnosti = bottle.request.forms.get("cas_aktivnosti")
     trajanje_aktivnosti = bottle.request.forms.get("trajanje")
     rekreacija = model.Rekreacija(ime_aktivnosti, cas_aktivnosti, trajanje_aktivnosti)
@@ -131,7 +130,7 @@ def add_feeling():
     #dnevnik.dodaj_v_dnevni_vnos()
     pocutje = model.Pocutje(ocena, id_dnevnika)
     pocutje.shrani_v_bazo()
-
+    bottle.redirect("/feeling")
 
 
 
