@@ -61,7 +61,7 @@ def pripravi_bazo():
         # Obrok (#6)
         cursor.execute("""CREATE TABLE IF NOT EXISTS Obrok
             (
-                id_obroka INTEGER PRIMARY KEY NOT NULL,
+                id_obroka INTEGER PRIMARY KEY AUTOINCREMENT,
                 ime_obroka TEXT NOT NULL,
                 cas_obroka TIME NOT NULL,
                 id_dnevni_vnos INTEGER,
@@ -150,10 +150,9 @@ def pripravi_bazo():
         
         # ZiviloObrok (#8):
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS ZiviloObrok
-            (   id_zivila INTEGER NOT NULL,
-                ime_zivila TEXT NOT NULL,
+            (   ime_zivila TEXT NOT NULL,
                 id_obroka INTEGER NOT NULL,
-                FOREIGN KEY (id_zivila) REFERENCES Zivilo(id_zivilo),
+                FOREIGN KEY (ime_zivila) REFERENCES Zivilo(ime_zivila),
                 FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obrok)) 
                  """)
         # Omejitve (#9)
