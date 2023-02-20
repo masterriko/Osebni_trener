@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
-db = sqlite3.connect("osebni_trener.db")
 
+db = sqlite3.connect("osebni_trener.db")
 df1 = pd.read_csv(r'data/modified.csv')
 hranila = []
 for col in df1.columns:
@@ -152,8 +152,8 @@ def pripravi_bazo():
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS ZiviloObrok
             (   ime_zivila TEXT NOT NULL,
                 id_obroka INTEGER NOT NULL,
-                FOREIGN KEY (ime_zivila) REFERENCES Zivilo(ime_zivila),
-                FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obrok)) 
+                FOREIGN KEY (ime_zivila) REFERENCES Zivilo(name),
+                FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obroka)) 
                  """)
         # Omejitve (#9)
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS Omejitve
@@ -180,19 +180,26 @@ def pripravi_bazo():
 
 def napolni_nujne_podatke(conn):
     #Napolni tabelo zivilo
-    for vrstica in df1.itertuples():
-        i = 0
-        with conn: # mogoce je ena več ali ena manj
-            conn.execute(f"""
-            INSERT INTO Zivilo ({hranila[0]}, {hranila[1]}, {hranila[2]}, {hranila[3]}, {hranila[4]}, {hranila[5]}, {hranila[6]}, {hranila[7]}, {hranila[8]}, {hranila[9]}, {hranila[10]} , {hranila[11]} , {hranila[12]} ,{ hranila[13]} , {hranila[14]} , {hranila[15]} , {hranila[16]} , {hranila[17]} , {hranila[18]} , {hranila[19]} , {hranila[20]} , {hranila[21]} , {hranila[22]} , {hranila[23]} , {hranila[24]} , {hranila[25]} , {hranila[26]} , {hranila[27]} , {hranila[28]} ,{ hranila[29]} , {hranila[30]} , {hranila[31]} , {hranila[32]} , {hranila[33]} , {hranila[34]} , {hranila[35]} , {hranila[36]} , {hranila[37]} , {hranila[38]} , {hranila[39]} , {hranila[40]} , {hranila[41]} , {hranila[42]} , {hranila[43]} , {hranila[44]} , {hranila[45]} , {hranila[46]} , {hranila[47]} , {hranila[48]} , {hranila[49]} , {hranila[50]} , {hranila[51]} , {hranila[52]} ,{ hranila[53]} , {hranila[54]} , {hranila[55]} ,{ hranila[56]} , {hranila[57]} , {hranila[58]} ,{ hranila[59]} , {hranila[60]} , {hranila[61]} , {hranila[62]} , {hranila[63]} , {hranila[64]} , {hranila[65]} ,{hranila[66]} ,{ hranila[67]} , {hranila[68]} , {hranila[69]} , {hranila[70]} , {hranila[71]} , {hranila[72]} , {hranila[73]} , {hranila[74]}, {hranila[75]} )
-            VALUES ('{vrstica[1]}', '{vrstica[2]}', '{vrstica[3]}', '{vrstica[4]}', '{vrstica[5]}', '{vrstica[6]}', '{vrstica[7]}', '{vrstica[8]}', '{vrstica[9]}', '{vrstica[10]}' , '{vrstica[11]}' , '{vrstica[12]}' , '{vrstica[13]}' , '{vrstica[14]}' , '{vrstica[15]}' , '{vrstica[16]}' , '{vrstica[17]}' , '{vrstica[18]}' , '{vrstica[19]}' , '{vrstica[20]}' , '{vrstica[21]}' , '{vrstica[22]}' , '{vrstica[23]}' , '{vrstica[24]}' , '{vrstica[25]}' , '{vrstica[26]}' , '{vrstica[27]}' , '{vrstica[28]}' , '{vrstica[29]}' , '{vrstica[30]}' , '{vrstica[31]}' , '{vrstica[32]}' , '{vrstica[33]}' , '{vrstica[34]}' , '{vrstica[35]}' , '{vrstica[36]}', '{vrstica[37]}', '{vrstica[38]}', '{vrstica[39]}', '{vrstica[40]}', '{vrstica[41]}', '{vrstica[42]}', '{vrstica[43]}', '{vrstica[44]}', '{vrstica[45]}' , '{vrstica[46]}' , '{vrstica[47]}' , '{vrstica[48]}' , '{vrstica[49]}' , '{vrstica[50]}' , '{vrstica[51]}' , '{vrstica[52]}' , '{vrstica[53]}' , '{vrstica[54]}' , '{vrstica[55]}' , '{vrstica[56]}' , '{vrstica[57]}' , '{vrstica[58]}' , '{vrstica[59]}' , '{vrstica[60]}' , '{vrstica[61]}' , '{vrstica[62]}' , '{vrstica[63]}' , '{vrstica[64]}' , '{vrstica[65]}' , '{vrstica[66]}' , '{vrstica[67]}' , '{vrstica[68]}' , '{vrstica[69]}' , '{vrstica[70]}', '{vrstica[71]}', '{vrstica[72]}', '{vrstica[73]}', '{vrstica[74]}', '{vrstica[75]}', {vrstica[76]})
-                        """)
-    for vrstica in df2.itertuples():
-        with conn:
-            conn.execute(f""" 
-            INSERT INTO Aktivnost (id_aktivnost, poraba_kalorij_na_kg)
-            VALUES ('{vrstica[1]}', {vrstica[6]})
-            """)
+    with conn:
+        for vrstica in df1.itertuples():
+            i = 0
+            # mogoce je ena več ali ena manj
+            try:
+                conn.execute(f"""
+                INSERT INTO Zivilo ({hranila[0]}, {hranila[1]}, {hranila[2]}, {hranila[3]}, {hranila[4]}, {hranila[5]}, {hranila[6]}, {hranila[7]}, {hranila[8]}, {hranila[9]}, {hranila[10]} , {hranila[11]} , {hranila[12]} ,{ hranila[13]} , {hranila[14]} , {hranila[15]} , {hranila[16]} , {hranila[17]} , {hranila[18]} , {hranila[19]} , {hranila[20]} , {hranila[21]} , {hranila[22]} , {hranila[23]} , {hranila[24]} , {hranila[25]} , {hranila[26]} , {hranila[27]} , {hranila[28]} ,{ hranila[29]} , {hranila[30]} , {hranila[31]} , {hranila[32]} , {hranila[33]} , {hranila[34]} , {hranila[35]} , {hranila[36]} , {hranila[37]} , {hranila[38]} , {hranila[39]} , {hranila[40]} , {hranila[41]} , {hranila[42]} , {hranila[43]} , {hranila[44]} , {hranila[45]} , {hranila[46]} , {hranila[47]} , {hranila[48]} , {hranila[49]} , {hranila[50]} , {hranila[51]} , {hranila[52]} ,{ hranila[53]} , {hranila[54]} , {hranila[55]} ,{ hranila[56]} , {hranila[57]} , {hranila[58]} ,{ hranila[59]} , {hranila[60]} , {hranila[61]} , {hranila[62]} , {hranila[63]} , {hranila[64]} , {hranila[65]} ,{hranila[66]} ,{ hranila[67]} , {hranila[68]} , {hranila[69]} , {hranila[70]} , {hranila[71]} , {hranila[72]} , {hranila[73]} , {hranila[74]}, {hranila[75]} )
+                VALUES ('{vrstica[1]}', '{vrstica[2]}', '{vrstica[3]}', '{vrstica[4]}', '{vrstica[5]}', '{vrstica[6]}', '{vrstica[7]}', '{vrstica[8]}', '{vrstica[9]}', '{vrstica[10]}' , '{vrstica[11]}' , '{vrstica[12]}' , '{vrstica[13]}' , '{vrstica[14]}' , '{vrstica[15]}' , '{vrstica[16]}' , '{vrstica[17]}' , '{vrstica[18]}' , '{vrstica[19]}' , '{vrstica[20]}' , '{vrstica[21]}' , '{vrstica[22]}' , '{vrstica[23]}' , '{vrstica[24]}' , '{vrstica[25]}' , '{vrstica[26]}' , '{vrstica[27]}' , '{vrstica[28]}' , '{vrstica[29]}' , '{vrstica[30]}' , '{vrstica[31]}' , '{vrstica[32]}' , '{vrstica[33]}' , '{vrstica[34]}' , '{vrstica[35]}' , '{vrstica[36]}', '{vrstica[37]}', '{vrstica[38]}', '{vrstica[39]}', '{vrstica[40]}', '{vrstica[41]}', '{vrstica[42]}', '{vrstica[43]}', '{vrstica[44]}', '{vrstica[45]}' , '{vrstica[46]}' , '{vrstica[47]}' , '{vrstica[48]}' , '{vrstica[49]}' , '{vrstica[50]}' , '{vrstica[51]}' , '{vrstica[52]}' , '{vrstica[53]}' , '{vrstica[54]}' , '{vrstica[55]}' , '{vrstica[56]}' , '{vrstica[57]}' , '{vrstica[58]}' , '{vrstica[59]}' , '{vrstica[60]}' , '{vrstica[61]}' , '{vrstica[62]}' , '{vrstica[63]}' , '{vrstica[64]}' , '{vrstica[65]}' , '{vrstica[66]}' , '{vrstica[67]}' , '{vrstica[68]}' , '{vrstica[69]}' , '{vrstica[70]}', '{vrstica[71]}', '{vrstica[72]}', '{vrstica[73]}', '{vrstica[74]}', '{vrstica[75]}', {vrstica[76]})
+                            """)
+            except:
+                pass
+
+        for vrstica in df2.itertuples():
+            try:
+                conn.execute(f""" 
+                INSERT INTO Aktivnost (id_aktivnost, poraba_kalorij_na_kg)
+                VALUES ('{vrstica[1]}', {vrstica[6]})
+                """)
+            except:
+                pass
 
 pripravi_bazo()
 print("Baza je pripravljena")

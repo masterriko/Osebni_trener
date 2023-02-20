@@ -50,7 +50,6 @@ def add_signup():
     geslo = bottle.request.forms.get('geslo')
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
-    print(ime, priimek, datum_rojstva, teza, visina, geslo, mail, spol)
     uporabnik = model.Uporabnik(mail, ime, priimek, datum_rojstva, teza, visina, geslo, spol)
     uporabnik.shrani_v_bazo()
     date = datetime.datetime.now()
@@ -72,8 +71,12 @@ def get_user():
         return None
 
 @bottle.get("/home")    
-def get_home():                   
-    return bottle.template("home.html")
+def get_home():
+    uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))
+    vitamin_totals = uporabnik.get_vitamin_totals()
+    mineral_totals = uporabnik.get_mineral_totals()
+    others = uporabnik.get_other()
+    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, others=others)
 
 @bottle.get("/food")    
 def get_food():   
@@ -81,19 +84,18 @@ def get_food():
     uporabnik_mail = bottle.request.get_cookie('mail')              
     return bottle.template("food.html", hrana = ime_hrane)
 
-@bottle.post("/food")  
+@bottle.post("/food")
 def add_food():
     zivilo = None
     ime_zivila = bottle.request.forms.getall('hrana')
-    print(ime_zivila)
     cas_obroka = bottle.request.forms.get('cas_obroka')
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok(vrsta_obroka, cas_obroka)
-    if obrok.preveri_zivilo(ime_zivila) != None:
-        print("ja")
-        zivilo = model.Zivilo.dodaj_zivilo()
-        
-
+    obrok.dodaj(bottle.request.get_cookie('mail'))
+    for zivila in ime_zivila[1:]:
+        if obrok.preveri_zivilo(zivila) != None:
+            zivilo = obrok.dodaj_zivilo(zivila)
+    bottle.redirect("/food")
 
 @bottle.get("/activity")  
 def get_activity():
@@ -103,7 +105,7 @@ def get_activity():
 
 @bottle.post("/activity")  
 def add_activity():
-    ime_aktivnosti = bottle.request.forms.get("column")
+    ime_aktivnosti = bottle.request.forms.get("ime_aktivnost")
     cas_aktivnosti = bottle.request.forms.get("cas_aktivnosti")
     trajanje_aktivnosti = bottle.request.forms.get("trajanje")
     rekreacija = model.Rekreacija(ime_aktivnosti, cas_aktivnosti, trajanje_aktivnosti)
@@ -138,3 +140,4 @@ def logout():
     bottle.redirect('/')
 
 bottle.run(debug=True, reloader=True)
+

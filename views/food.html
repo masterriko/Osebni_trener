@@ -1,6 +1,6 @@
 % rebase('base.html')
 <link rel="stylesheet" href="../static/css/prikaz_hrane.css">
-<form class="pure-form pure-form-stacked" method="POST" action ="\activity">
+<form class="pure-form pure-form-stacked" method="POST" action ="/food">
     <!-- <fieldset> -->
     <legend>OBROK</legend>
     <div class="pure-g">  
@@ -31,7 +31,8 @@ function addItem() {
     var row = document.createElement("div");
     row.className = "row";
     row.draggable = true;
-    row.innerHTML = "<span>" + value + "</span><button type='reset' style='background-color: red; color: white; width:30px; height:30px;' onclick='deleteItem(this.parentNode)' >x</button>";
+    row.innerHTML = "<span>" + value + "</span><input name='hrana' type='hidden' value='"+value+"'/><button type='reset' style='background-color: red; color: white; width:30px; height:30px;' onclick='deleteItem(this.parentNode)' >x</button>";
+    
     column.appendChild(row);
     select.value = "";
 

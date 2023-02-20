@@ -17,8 +17,6 @@ body {
     max-width: 600px;
     margin: 0 auto;
     background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     padding: 20px;
     position: relative; /* added position property */
     right: -10px; /* added right property */
@@ -46,8 +44,6 @@ body {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     margin-bottom: 20px;
   }
   
@@ -61,7 +57,6 @@ body {
     background-color: #007bff;
     color: #fff;
     border: none;
-    border-radius: 5px;
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
