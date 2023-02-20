@@ -83,14 +83,11 @@ def get_food():
 
 @bottle.post("/food")  
 def add_food():
-    ime_zivila = bottle.request.forms.get('hrana')
+    ime_zivila = bottle.request.forms.getlist('row')
     cas_obroka = bottle.request.forms.get('cas_obroka')
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
-    obrok = model.Obrok(vrsta_obroka, cas_obroka)
-    if not obrok.preveri_zivilo(ime_zivila):
-        prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
-    else:
-        zivilo = model.Zivilo.dodaj_zivilo()
+    print(ime_zivila, cas_obroka, vrsta_obroka)
+    print("jo")
     bottle.redirect("/food")
 
 @bottle.get("/activity")  
@@ -101,7 +98,7 @@ def get_activity():
 
 @bottle.post("/activity")  
 def add_activity():
-    ime_aktivnosti = bottle.request.forms.get("ime_aktivnosti")
+    ime_aktivnosti = bottle.request.forms.get("column")
     cas_aktivnosti = bottle.request.forms.get("cas_aktivnosti")
     trajanje_aktivnosti = bottle.request.forms.get("trajanje")
     rekreacija = model.Rekreacija(ime_aktivnosti, cas_aktivnosti, trajanje_aktivnosti)
