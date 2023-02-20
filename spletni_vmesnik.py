@@ -90,7 +90,6 @@ def add_food():
     if not obrok.preveri_zivilo(ime_zivila):
         prikaz = model.Obrok.prikazi_mozna(ime_zivila) #tole naj se prikaze, da lahko gor klikne uporabnik
     else:
-        print("ja")
         zivilo = model.Zivilo.dodaj_zivilo()
     bottle.redirect("/food")
 
