@@ -24,9 +24,28 @@ class Uporabnik:
             cursor = conn.execute("SELECT 1 FROM uporabnik WHERE mail = ?", [self.mail])
             return bool(cursor.fetchone())
 
-    def get_feeling(self):
+    def get_feeling_avg(self):
         with conn:
-            return -1
+            query = """
+            SELECT avg(ocena) FROM Pocutje
+                JOIN Dnevni_vnos ON Dnevni_vnos.id_dnevnika = Pocutje.id_dnevni_vnos
+                JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                WHERE Uporabnik.mail = ?;
+            """
+            cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchone()[0]
+
+    def get_all_activity(self):
+        with conn:
+            query = """
+            SELECT id_aktivnost FROM Rekreacija
+                JOIN Dnevni_vnos ON Dnevni_vnos.id_dnevnika = Rekreacija.id_dnevni_vnos
+                JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                WHERE Uporabnik.mail = ?;
+            """
+            cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchall()
+
     def get_vitamin_totals(self):
         with conn:
             expected_vitamins = {
