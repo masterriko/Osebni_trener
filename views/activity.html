@@ -8,10 +8,10 @@
         <legend>VADBA</legend>
         <div class="control">
             <label for="aktivnost">Ime aktivnosti</label>
-            <input class="input" type="text" list="aktivnost" name="ime_aktivnosti">
+            <input class="input" type="text" list="aktivnost" name="ime_aktivnost">
             <datalist id="aktivnost">
                 % for ime in aktivnost:
-                <option value="{{ime}}">
+                <option value="{{ime[0]}}">
                     %end
             </datalist>
         </div>
