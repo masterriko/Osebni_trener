@@ -76,7 +76,9 @@ def get_home():
     vitamin_totals = uporabnik.get_vitamin_totals()
     mineral_totals = uporabnik.get_mineral_totals()
     other_totals = uporabnik.get_other_totals()
-    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, other_totals=other_totals)
+    feel = uporabnik.get_feeling_avg()
+    activity = uporabnik.get_all_activity()
+    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, other_totals=other_totals, feel = feel, activity = activity)
 
 @bottle.get("/food")    
 def get_food():   
@@ -86,7 +88,6 @@ def get_food():
 
 @bottle.post("/food")
 def add_food():
-    zivilo = None
     ime_zivila = bottle.request.forms.getall('hrana')
     cas_obroka = bottle.request.forms.get('cas_obroka')
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")

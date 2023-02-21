@@ -47,6 +47,7 @@
                 ['Proteini', {{ other_totals['protein_g']['total']  }}, {{ other_totals['protein_g']['pdv']  }}],
             ]);
         var options = {
+            colors: ['#0077c8', '#ADD8E6'],
             hAxis: {
                 format: '###g'
             }
@@ -118,7 +119,9 @@
         </div>
     </div>
 </div>
-<h1>neki</h1>
+<h1 style = "margin-top: 15px;">Proteini, Ogljikovi hidrati in Vlaknine(g)</h1>
+{{ feel }}
+{{ activity }}
 <div class="row">
     <div class="column">
         <div id="myGraph" style="width:100%; max-width:600px; height:500px;"></div>
