@@ -126,12 +126,14 @@ class Uporabnik:
                 "fiber_g": 35,
                 "carbohydrate_g": 300,
                 "protein_g": 56,
+                "calories": 2000
             }
             other_to_total = {}
             others = [
                 "fiber_g",
                 "carbohydrate_g",
-                "protein_g"
+                "protein_g",
+                "calories"
             ]
             for other in others:
                 query = """
