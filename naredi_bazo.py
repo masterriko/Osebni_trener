@@ -152,6 +152,7 @@ def pripravi_bazo():
         cursor.execute(f"""CREATE TABLE IF NOT EXISTS ZiviloObrok
             (   ime_zivila TEXT NOT NULL,
                 id_obroka INTEGER NOT NULL,
+                kolicina INTEGER,
                 FOREIGN KEY (ime_zivila) REFERENCES Zivilo(name),
                 FOREIGN KEY (id_obroka) REFERENCES Obrok(id_obroka)) 
                  """)

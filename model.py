@@ -69,7 +69,7 @@ class Uporabnik:
             ]
             for vitamin in vitamins:
                 query = """
-                SELECT COALESCE(SUM(Zivilo.{}), 0) FROM Zivilo
+                SELECT COALESCE(SUM(Zivilo.{} * ZiviloObrok.kolicina / 100 ), 0) FROM Zivilo
                   JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
                   JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
                   JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
@@ -105,7 +105,7 @@ class Uporabnik:
             ]
             for mineral in minerals:
                 query = """
-                SELECT COALESCE(SUM(Zivilo.{}), 0) FROM Zivilo
+                SELECT COALESCE(SUM(Zivilo.{} * ZiviloObrok.kolicina / 100), 0) FROM Zivilo
                   JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
                   JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
                   JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
@@ -135,7 +135,7 @@ class Uporabnik:
             ]
             for other in others:
                 query = """
-                SELECT COALESCE(SUM(Zivilo.{}), 0) FROM Zivilo
+                SELECT COALESCE(SUM(Zivilo.{} * ZiviloObrok.kolicina / 100), 0) FROM Zivilo
                 JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
                 JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
                 JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
@@ -273,6 +273,7 @@ class Obrok:
     def __init__(self, ime_obroka, cas_obroka, id_obroka=None, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
+        self.kolicina = 0;
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
 
@@ -290,15 +291,15 @@ class Obrok:
             """, [self.cas_obroka, self.ime_obroka, mail])
             self.id_obroka = cursor.lastrowid #for znak in ime_zivila:
 
-    def dodaj_zivilo(self, ime_zivila):
+    def dodaj_zivilo(self, ime_zivila, kolicina):
         """doda zivilo v ZiviloObrok"""
         with conn:
-            print(self.id_obroka)
             cursor = conn.execute("""
-            INSERT INTO ZiviloObrok (ime_zivila, id_obroka)
-            VALUES (?, ?)                 
-            """, [ime_zivila, self.id_obroka])
+            INSERT INTO ZiviloObrok (ime_zivila, id_obroka, kolicina)
+            VALUES (?, ?, ?)                 
+            """, [ime_zivila, self.id_obroka, kolicina])
             self.uid = cursor.lastrowid #for znak in ime_zivila:
+
 
     def preveri_zivilo(self, ime_zivila):
         with conn:

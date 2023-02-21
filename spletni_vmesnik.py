@@ -93,9 +93,11 @@ def add_food():
     vrsta_obroka = bottle.request.forms.get("vrsta_obroka")
     obrok = model.Obrok(vrsta_obroka, cas_obroka)
     obrok.dodaj(bottle.request.get_cookie('mail'))
-    for zivila in ime_zivila[1:]:
-        if obrok.preveri_zivilo(zivila) != None:
-            zivilo = obrok.dodaj_zivilo(zivila)
+    ime = ime_zivila[1::2] 
+    kolicina = ime_zivila[2::2]
+    for i, k in zip(ime, kolicina):
+        if obrok.preveri_zivilo(i) != None:
+            obrok.dodaj_zivilo(i, k)
     bottle.redirect("/food")
 
 @bottle.get("/activity")  
