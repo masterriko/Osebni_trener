@@ -48,6 +48,7 @@ def pripravi_bazo():
                 cas_vadbe_min INTEGER NOT NULL,
                 id_aktivnost TEXT NOT NULL,
                 id_dnevni_vnos INTEGER,
+                FOREIGN KEY (id_dnevni_vnos) REFERENCES Dnevni_vnos(id_dnevnika) 
                 FOREIGN KEY (id_aktivnost) REFERENCES Aktivnost(id_aktivnost)
             );""")
 

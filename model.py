@@ -47,15 +47,16 @@ class Uporabnik:
             return cursor.fetchall()
 
     def get_vitamin_totals(self):
+        sum_exercise = self.get_sum_of_exercise()
         with conn:
             expected_vitamins = {
-                "vitamin_a_IU": 3000,
-                "vitamin_b12_mcg": 2.4,
-                "vitamin_b6_mg": 1.7,
-                "vitamin_c_mg": 90,
-                "vitamin_d_IU": 600,
-                "vitamin_e_mg": 15,
-                "vitamin_k_mcg": 120
+                "vitamin_a_IU": self.get_expected("vitamin_a_IU", sum_exercise),
+                "vitamin_b12_mcg": self.get_expected("vitamin_b12_mcg", sum_exercise),
+                "vitamin_b6_mg": self.get_expected("vitamin_b6_mg", sum_exercise),
+                "vitamin_c_mg": self.get_expected("vitamin_c_mg", sum_exercise),
+                "vitamin_d_IU": self.get_expected("vitamin_d_IU", sum_exercise),
+                "vitamin_e_mg": self.get_expected("vitamin_e_mg", sum_exercise),
+                "vitamin_k_mcg": self.get_expected("vitamin_k_mcg", sum_exercise)
             }
             vitamin_to_total = {}
             vitamins = [
@@ -85,14 +86,15 @@ class Uporabnik:
             return vitamin_to_total
 
     def get_mineral_totals(self):
+        sum_exercise = self.get_sum_of_exercise()
         with conn:
             expected_minerals = {
-                "magnesium_mg": 400,
-                "calcium_mg": 1000,
-                "sodium_mg": 500,
-                "iron_mg": 8.7,
-                "potassium_mg": 2000,
-                "zink_mg": 11,
+                "magnesium_mg": self.get_expected("magnesium_mg", sum_exercise),
+                "calcium_mg": self.get_expected("calcium_mg", sum_exercise),
+                "sodium_mg": self.get_expected("sodium_mg", sum_exercise),
+                "iron_mg": self.get_expected("iron_mg", sum_exercise),
+                "potassium_mg": self.get_expected("potassium_mg", sum_exercise),
+                "zink_mg": self.get_expected("zink_mg", sum_exercise),
             }
             mineral_to_total = {}
             minerals = [
@@ -120,13 +122,51 @@ class Uporabnik:
 
             return mineral_to_total
     
-    def get_other_totals(self):
+    def get_sum_of_exercise(self):
         with conn:
-            expected = {
+            cursor = conn.execute("""
+                    SELECT IFNULL(COALESCE(SUM(Uporabnik.teza * Rekreacija.cas_vadbe_min * Aktivnost.poraba_kalorij_na_kg / 60), 0), 0) FROM Uporabnik
+                    JOIN Dnevni_vnos ON Dnevni_vnos.mail = Uporabnik.mail
+                    JOIN Rekreacija ON Rekreacija.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
+                    JOIN Aktivnost ON Aktivnost.id_aktivnost = Rekreacija.id_aktivnost
+                    WHERE Uporabnik.mail = ?;
+                    """, [self.mail])
+            return cursor.fetchone()[0]
+        return 0
+
+
+    def get_expected(self, name, sum_exercise):
+        #(kilogrami * čas_aktivnosti * aktivnost  / 60) / kalorije * začetna_vrednost
+        #Aktivnost, kilograme, začetno vrednost, vrednost za vsako hranilo posebej
+        expected_normal = {
                 "fiber_g": 35,
                 "carbohydrate_g": 300,
                 "protein_g": 56,
-                "calories": 2000
+                "calories": 2000,
+                "magnesium_mg": 400,
+                "calcium_mg": 1000,
+                "sodium_mg": 500,
+                "iron_mg": 8.7,
+                "potassium_mg": 2000,
+                "zink_mg": 11,
+                "vitamin_a_IU": 3000,
+                "vitamin_b12_mcg": 2.4,
+                "vitamin_b6_mg": 1.7,
+                "vitamin_c_mg": 90,
+                "vitamin_d_IU": 600,
+                "vitamin_e_mg": 15,
+                "vitamin_k_mcg": 120
+            }
+        return expected_normal[name] + sum_exercise / 2000 * expected_normal[name]
+
+    def get_other_totals(self):
+        sum_exercise = self.get_sum_of_exercise()
+        with conn:
+            expected = {
+                "fiber_g": self.get_expected("fiber_g", sum_exercise),
+                "carbohydrate_g": self.get_expected("carbohydrate_g", sum_exercise),
+                "protein_g": self.get_expected("protein_g", sum_exercise),
+                "calories": self.get_expected("calories", sum_exercise)
             }
             other_to_total = {}
             others = [
