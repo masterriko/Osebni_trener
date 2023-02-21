@@ -120,10 +120,29 @@
     </div>
 </div>
 <h1 style = "margin-top: 15px;">Proteini, Ogljikovi hidrati in Vlaknine(g)</h1>
-{{ feel }}
-{{ activity }}
 <div class="row">
     <div class="column">
         <div id="myGraph" style="width:100%; max-width:600px; height:500px;"></div>
+        <div>
+            <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue" ><br><h2 style = "margin: 20px;"> Vaše počutje: {{ feel }} </h2></div>
+        </div>
+        <div>
+            <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue">
+                    <br>
+                    <h2 style = "margin: 20px;"> Aktivnosti</h2>
+        </div>
+            <div style = "overflow: auto; width: 300px; height: 300px;">
+                % for act in activity:
+                    <div class = "card" style = "margin: 20px;  height: auto">
+                        <br>
+                        <h2 style = "margin: 20px;"> {{ act[0] }} </h2>
+                    </div>
+                % end
+            </div>
+        </div>
+
+    </div>
+    <div class="column">
+        
     </div>
 </div>
