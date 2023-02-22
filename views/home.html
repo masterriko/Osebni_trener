@@ -1,4 +1,5 @@
 % rebase('base.html')
+<!--% rebase('base.html')-->
 <!-- slices: { 0: { color: '#0077c8' }, 1: { color: '#e6e6e6' } },-->
 <script type="">
 </script>
@@ -19,7 +20,6 @@
             var chart = new google.visualization.PieChart(document.getElementById(containerId));
             chart.draw(data, options);
         }
-
         % for vitamin, dataDict in vitamin_totals.items():
             var data = google.visualization.arrayToDataTable([
                 ['Vitamini', 'PDV'],
@@ -28,7 +28,6 @@
             ]);
             drawChart("{{vitamin}}", data, options);
         %end
-
         % for mineral, dataDict in mineral_totals.items():
             var data = google.visualization.arrayToDataTable([
                 ['Minerali', 'PDV %'],
@@ -39,7 +38,6 @@
         %end
     }
     function drawGraph() {
-
             var data = google.visualization.arrayToDataTable([
                 ['Hranila', 'Zaužita vrednost', 'PDV'],
                 ['Vlaknine', {{ other_totals['fiber_g']['total']  }}, {{ other_totals['fiber_g']['pdv']  }}],
@@ -52,71 +50,107 @@
                 format: '###g'
             }
         };
-
         var chart = new google.visualization.BarChart(document.getElementById('myGraph'));
         chart.draw(data, options);
     }
 </script>
-<h1>Vitamini</h1>
-<div class="row">
-    <div class="column">
-        <div class="card">
-            <div id="vitamin_a_IU" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin A</h1>
-        </div>
-        <div class="card">
-            <div id="vitamin_b6_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin B6</h1>
-        </div>
-        <div class="card">
-            <div id="vitamin_b12_mcg" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin B12</h1>
-        </div>
-        <div class="card">
-            <div id="vitamin_c_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin C</h1>
-        </div>
-        <div class="card">
-            <div id="vitamin_d_IU" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin D</h1>
-        </div>
-        <div class="card">
-            <div id="vitamin_e_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin E</h1>
+<div class = "title_card_other">
+    <div class="row">
+            <div class = "column">
+                <div class = "flex_calories"> 
+                    <h3 class = "padding_calories" style="margin-left: 30px; margin-right: 20px;"> Zaužite kalorije </h3>
+                    <div class="vl"></div>
+                    <h3 style="margin-left: 20px;"> Potrebne kalorije </h3>
+                </div>
+                <div class = "flex_calories">
+                    <h2 style="margin-left: 40px;">{{ int(other_totals['calories']['pdv']) }}</h2>
+                    <h3 style="margin-top: 5px; margin-left: 5px;">kcal</h3>
+                    <h2 style="margin-left: 50px;">{{ int(other_totals['calories']['total']) }}</h2>
+                    <h3 style="margin-top: 5px; margin-left: 5px;">kcal</h3>
+                </div>
+            </div>
+    </div>
+</div>
 
-        </div>
-        <div class="card">
-            <div id="vitamin_k_mcg" style="width: 150px; height: 150px;"></div>
-            <h1>Vitamin K</h1>
+<div class = "title_card">
+    <h1>Vitamini</h1>
+    <h3>Danes ste zaužili</h3>
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <div id="vitamin_a_IU" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin A</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_a_IU']['total'] / vitamin_totals['vitamin_a_IU']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_b6_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin B6</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_b6_mg']['total'] / vitamin_totals['vitamin_b6_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_b12_mcg" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin B12</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_b12_mcg']['total'] / vitamin_totals['vitamin_b12_mcg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_c_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin C</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_c_mg']['total'] / vitamin_totals['vitamin_c_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_d_IU" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin D</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_d_IU']['total'] / vitamin_totals['vitamin_d_IU']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_e_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin E</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_e_mg']['total'] / vitamin_totals['vitamin_e_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="vitamin_k_mcg" style="width: 150px; height: 150px;"></div>
+                <h1>Vitamin K</h1>
+                <h2 style = "color: burlywood">{{ int(vitamin_totals['vitamin_k_mcg']['total'] / vitamin_totals['vitamin_k_mcg']['pdv'] * 100) }} %</h2>
+            </div>
         </div>
     </div>
 </div>
-<h1>Minerali</h1>
-<div class="row">
-    <div class="column">
-        <div class="card">
-            <div id="magnesium_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Magnezij</h1>
-        </div>
-        <div class="card">
-            <div id="calcium_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Kalcij</h1>
-        </div>
-        <div class="card">
-            <div id="iron_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Železo</h1>
-        </div>
-        <div class="card">
-            <div id="potassium_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Kalij</h1>
-        </div>
-        <div class="card">
-            <div id="zink_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Cink</h1>
-        </div>
-        <div class="card">
-            <div id="sodium_mg" style="width: 150px; height: 150px;"></div>
-            <h1>Natrij</h1>
+
+<div class = "title_card">
+    <h1>Minerali</h1>
+    <h3>Danes ste zaužili</h3>
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <div id="magnesium_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Magnezij</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['magnesium_mg']['total'] / mineral_totals['magnesium_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="calcium_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Kalcij</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['calcium_mg']['total'] / mineral_totals['calcium_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="iron_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Železo</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['iron_mg']['total'] / mineral_totals['iron_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="potassium_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Kalij</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['potassium_mg']['total'] / mineral_totals['potassium_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="zink_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Cink</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['sodium_mg']['total'] / mineral_totals['sodium_mg']['pdv'] * 100) }} %</h2>
+            </div>
+            <div class="card">
+                <div id="sodium_mg" style="width: 150px; height: 150px;"></div>
+                <h1>Natrij</h1>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['sodium_mg']['total'] / mineral_totals['sodium_mg']['pdv'] * 100) }} %</h2>
+            </div>
         </div>
     </div>
 </div>
@@ -124,10 +158,6 @@
 <div class="row">
     <div class="column">
         <div id="myGraph" style="width:100%; max-width:600px; height:500px;"></div>
-        <div>
-            <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue" ><br><h2 style = "margin: 20px;"> Potrebne kalorije: {{ int(other_totals['calories']['pdv']) }} kcal</h2></div>
-            <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue" ><br><h2 style = "margin: 20px;"> Zaužite kalorije: {{ int(other_totals['calories']['total']) }} kcal</h2></div>
-        </div>
         <div>
             <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue">
                     <br>
@@ -144,9 +174,5 @@
             </div>
         </div>
         <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue" ><br><h2 style = "margin: 20px;"> Počutje: {{ feel }} </h2></div>
-    </div>
-    
-    <div class="column">
-        
     </div>
 </div>

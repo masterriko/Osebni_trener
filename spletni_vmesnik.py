@@ -15,7 +15,7 @@ def send_img(filename):
 @bottle.route('/static/javascript/<filename:re:.*\.js>')
 def send_javascript(filename):
     return bottle.static_file(filename, root='static/javascript')
-    
+
 @bottle.get("/login")    
 @bottle.get("/")    
 def get_login():                   
@@ -35,7 +35,7 @@ def add_login():
     else:
         print("ponovi geslo")
         bottle.redirect("/login")
-
+        
 @bottle.get("/signup")    
 def get_signup():                   
     return bottle.template("signup.html")
