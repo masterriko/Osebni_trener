@@ -46,6 +46,34 @@ class Uporabnik:
             cursor = conn.execute(query, [self.mail])               
             return cursor.fetchall()
 
+    def get_vitamins(self):
+        '''Get all vitamins for particular user by food eaten'''
+        with conn:
+            query = """
+            SELECT name, kolicina, vitamin_a_IU, vitamin_b12_mcg, vitamin_b6_mg, vitamin_c_mg, vitamin_d_IU, vitamin_e_mg, vitamin_k_mcg  FROM Zivilo
+                  JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
+                  JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
+                  JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
+                  JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                  WHERE Uporabnik.mail = ?;
+            """
+            cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchall()
+
+    def get_minerals(self):
+        '''Get all minerals for particular user by food eaten'''
+        with conn:
+            query = """
+            SELECT name, kolicina, fiber_g, sodium_mg, iron_mg, potassium_mg, magnesium_mg, zink_mg FROM Zivilo
+                  JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
+                  JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
+                  JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
+                  JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                  WHERE Uporabnik.mail = ?;
+            """
+            cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchall()
+
     def get_vitamin_totals(self):
         sum_exercise = self.get_sum_of_exercise()
         with conn:

@@ -58,22 +58,38 @@
     <div class="row">
             <div class = "column">
                 <div class = "flex_calories"> 
-                    <h3 class = "padding_calories" style="margin-left: 30px; margin-right: 20px;"> Zaužite kalorije </h3>
+                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
                     <div class="vl"></div>
-                    <h3 style="margin-left: 20px;"> Potrebne kalorije </h3>
+                    <h3> Potrebne kalorije </h3>
                 </div>
                 <div class = "flex_calories">
-                    <h2 style="margin-left: 40px;">{{ int(other_totals['calories']['pdv']) }}</h2>
-                    <h3 style="margin-top: 5px; margin-left: 5px;">kcal</h3>
-                    <h2 style="margin-left: 50px;">{{ int(other_totals['calories']['total']) }}</h2>
-                    <h3 style="margin-top: 5px; margin-left: 5px;">kcal</h3>
+                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
+                    <h3>kcal</h3>
+                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
+                    <h3>kcal</h3>
                 </div>
             </div>
     </div>
 </div>
-
+<div class = "title_card_other">
+    <div class="row">
+            <div class = "column">
+                <div class = "flex_calories"> 
+                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
+                    <div class="vl"></div>
+                    <h3> Potrebne kalorije </h3>
+                </div>
+                <div class = "flex_calories">
+                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
+                    <h3>kcal</h3>
+                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
+                    <h3>kcal</h3>
+                </div>
+            </div>
+    </div>
+</div>
 <div class = "title_card">
-    <h1>Vitamini</h1>
+    <a href="vitamins" style="text-decoration: none;"><h1>Vitamini</h1></a>
     <h3>Danes ste zaužili</h3>
     <div class="row">
         <div class="column">
@@ -117,7 +133,7 @@
 </div>
 
 <div class = "title_card">
-    <h1>Minerali</h1>
+    <a href="minerals" style="text-decoration: none;"><h1>Minerali</h1></a>
     <h3>Danes ste zaužili</h3>
     <div class="row">
         <div class="column">
@@ -152,27 +168,5 @@
                 <h2 style = "color: burlywood">{{ int(mineral_totals['sodium_mg']['total'] / mineral_totals['sodium_mg']['pdv'] * 100) }} %</h2>
             </div>
         </div>
-    </div>
-</div>
-<h1 style = "margin-top: 15px;">Proteini, Ogljikovi hidrati in Vlaknine(g)</h1>
-<div class="row">
-    <div class="column">
-        <div id="myGraph" style="width:100%; max-width:600px; height:500px;"></div>
-        <div>
-            <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue">
-                    <br>
-                    <h2 style = "margin: 20px;"> Aktivnosti</h2>
-            
-        </div>
-            <div style = "overflow: auto; width: 300px; height: 300px;">
-                % for act in activity:
-                    <div class = "card" style = "margin: 20px;  height: auto">
-                        <br>
-                        <h2 style = "margin: 20px;"> {{ act[0] }} </h2>
-                    </div>
-                % end
-            </div>
-        </div>
-        <div class = "card" style = "margin: 20px;  height: 100px; background-color: lightblue" ><br><h2 style = "margin: 20px;"> Počutje: {{ feel }} </h2></div>
     </div>
 </div>

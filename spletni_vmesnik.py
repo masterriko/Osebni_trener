@@ -78,7 +78,8 @@ def get_home():
     other_totals = uporabnik.get_other_totals()
     feel = uporabnik.get_feeling_avg()
     activity = uporabnik.get_all_activity()
-    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, other_totals=other_totals, feel = feel, activity = activity)
+    burned_calories = uporabnik.get_sum_of_exercise()
+    return bottle.template("home.html", vitamin_totals=vitamin_totals, mineral_totals=mineral_totals, other_totals=other_totals, feel = feel, activity = activity, burned_calories=burned_calories)
 
 @bottle.get("/food")    
 def get_food():   
@@ -141,6 +142,18 @@ def add_feeling():
 def logout():
     bottle.response.delete_cookie('mail')
     bottle.redirect('/')
+    
+@bottle.get("/vitamins")       
+def get_vitamins():     
+    uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))  
+    data = uporabnik.get_vitamins()           
+    return bottle.template("vitamins.html", data=data)
+
+@bottle.get("/minerals")       
+def get_vitamins():     
+    uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))  
+    data = uporabnik.get_minerals()           
+    return bottle.template("minerals.html", data=data)
 
 bottle.run(debug=True, reloader=True)
 

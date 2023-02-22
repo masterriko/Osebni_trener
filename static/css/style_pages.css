@@ -7,59 +7,17 @@
   
 /* Form styles */
 
-
 body {
     background-image: url("../img/test.jpg");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: -160px center; /* added position property */
   }
-  .section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-  }
-
-  .column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid #ccc;
-    padding: 10px;
-    margin: 10px;
-    min-width: 200px;
-  }
-  .row span {
-      flex: 1;
-      margin-right: 10px;
-  }
-  .row button {
-      background-color: red;
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
-      cursor: pointer;
-  }
-  .row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 5px;
-    border-bottom: 1px solid #ccc;
-  }
-
-  .row:last-child {
-    border-bottom: none;
-  }
 .pure-form {
-    max-width: 600px;
+    border-radius: 20px;
+    max-width: 800px;
     margin: 0 auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    background-color: var(--primary-color-light);
     padding: 20px;
     position: relative; /* added position property */
     right: -10px; /* added right property */
@@ -67,6 +25,7 @@ body {
   }
   
   .pure-form legend {
+    color: var(--text-color);
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 10px;
@@ -74,6 +33,7 @@ body {
   }
   
   .pure-form label {
+    color: var(--text-color);
     display: block;
     font-size: 18px;
     font-weight: bold;
@@ -83,12 +43,12 @@ body {
   .pure-form input[type="text"],
   .pure-form input[type="email"],
   .pure-form select {
+    border-width: thin;
+    border-radius: 10px;
     display: block;
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     margin-bottom: 20px;
   }
   
@@ -99,19 +59,20 @@ body {
   }
   
   .pure-form button[type="submit"] {
-    background-color: #007bff;
+    border-radius: 15px;
+    background-color: #7da7f7;
     color: #fff;
     border: none;
-    border-radius: 5px;
     padding: 10px 20px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
+    color: var(--text-color);
     transition: background-color 0.3s;
   }
   
   .pure-form button[type="submit"]:hover {
-    background-color: #0069d9;
+    background-color: #377dfd;
   }
 
   .chart-container {
@@ -129,4 +90,38 @@ body {
     width: 50%;
     height: 100%;
   }
-  
+/* selection */
+.section {
+  align-items: center;
+}
+
+.blablabla {
+  align-items: center;
+  overflow-y: auto;
+  max-height: 300px;
+}
+.row span {
+    margin-right: 10px;
+    background-color: #0059ff;
+}
+.myButton{
+    background-color: var(--primary-color);
+    border: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    float:right;
+    margin:0px;
+}
+.myButton:hover{
+  background-color: var(--primary-color-light);
+}
+.new-items {
+  margin-top:10px;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--sidebar-color);
+  border-width: thin;
+}
+
