@@ -45,6 +45,21 @@ class Uporabnik:
             """
             cursor = conn.execute(query, [self.mail])               
             return cursor.fetchall()
+        
+    def get_all(self):
+        '''Get all minerals for particular user by food eaten'''
+        with conn:
+            query = """
+            SELECT name, kolicina, fiber_g, sodium_mg, iron_mg, potassium_mg, magnesium_mg, zink_mg FROM Zivilo
+                  JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
+                  JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
+                  JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
+                  JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                  WHERE Uporabnik.mail = ?;
+            """
+            cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchall()
+
 
     def get_vitamins(self):
         '''Get all vitamins for particular user by food eaten'''
@@ -58,6 +73,20 @@ class Uporabnik:
                   WHERE Uporabnik.mail = ?;
             """
             cursor = conn.execute(query, [self.mail])               
+            return cursor.fetchall()
+    def get_minerals_sorted(self, name):
+        '''Get all minerals for particular user by food eaten'''
+        with conn:
+            query = """
+            SELECT name, kolicina, fiber_g, sodium_mg, iron_mg, potassium_mg, magnesium_mg, zink_mg FROM Zivilo
+                  JOIN ZiviloObrok ON ZiviloObrok.ime_zivila = Zivilo.name
+                  JOIN Obrok ON ZiviloObrok.id_obroka = Obrok.id_obroka
+                  JOIN Dnevni_vnos ON Obrok.id_dnevni_vnos = Dnevni_vnos.id_dnevnika
+                  JOIN Uporabnik ON Dnevni_vnos.mail = uporabnik.mail
+                  WHERE Uporabnik.mail = ?
+                  ORDER BY ? DESC;
+            """
+            cursor = conn.execute(query, [self.mail, name])               
             return cursor.fetchall()
 
     def get_minerals(self):
@@ -219,6 +248,7 @@ class Uporabnik:
                 }
 
             return other_to_total
+    
 
     def shrani_v_bazo(self):
         print(self.ime, self.priimek, self.datum_rojstva, self.teza, self.visina, self.geslo, self.mail, self.spol)
@@ -324,7 +354,7 @@ class Aktivnost:
         return []
 
 class Zivilo:
-    def __init__(self, id_zivilo, ime_zivilo):
+    def __init__(self, id_zivilo = None, ime_zivilo = None):
         self.id_zivilo = id_zivilo
         self.ime_zivilo = ime_zivilo
 

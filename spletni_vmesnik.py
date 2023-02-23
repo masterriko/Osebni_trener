@@ -132,8 +132,6 @@ def add_feeling():
     date = datetime.datetime.now()
     date = date.strftime("%Y-%m-%d %H:%M:%S")
     id_dnevnika = model.Dnevni_vnos.return_dnevnik(mail)
-    #dnevnik = model.Dnevni_vnos(date, mail)
-    #dnevnik.dodaj_v_dnevni_vnos()
     pocutje = model.Pocutje(ocena, id_dnevnika)
     pocutje.shrani_v_bazo()
     bottle.redirect("/feeling")
@@ -149,11 +147,26 @@ def get_vitamins():
     data = uporabnik.get_vitamins()           
     return bottle.template("vitamins.html", data=data)
 
-@bottle.get("/minerals")       
-def get_vitamins():     
+@bottle.get("/minerals")      
+def get_minerals():     
     uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))  
     data = uporabnik.get_minerals()           
-    return bottle.template("minerals.html", data=data)
+    return bottle.template("minerals.html", data=data, mineral=None)
+
+@bottle.get("/info")      
+def get_info():            
+    return bottle.template("info.html")
+
+@bottle.post("/info")
+def post_info():
+    hranilo = bottle.request.forms.get("hranilo")
+    print(hranilo)
+    bottle.redirect('/info')
+
+@bottle.get("/info/<hranilo>")      
+def get_info(hranilo):            
+    
+    return bottle.template("nutrients.html", nutrient=nutrient, food=food)
 
 bottle.run(debug=True, reloader=True)
 
