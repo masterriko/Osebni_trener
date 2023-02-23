@@ -154,19 +154,13 @@ def get_minerals():
     return bottle.template("minerals.html", data=data, mineral=None)
 
 @bottle.get("/info")      
-def get_info():            
+def get_info():     
     return bottle.template("info.html")
 
-@bottle.post("/info")
-def post_info():
-    hranilo = bottle.request.forms.get("hranilo")
-    print(hranilo)
-    bottle.redirect('/info')
-
 @bottle.get("/info/<hranilo>")      
-def get_info(hranilo):            
-    
-    return bottle.template("nutrients.html", nutrient=nutrient, food=food)
+def get_info(hranilo):        
+    return bottle.template("nutrients.html")
 
 bottle.run(debug=True, reloader=True)
+
 

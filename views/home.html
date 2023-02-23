@@ -1,6 +1,7 @@
 % rebase('base.html')
 <!--% rebase('base.html')-->
 <!-- slices: { 0: { color: '#0077c8' }, 1: { color: '#e6e6e6' } },-->
+
 <script type="">
 </script>
 <script type="text/javascript">
@@ -52,59 +53,21 @@
         };
         var chart = new google.visualization.BarChart(document.getElementById('myGraph'));
         chart.draw(data, options);
-    }
+}
 </script>
-<div class = "title_card_other">
-    <div class="row">
-            <div class = "column">
-                <div class = "flex_calories"> 
-                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
-                    <div class="vl"></div>
-                    <h3> Potrebne kalorije </h3>
-                </div>
-                <div class = "flex_calories">
-                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
-                    <h3>kcal</h3>
-                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
-                    <h3>kcal</h3>
-                </div>
-            </div>
-    </div>
+<div class = "title_card" style ="height:200px">
+        <div class="neki">
+            <span class = "sameline">
+                <h3 style="margin-right:10px;"> Zaužite kalorije:</h3>
+                <h2>{{ int(other_totals['calories']['total'])}} </h2>
+                <h3 style="margin-right:30px;">kcal</h3>
+                <h3 style="margin-right:10px;">Potrebne kalorije: </h3>
+                <h2>{{ int(other_totals['calories']['pdv']) }} </h2>
+                <h3>kcal</h3>
+            </span>
+        </div>
 </div>
-<div class = "title_card_other">
-    <div class="row">
-            <div class = "column">
-                <div class = "flex_calories"> 
-                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
-                    <div class="vl"></div>
-                    <h3> Potrebne kalorije </h3>
-                </div>
-                <div class = "flex_calories">
-                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
-                    <h3>kcal</h3>
-                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
-                    <h3>kcal</h3>
-                </div>
-            </div>
-    </div>
-</div>
-<div class = "title_card_other">
-    <div class="row">
-            <div class = "column">
-                <div class = "flex_calories"> 
-                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
-                    <div class="vl"></div>
-                    <h3> Potrebne kalorije </h3>
-                </div>
-                <div class = "flex_calories">
-                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
-                    <h3>kcal</h3>
-                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
-                    <h3>kcal</h3>
-                </div>
-            </div>
-    </div>
-</div>
+
 <div class = "title_card">
     <a href="vitamins" style="text-decoration: none;"><h1>Vitamini</h1></a>
     <h3>Danes ste zaužili</h3>
