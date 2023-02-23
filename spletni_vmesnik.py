@@ -154,7 +154,7 @@ def get_minerals():
     return bottle.template("minerals.html", data=data, mineral=None)
 
 @bottle.get("/info")      
-def get_info():     
+def get_info():   
     return bottle.template("info.html")
 
 @bottle.get("/info/<hranilo>")      

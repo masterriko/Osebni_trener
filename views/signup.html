@@ -18,13 +18,17 @@
         return true 
     } 
 </script>  
-    </script>
+<style>
+    body{
+        background-color: #87CEFA; /* light blue color code */
+    }
+    </style>
     
 </head>
 <body>
       
     <div class="center">
-        <h1>Login</h1>
+        <h1>Signup</h1>
         <form method="POST" action="/signup" onsubmit="return verifyPassword() && isInt('height_message') && isInt('weight_message')">
             <div class="txt_field">
                 <input type="text" name="ime" required>
