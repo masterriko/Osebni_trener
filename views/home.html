@@ -88,6 +88,23 @@
             </div>
     </div>
 </div>
+<div class = "title_card_other">
+    <div class="row">
+            <div class = "column">
+                <div class = "flex_calories"> 
+                    <h3 class = "padding_calories"> Zaužite kalorije </h3>
+                    <div class="vl"></div>
+                    <h3> Potrebne kalorije </h3>
+                </div>
+                <div class = "flex_calories">
+                    <h2>{{ int(other_totals['calories']['total']) }}</h2>
+                    <h3>kcal</h3>
+                    <h2>{{ int(other_totals['calories']['pdv']) }}</h2>
+                    <h3>kcal</h3>
+                </div>
+            </div>
+    </div>
+</div>
 <div class = "title_card">
     <a href="vitamins" style="text-decoration: none;"><h1>Vitamini</h1></a>
     <h3>Danes ste zaužili</h3>
@@ -160,7 +177,7 @@
             <div class="card">
                 <div id="zink_mg" style="width: 150px; height: 150px;"></div>
                 <h1>Cink</h1>
-                <h2 style = "color: burlywood">{{ int(mineral_totals['sodium_mg']['total'] / mineral_totals['sodium_mg']['pdv'] * 100) }} %</h2>
+                <h2 style = "color: burlywood">{{ int(mineral_totals['zink_mg']['total'] / mineral_totals['zink_mg']['pdv'] * 100) }} %</h2>
             </div>
             <div class="card">
                 <div id="sodium_mg" style="width: 150px; height: 150px;"></div>

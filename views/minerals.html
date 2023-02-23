@@ -27,30 +27,28 @@
     p{
         color: var(--text-color)
     }
-    
     tr:hover {background-color: var(--);}
     </style>
-    </head>
+<script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
 
-    <body>
-    <div class = "title_card">
-        <h2>Minerali</h2>
-        
-        <p>Vsi minerali, ki si jih zaužil danes</p>
-        
-        <table>
+<body>
+    
+        <div class = "title_card">
+            <h2>Minerali</h2>
+            <p>Vsi minerali, ki si jih zaužil danes</p>
+            <table class="sortable">
         <tr>
-            <th>Hrana</th>
-            <th>Količina</th>
-            <th>Natrij</th>
-            <th>Železo</th>
-            <th>Kalij</th>
-            <th>Cink</th>
-            <th>Magnezij</th>
-            <th>Kalcij</th>
+            <th>Hrana </th>
+            <th>Količina </th>
+            <th>Natrij </th>
+            <th>Železo </th>
+            <th>Kalij </th>
+            <th>Cink </th>
+            <th>Magnezij </th>
+            <th>Kalcij </th>
         </tr>
         % for x in data:
-        <tr>
+        <tr class ="item">
             <td>{{x[0]}} </td>
             <td>{{x[1]}} g</td>
             <td>{{x[2]}} mg</td>
