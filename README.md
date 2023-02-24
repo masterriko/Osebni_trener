@@ -9,3 +9,8 @@ Program bo nato po zadostnem številu podatkov izpisoval jedilnik in kdaj je pot
 oseba ne bo prehitro izgubljala telesne teže ter da bodo obroki dovolj hranljivi, za čim boljše počutje. 
 Program bo izpisoval tudi število treningov in vaje, ki jih je potrebno izvajati. Merila bova fizično pripravljenost in 
 počutje uporabnika glede na spanec in povprečni srčni utrip. 
+
+Da zaženeš program sledi naslednjim korakom:
+- Vzpostavi <i> virtual environment </i> <code> env/Scripts/activate.bat </code>
+- Poženi <i>Python file</i> <code>naredi_bazo.py</code>
+- Poženi <i>Python file</i> <code>spletni_vmesnik.py</code>
