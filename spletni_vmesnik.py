@@ -2,6 +2,8 @@ import bottle
 import model
 import sqlite3
 import datetime
+import hashlib
+
 conn = sqlite3.connect('osebni_trener.db')
 
 @bottle.route('/static/css/<filename:re:.*\.css>')
@@ -48,6 +50,8 @@ def add_signup():
     teza = bottle.request.forms.get('teza')
     visina = bottle.request.forms.get('visina')
     geslo = bottle.request.forms.get('geslo')
+    #geslo zašifriramo
+    geslo = password_md5(geslo) 
     mail = bottle.request.forms.get('mail')
     spol = bottle.request.forms.get('spol')
     uporabnik = model.Uporabnik(mail, ime, priimek, datum_rojstva, teza, visina, geslo, spol)
@@ -60,10 +64,19 @@ def add_signup():
     bottle.redirect("/login")
 
  
+def password_md5(s):
+    """
+    MD5 hash funkcija za geslo
+    """
+    h = hashlib.md5()
+    h.update(s.encode('utf-8'))
+    return h.hexdigest()
+
+
 def get_user():
-    '''
-    Pogleda, kdo je uporabnik in vrne njegov mail.
-    '''
+    """
+    Vrne uporabnikov mail.
+    """
     uporabnik_mail = bottle.request.get_cookie('mail')
     if uporabnik_mail is not None:
         return uporabnik_mail
