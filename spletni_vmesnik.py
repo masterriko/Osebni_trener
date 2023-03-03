@@ -28,7 +28,8 @@ def get_login():
 def add_login():
     mail = bottle.request.forms.get('mail')
     geslo = bottle.request.forms.get('geslo')
-
+    #zašifriramo geslo
+    geslo = password_md5(geslo)
     veljavnost = model.Uporabnik.preveri_mail_in_geslo(mail, geslo)
     if veljavnost:
         print("Odobren vstop")
@@ -157,7 +158,7 @@ def logout():
 @bottle.get("/vitamins")       
 def get_vitamins():     
     uporabnik = model.Uporabnik(mail=bottle.request.get_cookie('mail'))  
-    data = uporabnik.get_vitamins()           
+    data = uporabnik.get_vitamins()
     return bottle.template("vitamins.html", data=data)
 
 @bottle.get("/minerals")      
