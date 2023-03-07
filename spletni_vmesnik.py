@@ -172,8 +172,14 @@ def get_info():
     return bottle.template("info.html")
 
 @bottle.get("/info/<hranilo>")      
-def get_info(hranilo):        
-    return bottle.template("nutrients.html")
+def get_info(hranilo):   
+    path = ['info', 'login', 'home', 'feeling', 'activity', 'food']
+    if hranilo not in path:
+        data = model.Obrok.get_top_ten(hranilo)   
+        translation = model.Obrok.translations(hranilo)
+        return bottle.template("nutrients.html", data = data, translation = translation, hranilo = hranilo)
+    else:
+        bottle.redirect('/{0}'.format(hranilo))
 
 bottle.run(debug=True, reloader=True)
 

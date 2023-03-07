@@ -34,35 +34,22 @@
 <body>
     
         <div class = "title_card">
-            <h2>Minerali</h2>
-            <p>Vsi minerali, ki si jih zaužil danes</p>
+            <h2>{{translation}}</h2>
+            <p>10 najbolj nasičenih živil s tem hranilom na 100g</p>
             <table class="sortable">
         <tr>
             <th>Hrana </th>
-            <th>Količina </th>
-            <th>Natrij </th>
-            <th>Železo </th>
-            <th>Kalij </th>
-            <th>Cink </th>
-            <th>Magnezij </th>
-            <th>Kalcij </th>
+            <th>Količina na 100g</th>
         </tr>
         % for x in data:
         <tr class ="item">
             <td>{{x[0]}} </td>
-            <td>{{x[1]}} g</td>
-            <td>{{x[2]}} mg</td>
-            <td>{{x[3]}} mg</td>
-            <td>{{x[4]}} mg</td>
-            <td>{{x[5]}} mg</td>
-            <td>{{x[6]}} mg</td>
-            <td>{{x[7]}} mg</td>
+            <td>{{x[1]}} {{hranilo.split("_")[-1]}}</td>
         </tr>
         % end
-        </tr>
         </table>
-    </body>
-    </html>
+        </div>
+</body>
 
 
 
