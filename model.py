@@ -60,7 +60,6 @@ class Uporabnik:
             cursor = conn.execute(query, [self.mail])               
             return cursor.fetchall()
 
-
     def get_vitamins(self):
         '''Get all vitamins for particular user by food eaten'''
         with conn:
@@ -407,3 +406,38 @@ class Obrok:
             SELECT Name FROM Zivilo WHERE Name = ?                 
             """, [ime_zivila])
             return cursor
+        
+    @staticmethod
+    def get_top_ten(minerals):
+        '''Get all top ten foods that have the most of this mineral'''
+        with conn:
+            query = """
+            SELECT name, {0} FROM Zivilo
+            ORDER BY {0} DESC
+            LIMIT 10;
+            """.format(minerals)
+            cursor = conn.execute(query)               
+            return cursor.fetchall()
+        
+    @staticmethod
+    def translations(mineral):
+        translations = {
+                "fiber_g": "Vlaknine",
+                "carbohydrate_g": "Ogljikovi hidrati",
+                " ": "Proteini",
+                "calories": "Kalorije",
+                "magnesium_mg": "Magnezij",
+                "calcium_mg": "Kalcij",
+                "sodium_mg": "Natrij",
+                "iron_mg": "Železo",
+                "potassium_mg": "Kalij",
+                "zink_mg": "Cink",
+                "vitamin_a_IU": "Vitamin A",
+                "vitamin_b12_mcg": "Vitamin B12",
+                "vitamin_b6_mg": "Vitamin B6",
+                "vitamin_c_mg": "Vitamin C",
+                "vitamin_d_IU": "Vitamin D",
+                "vitamin_e_mg": "Vitamin E",
+                "vitamin_k_mcg": "Vitamin K"
+            }
+        return translations[mineral]
