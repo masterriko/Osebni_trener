@@ -373,7 +373,7 @@ class Obrok:
     def __init__(self, ime_obroka, cas_obroka, id_obroka=None, zivilo = []):
         self.id_obroka = id_obroka
         self.ime_obroka = ime_obroka
-        self.kolicina = 0;
+        self.kolicina = 0
         self.cas_obroka = cas_obroka
         self.zivilo = zivilo # zivilo je tabela, ki vsebuje id (oziroma ime zivila) in njegovo količino
 
