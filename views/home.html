@@ -1,7 +1,7 @@
 % rebase('base.html')
 <!--% rebase('base.html')-->
 <!-- slices: { 0: { color: '#0077c8' }, 1: { color: '#e6e6e6' } },-->
-
+<title>Domov</title>
 <script type="">
 </script>
 <script type="text/javascript">
@@ -25,7 +25,7 @@
             var data = google.visualization.arrayToDataTable([
                 ['Vitamini', 'PDV'],
                 ["{{vitamin}}", {{dataDict['total']}}], // pdv
-                ["{{vitamin}} PDV", {{0 if dataDict['total'] - dataDict['pdv'] > 0 else dataDict['pdv']}}], // total
+                ["{{vitamin}} PDV", {{0 if dataDict['total'] - dataDict['pdv'] > 0 else dataDict['pdv'] - dataDict['total']}}], // total
             ]);
             drawChart("{{vitamin}}", data, options);
         %end
@@ -33,27 +33,11 @@
             var data = google.visualization.arrayToDataTable([
                 ['Minerali', 'PDV %'],
                 ["{{mineral}}", {{dataDict['total']}}], // pdv
-                ["{{mineral}} PDV", {{0 if dataDict['total'] - dataDict['pdv'] > 0 else dataDict['pdv']}}], // total
+                ["{{mineral}} PDV", {{0 if dataDict['total'] - dataDict['pdv'] > 0 else dataDict['pdv'] - dataDict['total']}}], // total
             ]);
             drawChart("{{mineral}}", data, options);
         %end
     }
-    function drawGraph() {
-            var data = google.visualization.arrayToDataTable([
-                ['Hranila', 'Zaužita vrednost', 'PDV'],
-                ['Vlaknine', {{ other_totals['fiber_g']['total']  }}, {{ other_totals['fiber_g']['pdv']  }}],
-                ['Ogljikovi hidrati', {{ other_totals['carbohydrate_g']['total']  }}, {{ other_totals['carbohydrate_g']['pdv']  }}],
-                ['Proteini', {{ other_totals['protein_g']['total']  }}, {{ other_totals['protein_g']['pdv']  }}],
-            ]);
-        var options = {
-            colors: ['#0077c8', '#ADD8E6'],
-            hAxis: {
-                format: '###g'
-            }
-        };
-        var chart = new google.visualization.BarChart(document.getElementById('myGraph'));
-        chart.draw(data, options);
-}
 </script>
 <div class = "title_card" style ="height:200px">
         <div class="neki">

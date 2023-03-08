@@ -1,4 +1,5 @@
 % rebase('base.html')
+<title>Vitamini</title>
 <style>
     .body{
         margin-left: 30px;
@@ -30,7 +31,7 @@
     tr:hover {background-color: var(--);}
 
     </style><script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-</head>
+
 
     <body>
     <div class = "title_card">
@@ -41,32 +42,33 @@
         <table class="sortable">
         <tr>
             <th>Hrana</th>
-            <th>Količina</th>
-            <th>Vitamin A</th>
-            <th>Vitamin B12</th>
-            <th>Vitamin B6</th>
-            <th>Vitamin C</th>
-            <th>Vitamin D</th>
-            <th>vitamin E</th>
-            <th>vitamin K</th>
+            <th>Količina (g)</th>
+            <th>Vitamin A (IU)</th>
+            <th>Vitamin B12 (mcg)</th>
+            <th>Vitamin B6 (mg)</th>
+            <th>Vitamin C (mg)</th>
+            <th>Vitamin D (IU)</th>
+            <th>vitamin E (mg)</th>
+            <th>vitamin K (mcg)</th>
         </tr>
         % for x in data:
         <tr class ="item">
-            <td>{{x[0]}} </td>
-            <td>{{x[1]}} g</td>
-            <td>{{x[2]}} IU</td>
-            <td>{{x[3]}} mcg</td>
-            <td>{{x[4]}} mg</td>
-            <td>{{x[5]}} mg</td>
-            <td>{{x[6]}} IU</td>
-            <td>{{x[7]}} mg</td>
-            <td>{{x[8]}} mcg</td>
+
+            <td>{{x[0]}}</td>
+            <td>{{x[1]}}</td>
+            <td>{{x[2]}}</td>
+            <td>{{x[3]}}</td>
+            <td>{{x[4]}}</td>
+            <td>{{x[5]}}</td>
+            <td>{{x[6]}}</td>
+            <td>{{x[7]}}</td>
+            <td>{{x[8]}}</td>
         </tr>
         % end
-        </tr>
+     
         </table>
+    </div>
     </body>
-    </html>
 
 
 

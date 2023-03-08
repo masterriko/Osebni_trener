@@ -424,7 +424,7 @@ class Obrok:
         translations = {
                 "fiber_g": "Vlaknine",
                 "carbohydrate_g": "Ogljikovi hidrati",
-                " ": "Proteini",
+                "protein_g": "Proteini",
                 "calories": "Kalorije",
                 "magnesium_mg": "Magnezij",
                 "calcium_mg": "Kalcij",
