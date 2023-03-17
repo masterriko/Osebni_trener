@@ -12,5 +12,4 @@ počutje uporabnika glede na spanec in povprečni srčni utrip.
 
 Da zaženeš program sledi naslednjim korakom:
 - Vzpostavi <i> virtual environment </i> <code> env/Scripts/activate.bat </code>
-- Poženi <i>Python file</i> <code>naredi_bazo.py</code>
-- Poženi <i>Python file</i> <code>spletni_vmesnik.py</code>
+- Poženi <i>Python file</i> <code>main.py</code>
