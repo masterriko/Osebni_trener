@@ -31,7 +31,7 @@ function addItem() {
   if (value !== "") {
     var row = document.createElement("div");
     row.classList.add("mystyle");
-    row.innerHTML = "<div class = 'new-items'> <span style = 'font-size:16px;margin-right:50px;''>" + value + "</span><input name='hrana' type='hidden' value='"+value+"'/><button class = 'myButton' onclick='deleteItem(this)'>x</button>" + "<h3>Vnesi količino (g)</h3>" + "<input type = 'number' name='hrana' min='0' max='10000'> </div>";
+    row.innerHTML = "<div class = 'new-items'> <span style = 'font-size:16px;margin-right:50px;''>" + value + "</span><input name='hrana' type='hidden' value='"+value+"'/><button class = 'myButton' onclick='deleteItem(this)'>x</button>" + "<h3>Vnesi količino (g)</h3>" + "<input type = 'number' name='hrana' min='0.0001' max='10000'> </div>";
     column.appendChild(row);
     select.value = "";
 

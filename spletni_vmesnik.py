@@ -4,8 +4,6 @@ import sqlite3
 import datetime
 import hashlib
 
-conn = sqlite3.connect('osebni_trener.db')
-
 @bottle.route('/static/css/<filename:re:.*\.css>')
 def send_css(filename):
     return bottle.static_file(filename, root='static/css')
@@ -181,6 +179,7 @@ def get_info(hranilo):
     else:
         bottle.redirect('/{0}'.format(hranilo))
 
-bottle.run(debug=True, reloader=True)
+def start_bottle():
+    bottle.run(debug=True, reloader=True)
 
 
